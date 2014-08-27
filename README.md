@@ -17,5 +17,5 @@ This git repo contains just scripts to build libraries for ARM devices.
 It doesn't any of the the source, so it will downloaded during the build 
 process.
 
-To build a jibrary just run the build script:
+To build a library just run the build script:
 `./build.sh`
