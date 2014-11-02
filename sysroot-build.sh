@@ -1,6 +1,9 @@
 #!/bin/bash
 #
-# This Script builds 
+# ARM Cross Sysroot is a script bundle to cross-compile libraries on a 
+# host computer for an ARM target. This git repo contains just scripts 
+# to build the libraries for an ARM target. It does not contains any 
+# of the the source. They will be downloaded during the build process.
 #
 # Copyright (C) 2014  Knut Welzel
 #

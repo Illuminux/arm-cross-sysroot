@@ -138,8 +138,3 @@ To build the cross sysroot just run the following command:
 <sup>**1.)**</sup> Can currently only compile under Linux.
 
 
-
-
-
-To build a library just run the build script:
-`./build.sh`
