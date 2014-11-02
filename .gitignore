@@ -1,2 +1,8 @@
 
 config.cfg
+
+*.log
+
+/src
+
+/tmp
