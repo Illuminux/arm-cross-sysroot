@@ -11,7 +11,7 @@ ARGS=(
 )
 
 get_names_from_url
-QT_DIR="Qt-${VERSION}-"${TARGET%"-linux"*}${TARGET#*"-linux-gnueabi"}
+QT_DIR="Qt-${VERSION}-${BOARD}"
 
 echo "Build $NAME:"
 if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
@@ -26,7 +26,7 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 		"${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/linux-arm-g++/qplatformdefs.h" \
 		"${MKSPECS_DIR}/"	
 
-	echo "# qmake configuration for building for Beaglebone Black" > "${MKSPECS_DIR}/qmake.conf"
+	echo "# qmake configuration for building for ${BOARD}" > "${MKSPECS_DIR}/qmake.conf"
 	echo "#" >> "${MKSPECS_DIR}/qmake.conf"
 	echo "" >> "${MKSPECS_DIR}/qmake.conf"
 	echo "include(../../common/linux.conf)" >> "${MKSPECS_DIR}/qmake.conf"
@@ -37,8 +37,18 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 	echo "#Toolchain" >> "${MKSPECS_DIR}/qmake.conf"
 	echo "" >> "${MKSPECS_DIR}/qmake.conf"
 	echo "#Compiler Flags to take advantage of the ARM architecture" >> "${MKSPECS_DIR}/qmake.conf"
-	echo "QMAKE_CFLAGS_RELEASE =   -O3 -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=hard" >> "${MKSPECS_DIR}/qmake.conf"
-	echo "QMAKE_CXXFLAGS_RELEASE = -O3 -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=hard" >> "${MKSPECS_DIR}/qmake.conf"
+
+	if [ $BORAD == "beaglebone" ]; then 
+		echo "QMAKE_CFLAGS_RELEASE =   -O3 -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=hard" >> "${MKSPECS_DIR}/qmake.conf"
+		echo "QMAKE_CXXFLAGS_RELEASE = -O3 -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=hard" >> "${MKSPECS_DIR}/qmake.conf"
+	elif [ $BORAD == "raspi" ]; then
+		echo "QMAKE_CFLAGS_RELEASE =   -O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard" >> "${MKSPECS_DIR}/qmake.conf"
+		echo "QMAKE_CXXFLAGS_RELEASE = -O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard" >> "${MKSPECS_DIR}/qmake.conf"
+	elif [ $BORAD == "hardfloat" ]; then
+		echo "QMAKE_CFLAGS_RELEASE =   -O3 -mfloat-abi=hard" >> "${MKSPECS_DIR}/qmake.conf"
+		echo "QMAKE_CXXFLAGS_RELEASE = -O3 -mfloat-abi=hard" >> "${MKSPECS_DIR}/qmake.conf"
+	fi
+
 	echo "" >> "${MKSPECS_DIR}/qmake.conf"
 	echo "QMAKE_CC         = ${TOOLCHAIN_BIN_DIR}/${TARGET}-gcc" >> "${MKSPECS_DIR}/qmake.conf"
 	echo "QMAKE_CXX        = ${TOOLCHAIN_BIN_DIR}/${TARGET}-g++" >> "${MKSPECS_DIR}/qmake.conf"
@@ -98,6 +108,7 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 		-no-sql-odbc \
 		-no-sql-psql \
 		-no-webkit \
+		-no-freetype \
 		-no-qt3support \
 		-nomake examples \
 		-nomake demos \

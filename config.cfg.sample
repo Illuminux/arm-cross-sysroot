@@ -12,3 +12,11 @@ TOOLCHAIN_DIR="/usr/local/linaro/arm-linux-gnueabihf"
 
 # Target architecture
 TARGET="arm-linux-gnueabihf"
+
+# Target Board
+# softfloat:  Default soft float boarde
+# hardfloat:  Default hard float boarde 
+# raspi:      Raspberry PI
+# beaglebone: BeagleBone / Beglebone black
+#
+BORAD="beaglebone"
