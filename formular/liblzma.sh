@@ -2,8 +2,6 @@
 
 URL="http://tukaani.org/xz/xz-5.1.4beta.tar.gz"
 
-ARGS=()
-
 ARGS=(
 	"--host=${HOST}"
 	"--enable-shared"
