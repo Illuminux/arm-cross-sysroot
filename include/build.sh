@@ -44,7 +44,9 @@ build_configure() {
 	fi
 	
 	echo -n "  Configure ${NAME}... "
-	./configure --prefix="${SYSROOT_DIR}" ${ARGS[@]} >$LOG_FILE 2>&1
+	#./configure --prefix="${SYSROOT_DIR}" ${ARGS[@]} >$LOG_FILE 2>&1
+
+	./configure --prefix="${SYSROOT_DIR}" ${ARGS[@]} 2>&1
 	is_error "$?"
 
 	cd $BASE_DIR

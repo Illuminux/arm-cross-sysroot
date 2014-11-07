@@ -8,6 +8,7 @@ ARGS=(
 	"--host=${HOST}"
 	"--enable-shared"
 	"--disable-static"
+	"--disable-composecache"
 	"--program-prefix=${TARGET}-"
 	"--sbindir=${BASE_DIR}/tmp/sbin"
 	"--libexecdir=${BASE_DIR}/tmp/libexec"

@@ -99,3 +99,40 @@ parse_arguments() {
 	done
 
 }
+
+
+##
+## Mac OS X only:
+## Create an case senitive disk image and mount it for building the sources
+## 
+create_image(){
+	
+	# Create image if not exists 
+	echo "Create Case-Sensitive Disk Image"
+	
+	if [ ! -f "sources.sparseimage" ]; then
+		
+		hdiutil create "sources.sparseimage" \
+			-type SPARSE \
+			-fs JHFS+X \
+			-size 1G \
+			-volname src || error_hdiutil
+	else
+		
+		echo "already exists"
+	fi
+	
+	
+	# Mount image
+	echo -n "Mounting image... "
+	
+	if [ ! -d "${SOURCE_DIR}" ]; then 
+		
+		hdiutil attach sources.sparseimage -mountroot $BASE_DIR >/dev/null 2>&1 || error_hdiutil
+		echo "mounted to ${SOURCE_DIR}"
+	else
+		
+		echo "already mounted to ${SOURCE_DIR}"
+	fi
+}
+

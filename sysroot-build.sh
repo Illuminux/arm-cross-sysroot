@@ -30,6 +30,12 @@ source "${BASE_DIR}/include/tools.sh"
 source "${BASE_DIR}/include/files.sh"
 source "${BASE_DIR}/include/build.sh"
 
+
+# Mac OS X needs an case sensitiv diskimage
+if [ $(uname -s) = "Darwin" ]; then 
+	create_image
+fi
+
 # test access rights for building the sysroot
 access_rights
 
@@ -71,6 +77,7 @@ source "${BASE_DIR}/formular/libtheora.sh"
 source "${BASE_DIR}/formular/libvisual.sh"
 source "${BASE_DIR}/formular/liborc.sh"
 source "${BASE_DIR}/formular/pixman.sh"
+source "${BASE_DIR}/formular/util-macros.sh"
 source "${BASE_DIR}/formular/xtrans.sh"
 source "${BASE_DIR}/formular/xproto.sh"
 source "${BASE_DIR}/formular/xextproto.sh"
@@ -86,12 +93,9 @@ source "${BASE_DIR}/formular/videoproto.sh"
 source "${BASE_DIR}/formular/kbproto.sh"
 source "${BASE_DIR}/formular/freetype.sh"
 source "${BASE_DIR}/formular/fontconfig.sh"
-
-if [ $(uname -s) = "Linux" ]; then 
-	source "${BASE_DIR}/formular/libX11.sh"
-	source "${BASE_DIR}/formular/libXext.sh"
-	source "${BASE_DIR}/formular/libXv.sh"
-fi
+source "${BASE_DIR}/formular/libX11.sh"
+source "${BASE_DIR}/formular/libXext.sh"
+source "${BASE_DIR}/formular/libXv.sh"
 
 if [ $(uname -s) = "Linux" ]; then 
 	source "${BASE_DIR}/formular/qt.sh"
