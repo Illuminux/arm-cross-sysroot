@@ -21,8 +21,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+
+##
+## Working directory of the Script
+##
 BASE_DIR=`pwd`
 
+##
+## Includ library and configuration files 
+##
 source "${BASE_DIR}/config.cfg"
 source "${BASE_DIR}/include/settings.cfg"
 source "${BASE_DIR}/include/system.sh"
@@ -31,22 +38,39 @@ source "${BASE_DIR}/include/files.sh"
 source "${BASE_DIR}/include/build.sh"
 
 
-# Mac OS X needs an case sensitiv diskimage
+##
+## Mac OS X needs an case sensitiv diskimage
+##
 if [ $(uname -s) = "Darwin" ]; then 
-	create_image
+	create_source_image
+	create_sysroot_image
+else
+	# test access rights for building the sysroot
+	access_rights
 fi
 
-# test access rights for building the sysroot
-access_rights
 
-# test required software for host
+##
+## test required software for host
+##
 system_require
 
-# Parse the comandline arguments 
+
+##
+## Parse the comandline arguments 
+##
 parse_arguments $@
 
+
+##
+## Make sure that we are still in working directory 
+##
 cd $BASE_DIR
 
+
+##
+## Execute all formulas. The scripts have to be processed in this sequence!
+##
 source "${BASE_DIR}/formular/zlib.sh"
 source "${BASE_DIR}/formular/bzip2.sh"
 source "${BASE_DIR}/formular/liblzma.sh"
