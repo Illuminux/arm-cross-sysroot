@@ -1,0 +1,12 @@
+--- /home/knut/Development/downloads/qt-everywhere-opensource-src-4.8.6/mkspecs/qws/macx-generic-g++/qmake.conf
++++ /home/knut/Development/downloads/qt-everywhere-opensource-src-4.8.6/mkspecs/qws/macx-generic-g++-ori/qmake.conf
+@@ -31,7 +31,7 @@
+ QMAKE_CXXFLAGS		= $$QMAKE_CFLAGS -DQT_NO_QWS_TRANSFORMED
+ QMAKE_CXXFLAGS_WARN_ON	= $$QMAKE_CFLAGS_WARN_ON
+ QMAKE_CXXFLAGS_WARN_OFF	= $$QMAKE_CFLAGS_WARN_OFF
+-QMAKE_CXXFLAGS_RELEASE	= $$QMAKE_CFLAGS_RELEASE -fno-default-inline
++QMAKE_CXXFLAGS_RELEASE	= $$QMAKE_CFLAGS_RELEASE
+ QMAKE_CXXFLAGS_DEBUG	= $$QMAKE_CFLAGS_DEBUG
+ QMAKE_CXXFLAGS_SHLIB	= $$QMAKE_CFLAGS_SHLIB
+ QMAKE_CXXFLAGS_YACC	= $$QMAKE_CFLAGS_YACC
+

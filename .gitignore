@@ -8,3 +8,5 @@ config.cfg
 /tmp
 
 *.sparseimage
+
+*.*~
