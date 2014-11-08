@@ -118,10 +118,7 @@ source "${BASE_DIR}/formular/bluez.sh"
 source "${BASE_DIR}/formular/libmodbus.sh"
 source "${BASE_DIR}/formular/liblqr.sh"
 source "${BASE_DIR}/formular/imagemagick.sh"
-
-if [ $(uname -s) = "Linux" ]; then 
-	source "${BASE_DIR}/formular/opencv.sh"
-fi
+source "${BASE_DIR}/formular/opencv.sh"
 
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"

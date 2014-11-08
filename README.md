@@ -97,7 +97,7 @@ To build the cross sysroot just run the following command:
 	- gsl - GNU Scientific Library
 	- gmp - Multi precision arithmetic library developers tools
 	- mpfr - Multiple precision floating-point computation developers tools
-	- opencv - Open Source Computer Vision Library <sup>**1.**</sup>
+	- opencv - Open Source Computer Vision Library
 
 - Database:
 	- sqlite - Database management system libraries
