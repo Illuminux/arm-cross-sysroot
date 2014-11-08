@@ -91,6 +91,7 @@ To build the cross sysroot just run the following command:
 
 - **Communication:**
 	- libmodbus - Library for the Modbus protocol
+	- curl - Command line tool for transferring data with URL syntax
 
 - **Mathematic and Scientific Libraries:**
 	- gsl - GNU Scientific Library
@@ -115,10 +116,11 @@ To build the cross sysroot just run the following command:
 	- fontconfig - Generic font configuration library 
 	- cairo - The Cairo 2D vector graphics library <sup>**1.**</sup>
 	- liblqr - Converts plain array images into multi-size representation
+	- libssh2 - SSH2 client-side library
 
 - **X11 Libraries:**
-	- libX11 - X11 client-side library <sup>**1.**</sup>
-	- libXext - X11 miscellaneous extensions library <sup>**1.**</sup>
+	- libX11 - X11 client-side library
+	- libXext - X11 miscellaneous extensions library
 	- pixman - pixel-manipulation library for X
 	- xtrans - X transport library
 	- xproto -  
@@ -133,7 +135,7 @@ To build the cross sysroot just run the following command:
 	- libxcb - X C Binding
 	- videoproto - X11 Video extension wire protocol
 	- kbproto - X11 XKB extension wire protocol
-	- libXv - X11 Video extension library <sup>**1.**</sup>
+	- libXv - X11 Video extension library
 
 <sup>**1.)**</sup> Can currently only compile under Linux.
 

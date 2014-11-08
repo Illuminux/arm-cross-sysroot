@@ -1,6 +1,9 @@
 #!/bin/bash
 
 
+##
+## Print error message and abort script
+##
 is_error() {
 	
 	if [ "$1" == "0" ]; then
@@ -16,6 +19,9 @@ is_error() {
 }
 
 
+##
+## Get the tar name from URL
+##
 get_names_from_url() {
 
 	TAR_NAME=${URL##*/}
@@ -108,14 +114,16 @@ parse_arguments() {
 create_image(){
 	
 	# Create image if not exists 
-	echo "Create Case-Sensitive Disk Image"
+	echo -n "Create Case-Sensitive Disk Image... "
 	
-	if [ ! -f "sources.sparseimage" ]; then
+	if [ ! -f "${SRC_IMAGE_NAME}" ]; then
 		
-		hdiutil create "sources.sparseimage" \
+		echo 
+		
+		hdiutil create "${SRC_IMAGE_NAME}" \
 			-type SPARSE \
 			-fs JHFS+X \
-			-size 1G \
+			-size $SRC_IMAGE_SIZE \
 			-volname src || error_hdiutil
 	else
 		
@@ -128,7 +136,7 @@ create_image(){
 	
 	if [ ! -d "${SOURCE_DIR}" ]; then 
 		
-		hdiutil attach sources.sparseimage -mountroot $BASE_DIR >/dev/null 2>&1 || error_hdiutil
+		hdiutil attach "${SRC_IMAGE_NAME}" -mountroot $BASE_DIR >/dev/null 2>&1 || error_hdiutil
 		echo "mounted to ${SOURCE_DIR}"
 	else
 		

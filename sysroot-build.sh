@@ -63,6 +63,8 @@ source "${BASE_DIR}/formular/readline.sh"
 source "${BASE_DIR}/formular/sqlite.sh"
 source "${BASE_DIR}/formular/cryptodev.sh"
 source "${BASE_DIR}/formular/openssl.sh"
+source "${BASE_DIR}/formular/libssh2.sh"
+source "${BASE_DIR}/formular/curl.sh"
 source "${BASE_DIR}/formular/libxml2.sh"
 source "${BASE_DIR}/formular/gstreamer.sh"
 source "${BASE_DIR}/formular/libjpeg.sh"
@@ -101,11 +103,12 @@ if [ $(uname -s) = "Linux" ]; then
 	source "${BASE_DIR}/formular/qt.sh"
 fi
 
-if [ $(uname -s) = "Linux" ]; then 
+#if [ $(uname -s) = "Linux" ]; then 
 	source "${BASE_DIR}/formular/cairo.sh"
-fi
-
+	#fi
+	exit
 source "${BASE_DIR}/formular/gst-plugins-base.sh"
+exit
 source "${BASE_DIR}/formular/wavpack.sh"
 if [ $(uname -s) = "Linux" ]; then 
 	#source "${BASE_DIR}/formular/v4l-utils.sh"
