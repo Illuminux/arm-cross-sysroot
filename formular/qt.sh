@@ -18,7 +18,17 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 
 	get_download
 	extract_tar
-
+	
+	# patch for os x
+	if [ $(uname -s) = "Darwin" ]; then 
+		
+		echo -n "  Patching ${NAME}... "
+		
+		patch "${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/macx-generic-g++/qmake.conf" \
+			< "${BASE_DIR}/patches/qt-mac_os_x.patch" >$LOG_FILE 2>&1
+		is_error "$?"
+	fi
+	
 	MKSPECS_DIR="${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/${TARGET}-g++"
 
 	mkdir $MKSPECS_DIR
@@ -92,36 +102,37 @@ EOF
 			-embedded arm \
 			-xplatform qws/${TARGET}-g++ \
 			-depths 16,24,32 \
-			-no-mmx \
-			-no-3dnow \
-			-no-sse \
-			-no-sse2 \
-			-no-ssse3 \
-			-no-cups \
-			-no-largefile \
-			-no-accessibility \
-			-no-gtkstyle \
-			-qt-mouse-pc \
-			-qt-mouse-linuxtp \
-			-qt-mouse-linuxinput \
-			-plugin-mouse-linuxtp \
-			-plugin-mouse-pc \
 			-fast \
 			-little-endian \
 			-host-little-endian \
+			-no-accessibility \
+			-no-3dnow \
+			-no-cups \
+			-no-freetype \
+			-no-gtkstyle \
+			-no-largefile \
+			-no-mmx \
 			-no-pch \
+			-no-phonon \
+			-no-phonon-backend \
+			-no-qt3support \
 			-no-sql-ibase \
+			-no-sql-psql \
 			-no-sql-mysql \
 			-no-sql-odbc \
-			-no-sql-psql \
+			-no-sse \
+			-no-sse2 \
+			-no-ssse3 \
 			-no-webkit \
-			-no-freetype \
-			-no-qt3support \
+			-qt-mouse-linuxtp \
+			-qt-mouse-linuxinput \
+			-qt-mouse-pc \
+			-plugin-mouse-linuxtp \
+			-plugin-mouse-pc \
 			-nomake examples \
 			-nomake demos \
 			-nomake docs \
-			-nomake translations 2>&1
-			#-nomake translations >$LOG_FILE 2>&1
+			-nomake translations >$LOG_FILE 2>&1
 		is_error "$?"
 	
 	else

@@ -122,11 +122,7 @@ source "${BASE_DIR}/formular/fontconfig.sh"
 source "${BASE_DIR}/formular/libX11.sh"
 source "${BASE_DIR}/formular/libXext.sh"
 source "${BASE_DIR}/formular/libXv.sh"
-
-#if [ $(uname -s) = "Linux" ]; then 
-	source "${BASE_DIR}/formular/qt.sh"
-	#fi
-	exit
+source "${BASE_DIR}/formular/qt.sh"
 source "${BASE_DIR}/formular/cairo.sh"
 source "${BASE_DIR}/formular/gst-plugins-base.sh"
 source "${BASE_DIR}/formular/wavpack.sh"
