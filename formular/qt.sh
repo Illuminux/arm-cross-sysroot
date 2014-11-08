@@ -29,28 +29,44 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 		is_error "$?"
 	fi
 	
-	MKSPECS_DIR="${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/${TARGET}-g++"
-
-	mkdir $MKSPECS_DIR
-	cp \
-		"${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/linux-arm-g++/qplatformdefs.h" \
-		"${MKSPECS_DIR}/"
-	
-	QMAKE_CFLAGS_RELEASE=""
-	QMAKE_CXXFLAGS_RELEASE=""
 	
 	if [ "${BOARD}" == "beaglebone" ]; then 
+		
+		MKSPECS_DIR="qws/linux-arm-beaglebone-gnueabihf-g++"
+		
 		QMAKE_CFLAGS_RELEASE="  -O3 -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=hard"
 		QMAKE_CXXFLAGS_RELEASE="-O3 -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=hard"
+		
 	elif [ "${BOARD}" == "raspi" ]; then
+		
+		MKSPECS_DIR="qws/linux-arm-raspi-gnueabihf-g++"
+		
 		QMAKE_CFLAGS_RELEASE="  -O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard"
 		QMAKE_CXXFLAGS_RELEASE="-O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard"
+		
 	elif [ "${BOARD}" == "hardfloat" ]; then
+		
+		MKSPECS_DIR="qws/linux-arm-gnueabihf-g++"
+		
 		QMAKE_CFLAGS_RELEASE="  -O3 -mfloat-abi=hard"
 		QMAKE_CXXFLAGS_RELEASE="-O3 -mfloat-abi=hard"
+		
+	else
+		
+		MKSPECS_DIR="linux-arm-gnueabi-g++"
+		
+		QMAKE_CFLAGS_RELEASE=""
+		QMAKE_CXXFLAGS_RELEASE=""
+		
 	fi
 	
-cat > "${MKSPECS_DIR}/qmake.conf" << EOF
+
+	mkdir "${SOURCE_DIR}/${DIR_NAME}/mkspecs/${MKSPECS_DIR}/"
+	cp \
+		"${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/linux-arm-g++/qplatformdefs.h" \
+		"${SOURCE_DIR}/${DIR_NAME}/mkspecs/${MKSPECS_DIR}/"
+	
+cat > "${SOURCE_DIR}/${DIR_NAME}/mkspecs/${MKSPECS_DIR}/qmake.conf" << EOF
 # qmake configuration for building for ${BOARD}
 #
 include(../../common/linux.conf)
@@ -74,16 +90,16 @@ QMAKE_AR      = ${TOOLCHAIN_BIN_DIR}/${TARGET}-ar cqs
 QMAKE_OBJCOPY = ${TOOLCHAIN_BIN_DIR}/${TARGET}-objcopy
 QMAKE_STRIP   = ${TOOLCHAIN_BIN_DIR}/${TARGET}-strip
 
-QMAKE_INCDIR += ${SYSROOT_DIR}/include \\
-				${SYSROOT_DIR}/include/alsa \\
-				${SYSROOT_DIR}/include/dbus-1.0 \\
-				${SYSROOT_DIR}/include/freetype2 \\
-				${SYSROOT_DIR}/include/glib-2.0 \\
-				${SYSROOT_DIR}/include/gstreamer-0.11 \\
-				${SYSROOT_DIR}/include/libpng12 \\
-				${SYSROOT_DIR}/include/libxml2 \\
-				${SYSROOT_DIR}/include/openssl \\
-				${SYSROOT_DIR}/include/X11
+QMAKE_INCDIR += ${SYSROOT_DIR}/include 
+QMAKE_INCDIR += ${SYSROOT_DIR}/include/alsa
+QMAKE_INCDIR += ${SYSROOT_DIR}/include/dbus-1.0
+QMAKE_INCDIR += ${SYSROOT_DIR}/include/freetype2
+QMAKE_INCDIR += ${SYSROOT_DIR}/include/glib-2.0
+QMAKE_INCDIR += ${SYSROOT_DIR}/include/gstreamer-0.11
+QMAKE_INCDIR += ${SYSROOT_DIR}/include/libpng12
+QMAKE_INCDIR += ${SYSROOT_DIR}/include/libxml2
+QMAKE_INCDIR += ${SYSROOT_DIR}/include/openssl
+QMAKE_INCDIR += ${SYSROOT_DIR}/include/X11
 
 QMAKE_LIBDIR += ${SYSROOT_DIR}/lib
 
@@ -98,9 +114,9 @@ EOF
 		./configure -v \
 			-opensource \
 			-confirm-license \
-			-prefix /usr/local/Trolltech/${QT_DIR} \
+			-prefix /usr/local/Trolltech/$QT_DIR \
 			-embedded arm \
-			-xplatform qws/${TARGET}-g++ \
+			-xplatform $MKSPECS_DIR \
 			-depths 16,24,32 \
 			-fast \
 			-little-endian \
@@ -140,10 +156,10 @@ EOF
 		./configure -v \
 			-opensource \
 			-confirm-license \
-			-prefix /usr/local/Trolltech/${QT_DIR} \
+			-prefix /usr/local/Trolltech/$QT_DIR \
 			-embedded arm \
 			-platform qws/linux-x86-g++ \
-			-xplatform qws/${TARGET}-g++ \
+			-xplatform $MKSPECS_DIR \
 			-depths 16,24,32 \
 			-fast \
 			-little-endian \
