@@ -114,7 +114,7 @@ To build the cross sysroot just run the following command:
 	- liborc - Library of Optimized Inner Loops Runtime Compiler
 	- freetype - FreeType 2 font engine
 	- fontconfig - Generic font configuration library 
-	- cairo - The Cairo 2D vector graphics library <sup>**1.**</sup>
+	- cairo - The Cairo 2D vector graphics library
 	- liblqr - Converts plain array images into multi-size representation
 	- libssh2 - SSH2 client-side library
 

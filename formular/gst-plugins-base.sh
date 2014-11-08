@@ -46,9 +46,7 @@ if [ $? == 1 ]; then
 	
 	get_download
 	extract_tar
-	#build
-	build_configure
-	build_make
+	build
 	
 	unset LIBS
 	export LIBS=$TMP_LIBS

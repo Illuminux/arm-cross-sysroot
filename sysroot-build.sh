@@ -103,13 +103,10 @@ if [ $(uname -s) = "Linux" ]; then
 	source "${BASE_DIR}/formular/qt.sh"
 fi
 
-#if [ $(uname -s) = "Linux" ]; then 
-	source "${BASE_DIR}/formular/cairo.sh"
-	#fi
-	exit
+source "${BASE_DIR}/formular/cairo.sh"
 source "${BASE_DIR}/formular/gst-plugins-base.sh"
-exit
 source "${BASE_DIR}/formular/wavpack.sh"
+
 if [ $(uname -s) = "Linux" ]; then 
 	#source "${BASE_DIR}/formular/v4l-utils.sh"
 	source "${BASE_DIR}/formular/taglib.sh"
@@ -128,6 +125,13 @@ fi
 
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"
-rm -rf "${BASE_DIR}/src"
+
+if [ $(uname -s) = "Darwin" ]; then 
+	echo -n "Unmount image... " 
+	hdiutil detach $SOURCE_DIR >/dev/null 2>&1 || exit 1
+	echo "done"
+else
+	rm -rf "${BASE_DIR}/src"
+fi
 
 echo "Sysroot successfully build"
