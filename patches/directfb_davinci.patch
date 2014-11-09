@@ -1,0 +1,10 @@
+--- ../src/DirectFB-1.2.10/gfxdrivers/davinci/davinci_c64x.ori.c	2014-11-09 15:33:27.000000000 +0100
++++ ../src/DirectFB-1.2.10/gfxdrivers/davinci/davinci_c64x.c	2014-11-09 15:31:29.000000000 +0100
+@@ -37,6 +37,7 @@
+ #include <sys/ioctl.h>
+ #include <sys/mman.h>
+ #include <sys/types.h>
++#include <sys/stat.h>
+ #include <unistd.h>
+ 
+ #include <directfb_util.h>

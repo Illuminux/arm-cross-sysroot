@@ -102,7 +102,7 @@ To build the cross sysroot just run the following command:
 - Database:
 	- sqlite - Database management system libraries
 
-- **Assistance Libraries:**
+- **Framework and System Libraries:**
 	- Qt - Qt 4 development files and development programs for host <sup>**1.**</sup>
 	- glib - GLib development library
 	- dbus - Simple interprocess messaging system
@@ -117,6 +117,7 @@ To build the cross sysroot just run the following command:
 	- cairo - The Cairo 2D vector graphics library
 	- liblqr - Converts plain array images into multi-size representation
 	- libssh2 - SSH2 client-side library
+	- libdirectfb - Direct frame buffer graphics library
 
 - **X11 Libraries:**
 	- libX11 - X11 client-side library

@@ -143,8 +143,9 @@ source "${BASE_DIR}/formula/fontconfig.sh"
 source "${BASE_DIR}/formula/libX11.sh"
 source "${BASE_DIR}/formula/libXext.sh"
 source "${BASE_DIR}/formula/libXv.sh"
-exit
+source "${BASE_DIR}/formula/directfb.sh"
 source "${BASE_DIR}/formula/qt.sh"
+exit
 source "${BASE_DIR}/formula/cairo.sh"
 source "${BASE_DIR}/formula/gst-plugins-base.sh"
 source "${BASE_DIR}/formula/wavpack.sh"
