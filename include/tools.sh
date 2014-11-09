@@ -89,6 +89,7 @@ access_rights() {
 print_usage() {
 
 	echo "print help"
+	exit 0
 }
 
 

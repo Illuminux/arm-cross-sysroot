@@ -21,6 +21,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+clear
 
 ##
 ## Working directory of the Script
@@ -35,9 +36,11 @@ if ! [ -f "${BASE_DIR}/config.cfg" ]; then
 	
 	echo "Error: The configuration file could not be found!"
 	echo 
-	echo "Rename or copy the file config.cfg.sample int config.cfg and customize the variable according to your system settings."
-	echo "  cp config.cfg.sample config.cfg"
-	echo "  nano config.cfg"
+	echo "Rename or copy the file config.cfg.sample into config.cfg"
+	echo "and customize the variable according to your system settings."
+	echo "  $ cp config.cfg.sample config.cfg"
+	echo "  $ nano config.cfg"
+	echo 
 	exit
 fi
 
@@ -54,6 +57,21 @@ source "${BASE_DIR}/include/build.sh"
 
 
 ##
+## Parse the comandline arguments 
+##
+parse_arguments $@
+
+
+echo "Start to build an advanced sysroot for ${BOARD}."
+echo
+
+
+##
+## test required software for host
+##
+system_require
+
+##
 ## Mac OS X needs an case sensitiv diskimage
 ##
 if [ $(uname -s) = "Darwin" ]; then 
@@ -63,18 +81,6 @@ else
 	# test access rights for building the sysroot
 	access_rights
 fi
-
-
-##
-## test required software for host
-##
-system_require
-
-
-##
-## Parse the comandline arguments 
-##
-parse_arguments $@
 
 
 ##
@@ -137,6 +143,7 @@ source "${BASE_DIR}/formular/fontconfig.sh"
 source "${BASE_DIR}/formular/libX11.sh"
 source "${BASE_DIR}/formular/libXext.sh"
 source "${BASE_DIR}/formular/libXv.sh"
+exit
 source "${BASE_DIR}/formular/qt.sh"
 source "${BASE_DIR}/formular/cairo.sh"
 source "${BASE_DIR}/formular/gst-plugins-base.sh"

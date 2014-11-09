@@ -13,7 +13,7 @@ if [ $? == 1 ]; then
 	
 	cd "${SOURCE_DIR}/${DIR_NAME}"
 	
-	echo -n "  Make ${NAME}... "
+	echo -n "Make ${NAME}... "
 
 	make -f Makefile-libbz2_so \
 		CC="${TARGET}-gcc" \
@@ -21,7 +21,7 @@ if [ $? == 1 ]; then
 		RANLIB="${TARGET}-ranlib" >$LOG_FILE 2>&1
 	is_error "$?"
 
-	echo -n "  Install ${NAME}... "
+	echo -n "Install ${NAME}... "
 
 	cp -av libbz2.so* "${SYSROOT_DIR}/lib" >/dev/null
 
