@@ -29,6 +29,9 @@ get_names_from_url() {
 }
 
 
+##
+## Get name, directory name, version and extension from tar name 
+##
 get_names_from_dir_name() {
 	
 	DIR_NAME=${1%.tar.*}
@@ -38,6 +41,9 @@ get_names_from_dir_name() {
 }
 
 
+##
+## Test if formula already is installed 
+##
 installed() {
 	
 	echo -n "Build $NAME:"

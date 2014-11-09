@@ -27,6 +27,21 @@
 ##
 BASE_DIR=`pwd`
 
+
+##
+## check if config.cfg exists or exit
+##
+if ! [ -f "${BASE_DIR}/config.cfg" ]; then
+	
+	echo "Error: The configuration file could not be found!"
+	echo 
+	echo "Rename or copy the file config.cfg.sample int config.cfg and customize the variable according to your system settings."
+	echo "  cp config.cfg.sample config.cfg"
+	echo "  nano config.cfg"
+	exit
+fi
+
+
 ##
 ## Includ library and configuration files 
 ##
