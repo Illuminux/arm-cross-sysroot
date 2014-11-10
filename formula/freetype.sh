@@ -27,6 +27,6 @@ if [ $? == 1 ]; then
 	build
 fi
 
-export CFLAGS="${CFLAGS} -I${PREFIX}/include/freetype2"
+export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/freetype2"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CPPFLAGS

@@ -35,3 +35,7 @@ if [ $? == 1 ]; then
 	unset LIBS
 	export LIBS=$TMP_LIBS
 fi
+
+export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/dbus-1.0 -I${SYSROOT_DIR}/lib/dbus-1.0/include"
+export CPPFLAGS=$CFLAGS
+export CXXFLAGS=$CPPFLAGS

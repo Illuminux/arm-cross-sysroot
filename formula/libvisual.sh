@@ -27,3 +27,7 @@ if [ $? == 1 ]; then
 	build
 	
 fi
+
+export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/libvisual-0.4"
+export CPPFLAGS=$CFLAGS
+export CXXFLAGS=$CPPFLAGS

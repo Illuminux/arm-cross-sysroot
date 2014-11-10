@@ -39,3 +39,7 @@ if [ $? == 1 ]; then
 	extract_tar
 	build
 fi
+
+export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/glib-2.0 -I${SYSROOT_DIR}/lib/glib-2.0/include"
+export CPPFLAGS=$CFLAGS
+export CXXFLAGS=$CPPFLAGS

@@ -29,7 +29,6 @@ if [ $? == 1 ]; then
 	ln -s "${SYSROOT_DIR}/include/libpng12" "${SYSROOT_DIR}/include/libpng"
 fi
 
-
 export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/libpng12"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CPPFLAGS
