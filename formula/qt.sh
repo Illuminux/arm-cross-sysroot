@@ -17,13 +17,13 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 #	extract_tar
 	
 	# patch for os x
-#	if [ $(uname -s) = "Darwin" ]; then 
+	if [ $(uname -s) = "Darwin" ]; then 
 		
-#		echo -n "Patch ${NAME}... "		
-#		patch "${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/macx-generic-g++/qmake.conf" \
-#			< "${BASE_DIR}/patches/qt-mac_os_x.patch" >$LOG_FILE 2>&1
-#		is_error "$?"
-#	fi
+		echo -n "Patch ${NAME}... "		
+		patch "${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/macx-generic-g++/qmake.conf" \
+			< "${BASE_DIR}/patches/qt-mac_os_x.patch" >$LOG_FILE 2>&1
+		is_error "$?"
+	fi
 	
 	
 	if [ "${BOARD}" == "beaglebone" ]; then 
@@ -82,34 +82,34 @@ QMAKE_LINK       = ${TOOLCHAIN_BIN_DIR}/${TARGET}-g++
 QMAKE_LINK_SHLIB = ${TOOLCHAIN_BIN_DIR}/${TARGET}-g++
 
 # modifications to linux.conf"
-QMAKE_AR      = ${TOOLCHAIN_BIN_DIR}/${TARGET}-ar cqs
-QMAKE_OBJCOPY = ${TOOLCHAIN_BIN_DIR}/${TARGET}-objcopy
-QMAKE_STRIP   = ${TOOLCHAIN_BIN_DIR}/${TARGET}-strip
+QMAKE_AR         = ${TOOLCHAIN_BIN_DIR}/${TARGET}-ar cqs
+QMAKE_OBJCOPY    = ${TOOLCHAIN_BIN_DIR}/${TARGET}-objcopy
+QMAKE_STRIP      = ${TOOLCHAIN_BIN_DIR}/${TARGET}-strip
+QMAKE_READELF    = ${TOOLCHAIN_BIN_DIR}/${TARGET}-readelf
 
-QMAKE_INCDIR += ${SYSROOT_DIR}/include \\
-				${SYSROOT_DIR}/include/alsa \\
-				${SYSROOT_DIR}/include/dbus-1.0 \\
-				${SYSROOT_DIR}/lib/dbus-1.0/include \\
-				${SYSROOT_DIR}/include/freetype2 \\
-				${SYSROOT_DIR}/include/glib-2.0 \\
-				${SYSROOT_DIR}/lib/glib-2.0/include \\
-				${SYSROOT_DIR}/include/gstreamer-0.11 \\
-				${SYSROOT_DIR}/include/libpng12 \\
-				${SYSROOT_DIR}/include/libxml2 \\
-				${SYSROOT_DIR}/include/openssl \\
-				${SYSROOT_DIR}/include/X11
+QMAKE_INCDIR    += ${SYSROOT_DIR}/include \\
+                   ${SYSROOT_DIR}/include/alsa \\
+                   ${SYSROOT_DIR}/include/dbus-1.0 \\
+                   ${SYSROOT_DIR}/lib/dbus-1.0/include \\
+                   ${SYSROOT_DIR}/include/freetype2 \\
+                   ${SYSROOT_DIR}/include/glib-2.0 \\
+                   ${SYSROOT_DIR}/lib/glib-2.0/include \\
+                   ${SYSROOT_DIR}/include/gstreamer-0.11 \\
+                   ${SYSROOT_DIR}/include/libpng12 \\
+                   ${SYSROOT_DIR}/include/libxml2 \\
+                   ${SYSROOT_DIR}/include/openssl \\
+                   ${SYSROOT_DIR}/include/X11
 
-QMAKE_LIBDIR += ${SYSROOT_DIR}/lib
+QMAKE_LIBDIR    += ${SYSROOT_DIR}/lib
 
-QMAKE_LIBS += -lz -ldl -lpthread -lgio-2.0 -lgobject-2.0 -lglib-2.0 \\ 
-			  -lgmodule-2.0 -lresolv -lgthread-2.0 -lrt \\
-			  -lfusion -lsqlite3 -lfreetype \\
-              -lffi -ldbus-1 -lgstreamer-0.10 -ljpeg \\
-			  -ldirectfb -ldirectfb -ldirect
+QMAKE_LIBS      += -lz -ldl -lpthread -lgio-2.0 -lgobject-2.0 -lglib-2.0 \\ 
+                   -lgmodule-2.0 -lresolv -lgthread-2.0 -lrt -lfusion \\
+                   -lsqlite3 -lffi -ldbus-1 -lgstreamer-0.10 -ljpeg -lpng12 \\
+                   -ldirectfb -ldirect -lXext -lX11 -lxcb -lXau
 
 load(qt_config)
 EOF
-	
+
 	cd "${SOURCE_DIR}/${DIR_NAME}"
 	
 	echo -n "Configure ${NAME}... "
@@ -125,10 +125,10 @@ EOF
 			-fast \
 			-little-endian \
 			-host-little-endian \
-			-no-accessibility \
+			-force-pkg-config \
 			-no-3dnow \
 			-no-cups \
-			-no-gtkstyle \
+			-no-freetype \
 			-no-largefile \
 			-no-mmx \
 			-no-phonon \
@@ -150,8 +150,7 @@ EOF
 			-nomake examples \
 			-nomake demos \
 			-nomake docs \
-			-nomake translations 2>&1
-#			-nomake translations >$LOG_FILE 2>&1
+			-nomake translations >$LOG_FILE 2>&1
 		is_error "$?"
 	
 	else
@@ -197,7 +196,7 @@ EOF
 			-nomake translations >$LOG_FILE 2>&1
 		is_error "$?"
 	fi
-	
+
 	build_make
 
 	su_build_install

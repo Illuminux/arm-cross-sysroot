@@ -103,7 +103,7 @@ To build the cross sysroot just run the following command:
 	- sqlite - Database management system libraries
 
 - **Framework and System Libraries:**
-	- Qt - Qt 4 development files and development programs for host <sup>**1.**</sup>
+	- Qt - Qt 4 development files and development programs for host
 	- glib - GLib development library
 	- dbus - Simple interprocess messaging system
 	- libffi - Foreign function interface library

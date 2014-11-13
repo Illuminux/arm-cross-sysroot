@@ -1,6 +1,31 @@
---- /home/knut/Development/downloads/qt-everywhere-opensource-src-4.8.6/mkspecs/qws/macx-generic-g++/qmake.conf
-+++ /home/knut/Development/downloads/qt-everywhere-opensource-src-4.8.6/mkspecs/qws/macx-generic-g++-ori/qmake.conf
-@@ -31,7 +31,7 @@
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/.DS_Store differ
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/config.profiles/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/config.profiles/.DS_Store differ
+diff -rupN ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/configure ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/configure
+--- ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/configure	2014-04-10 20:37:08.000000000 +0200
++++ ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/configure	2014-11-13 18:43:30.000000000 +0100
+@@ -713,10 +713,9 @@ cp "$QMAKE_VARS_FILE" "$outpath/config.t
+ QMakeVar add styles "cde mac motif plastique cleanlooks windows"
+ QMakeVar add decorations "default windows styled"
+ QMakeVar add mouse-drivers "pc"
+-if [ "$UNAME_SYSTEM" = "Linux" ] ; then
+-    QMakeVar add gfx-drivers "linuxfb"
+-    QMakeVar add mouse-drivers "linuxtp"
+-fi
++QMakeVar add gfx-drivers "linuxfb"
++QMakeVar add mouse-drivers "linuxtp"
++
+ QMakeVar add kbd-drivers "tty"
+ 
+ if [ "$CFG_DEV" = "yes" ]; then
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/include/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/include/.DS_Store differ
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/include/QtGui/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/include/QtGui/.DS_Store differ
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/mkspecs/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/mkspecs/.DS_Store differ
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/mkspecs/qws/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/mkspecs/qws/.DS_Store differ
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/mkspecs/qws/macx-generic-g++/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/mkspecs/qws/macx-generic-g++/.DS_Store differ
+diff -rupN ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/mkspecs/qws/macx-generic-g++/qmake.conf ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/mkspecs/qws/macx-generic-g++/qmake.conf
+--- ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/mkspecs/qws/macx-generic-g++/qmake.conf	2014-04-10 20:37:12.000000000 +0200
++++ ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/mkspecs/qws/macx-generic-g++/qmake.conf	2014-11-13 18:47:21.000000000 +0100
+@@ -31,7 +31,7 @@ QMAKE_CXX		= c++
  QMAKE_CXXFLAGS		= $$QMAKE_CFLAGS -DQT_NO_QWS_TRANSFORMED
  QMAKE_CXXFLAGS_WARN_ON	= $$QMAKE_CFLAGS_WARN_ON
  QMAKE_CXXFLAGS_WARN_OFF	= $$QMAKE_CFLAGS_WARN_OFF
@@ -9,4 +34,6 @@
  QMAKE_CXXFLAGS_DEBUG	= $$QMAKE_CFLAGS_DEBUG
  QMAKE_CXXFLAGS_SHLIB	= $$QMAKE_CFLAGS_SHLIB
  QMAKE_CXXFLAGS_YACC	= $$QMAKE_CFLAGS_YACC
-
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/src/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/src/.DS_Store differ
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/src/gui/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/src/gui/.DS_Store differ
+Binary files ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6-ori/src/gui/embedded/.DS_Store and ../../../cross-sysroot-downloads/qt-everywhere-opensource-src-4.8.6/src/gui/embedded/.DS_Store differ

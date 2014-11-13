@@ -19,6 +19,7 @@ ARGS=(
 	"--disable-voodoo"
 	"--disable-mmx"
 	"--disable-sse"
+	"--disable-png"
 )
 
 get_names_from_url
