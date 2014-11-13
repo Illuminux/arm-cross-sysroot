@@ -14,15 +14,18 @@ echo "Build $NAME:"
 if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 
 	get_download
-#	extract_tar
+	extract_tar
 	
 	# patch for os x
 	if [ $(uname -s) = "Darwin" ]; then 
 		
+		cd "${SOURCE_DIR}/${DIR_NAME}"
 		echo -n "Patch ${NAME}... "		
-		patch "${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/macx-generic-g++/qmake.conf" \
-			< "${BASE_DIR}/patches/qt-mac_os_x.patch" >$LOG_FILE 2>&1
+		patch -p1 < "${BASE_DIR}/patches/qt-mac_os_x.patch" >$LOG_FILE 2>&1
+		
 		is_error "$?"
+		
+		cd $BASE_DIR
 	fi
 	
 	
