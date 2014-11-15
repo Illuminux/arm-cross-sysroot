@@ -1,0 +1,12 @@
+diff -rupN ../src/cairo-1.12.2-ori/src/cairo-qt-surface.cpp ../src/cairo-1.12.2/src/cairo-qt-surface.cpp
+--- ../src/cairo-1.12.2-ori/src/cairo-qt-surface.cpp	2012-03-29 12:05:32.000000000 +0200
++++ ./src/cairo-qt-surface.cpp	2014-11-14 22:33:31.000000000 +0100
+@@ -61,7 +61,7 @@
+ #include <QtGui/QPixmap>
+ #include <QtGui/QBrush>
+ #include <QtGui/QPen>
+-#include <QWidget>
++#include <QtGui/QWidget>
+ #include <QtCore/QVarLengthArray>
+ 
+ #if (QT_VERSION >= QT_VERSION_CHECK(4, 7, 0)) || defined(QT_GLYPHS_API_BACKPORT)

@@ -10,6 +10,7 @@ ARGS=(
 	"--disable-static"
 	"--enable-xml"
 	"--enable-xlib-xcb"
+	"--enable-directfb"
 	"--program-prefix=${TARGET}-"
 	"--disable-largefile"
 	"--sbindir=${BASE_DIR}/tmp/sbin"
@@ -25,5 +26,12 @@ installed "${NAME}.pc"
 if [ $? == 1 ]; then
 	get_download
 	extract_tar
+	
+#	cd "${SOURCE_DIR}/${DIR_NAME}"
+#	echo -n "Patch ${NAME}... "		
+#	patch -p1 < "${BASE_DIR}/patches/cairo.patch" >$LOG_FILE 2>&1
+#	is_error "$?"
+#	cd $BASE_DIR
+	
 	build
 fi

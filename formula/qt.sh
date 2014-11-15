@@ -10,7 +10,7 @@ ARGS=(
 get_names_from_url
 QT_DIR="Qt-${VERSION}-${BOARD}"
 
-echo "Build $NAME:"
+echo -n "Build $NAME:"
 if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 
 	get_download
@@ -91,17 +91,12 @@ QMAKE_STRIP      = ${TOOLCHAIN_BIN_DIR}/${TARGET}-strip
 QMAKE_READELF    = ${TOOLCHAIN_BIN_DIR}/${TARGET}-readelf
 
 QMAKE_INCDIR    += ${SYSROOT_DIR}/include \\
-                   ${SYSROOT_DIR}/include/alsa \\
                    ${SYSROOT_DIR}/include/dbus-1.0 \\
                    ${SYSROOT_DIR}/lib/dbus-1.0/include \\
-                   ${SYSROOT_DIR}/include/freetype2 \\
                    ${SYSROOT_DIR}/include/glib-2.0 \\
                    ${SYSROOT_DIR}/lib/glib-2.0/include \\
-                   ${SYSROOT_DIR}/include/gstreamer-0.11 \\
-                   ${SYSROOT_DIR}/include/libpng12 \\
+                   ${SYSROOT_DIR}/include/gstreamer-0.10 \\
                    ${SYSROOT_DIR}/include/libxml2 \\
-                   ${SYSROOT_DIR}/include/openssl \\
-                   ${SYSROOT_DIR}/include/X11
 
 QMAKE_LIBDIR    += ${SYSROOT_DIR}/lib
 
@@ -155,7 +150,7 @@ EOF
 			-nomake docs \
 			-nomake translations >$LOG_FILE 2>&1
 		is_error "$?"
-	
+		
 	else
 		
 		./configure -v \
@@ -201,17 +196,17 @@ EOF
 	fi
 
 	build_make
-
+	
 	su_build_install
 
 	build_finishinstall
 
 	cd $BASE_DIR
 else
-	echo "... already installed"
+	echo " already installed"
 fi
 
-export CFLAGS="${CFLAGS} -I/usr/local/Trolltech/${QT_DIR}/include/Qt"
+export CFLAGS="${CFLAGS} -I/usr/local/Trolltech/${QT_DIR}/include"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CPPFLAGS
 export LDFLAGS="${LDFLAGS} -L/usr/local/Trolltech/${QT_DIR}/lib"

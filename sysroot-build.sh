@@ -145,7 +145,6 @@ source "${BASE_DIR}/formula/libXext.sh"
 source "${BASE_DIR}/formula/libXv.sh"
 source "${BASE_DIR}/formula/directfb.sh"
 source "${BASE_DIR}/formula/qt.sh"
-exit
 source "${BASE_DIR}/formula/cairo.sh"
 source "${BASE_DIR}/formula/gst-plugins-base.sh"
 source "${BASE_DIR}/formula/wavpack.sh"
@@ -156,6 +155,7 @@ if [ $(uname -s) = "Linux" ]; then
 fi
 
 source "${BASE_DIR}/formula/gst-plugins-good.sh"
+exit
 source "${BASE_DIR}/formula/i2c-tools.sh"
 source "${BASE_DIR}/formula/bluez.sh"
 source "${BASE_DIR}/formula/libmodbus.sh"
