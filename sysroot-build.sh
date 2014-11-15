@@ -154,8 +154,9 @@ if [ $(uname -s) = "Linux" ]; then
 	source "${BASE_DIR}/formula/taglib.sh"
 fi
 
+source "${BASE_DIR}/formula/libx264.sh"
+source "${BASE_DIR}/formula/libav.sh"
 source "${BASE_DIR}/formula/gst-plugins-good.sh"
-exit
 source "${BASE_DIR}/formula/i2c-tools.sh"
 source "${BASE_DIR}/formula/bluez.sh"
 source "${BASE_DIR}/formula/libmodbus.sh"
@@ -163,12 +164,25 @@ source "${BASE_DIR}/formula/liblqr.sh"
 source "${BASE_DIR}/formula/imagemagick.sh"
 source "${BASE_DIR}/formula/opencv.sh"
 
+
+
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"
 
 if [ $(uname -s) = "Darwin" ]; then 
-	echo -n "Unmount image... " 
+	echo -n "Unmount source image... " 
 	hdiutil detach $SOURCE_DIR >/dev/null 2>&1 || exit 1
+	echo "done"
+	
+	echo -n "Move sysroot into a local directory... " 
+	mkdir -p "${SYSROOT_DIR}_tmp"
+	cp -r "${SYSROOT_DIR}/lib" "${SYSROOT_DIR}_tmp/lib"
+	cp -r "${SYSROOT_DIR}/include" "${SYSROOT_DIR}_tmp/include"
+	echo "done"
+	
+	echo -n "Unmount sysroot image... " 
+	hdiutil detach $SYSROOT_DIR >/dev/null 2>&1 || exit 1
+	mv "${SYSROOT_DIR}_tmp" "${SYSROOT_DIR}"
 	echo "done"
 else
 	rm -rf "${BASE_DIR}/src"

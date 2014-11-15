@@ -40,6 +40,7 @@ build_configure() {
 		./configure --help
 		exit
 	elif [ "$ARG_CONF_SHOW" == true ]; then
+		echo "" >$LOG_FILE 2>&1
 		./configure --prefix="${SYSROOT_DIR}" ${ARGS[@]} 2>&1
 		is_error "$?"
 	else

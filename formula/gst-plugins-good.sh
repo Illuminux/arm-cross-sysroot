@@ -21,7 +21,8 @@ ARGS=(
 )
 
 get_names_from_url
-installed "gstreamer-plugins-good-0.10.pc"
+installed "gstreamer-plugins-good-0.1a.pc"
+#installed "gstreamer-plugins-good-0.10.pc"
 
 if [ $? == 1 ]; then
 	
@@ -30,7 +31,7 @@ if [ $? == 1 ]; then
 	fi
 	
 	TMP_LIBS=$LIBS
-	export LIBS="${LIBS} -lpthread -ldl"
+	export LIBS="${LIBS} -lpthread -ldl -lXv -lXau -lXext -lX11 -lxcb"
 	
 	get_download
 	extract_tar
