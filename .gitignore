@@ -6,4 +6,7 @@ config.cfg
 /src
 
 /tmp
-sources.sparseimage
+
+*.sparseimage
+
+*.*~

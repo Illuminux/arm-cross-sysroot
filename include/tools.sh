@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 ##
 ## Print error message and abort script
 ##
@@ -29,6 +28,9 @@ get_names_from_url() {
 }
 
 
+##
+## Get name, directory name, version and extension from tar name 
+##
 get_names_from_dir_name() {
 	
 	DIR_NAME=${1%.tar.*}
@@ -38,6 +40,9 @@ get_names_from_dir_name() {
 }
 
 
+##
+## Test if formula already is installed 
+##
 installed() {
 	
 	echo -n "Build $NAME:"
@@ -83,6 +88,7 @@ access_rights() {
 print_usage() {
 
 	echo "print help"
+	exit 0
 }
 
 
@@ -111,10 +117,10 @@ parse_arguments() {
 ## Mac OS X only:
 ## Create an case senitive disk image and mount it for building the sources
 ## 
-create_image(){
+create_source_image(){
 	
 	# Create image if not exists 
-	echo -n "Create Case-Sensitive Disk Image... "
+	echo -n "Create Case-Sensitive Disk Image for Sources... "
 	
 	if [ ! -f "${SRC_IMAGE_NAME}" ]; then
 		
@@ -132,7 +138,7 @@ create_image(){
 	
 	
 	# Mount image
-	echo -n "Mounting image... "
+	echo -n "Mounting Source Image... "
 	
 	if [ ! -d "${SOURCE_DIR}" ]; then 
 		
@@ -141,6 +147,44 @@ create_image(){
 	else
 		
 		echo "already mounted to ${SOURCE_DIR}"
+	fi
+}
+
+
+##
+## Mac OS X only:
+## Create an case senitive disk image and mount it for building the sources
+## 
+create_sysroot_image(){
+	
+	# Create image if not exists 
+	echo -n "Create Case-Sensitive Disk Image for Sysroot... "
+	
+	if [ ! -f "${SYS_IMAGE_NAME}" ]; then
+		
+		echo 
+		
+		hdiutil create "${SYS_IMAGE_NAME}" \
+			-type SPARSE \
+			-fs JHFS+X \
+			-size $SYS_IMAGE_SIZE \
+			-volname sysroot || error_hdiutil
+	else
+		
+		echo "already exists"
+	fi
+	
+	
+	# Mount image
+	echo -n "Mounting Sysroot Image... "
+	
+	if [ ! -d "${SYSROOT_DIR}" ]; then 
+		
+		hdiutil attach "${SYS_IMAGE_NAME}" -mountroot "$BASE_DIR/.." >/dev/null 2>&1 || error_hdiutil
+		echo "mounted to ${SYSROOT_DIR}"
+	else
+		
+		echo "already mounted to ${SYSROOT_DIR}"
 	fi
 }
 

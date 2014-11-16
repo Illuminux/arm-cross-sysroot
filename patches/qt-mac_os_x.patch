@@ -1,0 +1,29 @@
+diff -rupN ../src/qt-everywhere-opensource-src-4.8.6-ori/configure ./configure
+--- ../src/qt-everywhere-opensource-src-4.8.6-ori/configure	2014-04-10 20:37:08.000000000 +0200
++++ ./configure	2014-11-13 18:43:30.000000000 +0100
+@@ -713,10 +713,9 @@ cp "$QMAKE_VARS_FILE" "$outpath/config.t
+ QMakeVar add styles "cde mac motif plastique cleanlooks windows"
+ QMakeVar add decorations "default windows styled"
+ QMakeVar add mouse-drivers "pc"
+-if [ "$UNAME_SYSTEM" = "Linux" ] ; then
+-    QMakeVar add gfx-drivers "linuxfb"
+-    QMakeVar add mouse-drivers "linuxtp"
+-fi
++QMakeVar add gfx-drivers "linuxfb"
++QMakeVar add mouse-drivers "linuxtp"
++
+ QMakeVar add kbd-drivers "tty"
+ 
+ if [ "$CFG_DEV" = "yes" ]; then
+diff -rupN ../src/qt-everywhere-opensource-src-4.8.6-ori/mkspecs/qws/macx-generic-g++/qmake.conf ./mkspecs/qws/macx-generic-g++/qmake.conf
+--- ../src/qt-everywhere-opensource-src-4.8.6-ori/mkspecs/qws/macx-generic-g++/qmake.conf	2014-04-10 20:37:12.000000000 +0200
++++ ./mkspecs/qws/macx-generic-g++/qmake.conf	2014-11-13 18:47:21.000000000 +0100
+@@ -31,7 +31,7 @@ QMAKE_CXX		= c++
+ QMAKE_CXXFLAGS		= $$QMAKE_CFLAGS -DQT_NO_QWS_TRANSFORMED
+ QMAKE_CXXFLAGS_WARN_ON	= $$QMAKE_CFLAGS_WARN_ON
+ QMAKE_CXXFLAGS_WARN_OFF	= $$QMAKE_CFLAGS_WARN_OFF
+-QMAKE_CXXFLAGS_RELEASE	= $$QMAKE_CFLAGS_RELEASE -fno-default-inline
++QMAKE_CXXFLAGS_RELEASE	= $$QMAKE_CFLAGS_RELEASE
+ QMAKE_CXXFLAGS_DEBUG	= $$QMAKE_CFLAGS_DEBUG
+ QMAKE_CXXFLAGS_SHLIB	= $$QMAKE_CFLAGS_SHLIB
+ QMAKE_CXXFLAGS_YACC	= $$QMAKE_CFLAGS_YACC

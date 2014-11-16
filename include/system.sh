@@ -10,6 +10,7 @@ system_require() {
 		"curl"
 		"autogen"
 		"autoconf"
+		"automake"
 		"libtool"
 		"bison"
 		"xsltproc"
@@ -20,48 +21,63 @@ system_require() {
 		if ! hash "brew" 2>/dev/null; then
 			echo "For running this script on Mac OS X you have to install Homebrew."
 			echo "You can download Homebrew from: http://brew.sh"
+			echo
+			exit 1
 		fi
 	fi
-
-	# sudo apt-get install python-xcbgen
-
+	
+	MISSING_REQUIRES=()
+	
+	# Serach for required programs 
 	for REQUIRE in "${REQUIRES[@]}"
 	do
 		if ! hash $REQUIRE 2>/dev/null; then
-			echo "The application $REQUIRE is not installed!"
-			echo "You can install $REQUIRE as follows"
-			
-			if [ $(uname -s) = "Darwin" ]; then 
-				echo "brew install $REQUIRE"
-				echo
-				echo "Some packages are not linked. In order to link, type:"
-				echo "brew link $REQUIRE --force"
-			else
-				echo "sudo apt-get install $REQUIRE"
-			fi
-			exit
+			MISSING_REQUIRES+=($REQUIRE)
 		fi
 	done 
 	
-	
-	# OS X needs
-	#  - glib
-	
-	# required packages
+	# search for required packages
 	if [ $(uname -s) = "Linux" ]; then 
+		
+		# python-xcbgen
 		if ! [ -d "/usr/lib/python2.7/dist-packages/xcbgen" ]; then
-			echo "The package python-xcbgen is not installed!"
-			echo "You can install python-xcbgen as follows"
-			echo "sudo apt-get install python-xcbgen"
-			exit
+			MISSING_REQUIRES+=("python-xcbgen")
 		fi
+		
+	elif [ $(uname -s) = "Darwin" ]; then
+		
+		# Glib
+		if ! [ -d "/usr/local/Cellar/glib" ]; then
+			MISSING_REQUIRES+=("glib")
+		fi
+		
 	fi
 	
-	if [ $(uname -s) = "Darwin" ]; then
-		if ! [ -d "/usr/local/Cellar/glib" ]; then
-			echo "The package glib is not installed!"
-			echo "brew install glib"
-			exit
+	
+	if [ ${#MISSING_REQUIRES[@]} -ne 0 ]; then
+		
+		echo "Some required applications are not installed!"
+		echo "You can install them as follows:"
+		
+		if [ $(uname -s) = "Darwin" ]; then 
+			echo "  $ brew install ${MISSING_REQUIRES[@]}"
+			echo
+			echo "Some packages are not linked. In order to link, type:"
+			echo "  $ brew link [NAME] --force"
+		else
+			echo "  $ sudo apt-get install ${MISSING_REQUIRES[@]}"
 		fi
+		
+		echo
+		exit 1
+	fi
+	
+	# Check if cross compiler is avalible
+	if ! [ -f "${TOOLCHAIN_DIR}/bin/${TARGET}-gcc" ]; then
+		
+		echo "Error: Cross compiler not found!"
+		echo "Please check your configuration file."
+		echo 
+		exit 1
 	fi
 }

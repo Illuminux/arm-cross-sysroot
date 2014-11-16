@@ -30,7 +30,7 @@ if [ $? == 1 ]; then
 	fi
 	
 	TMP_LIBS=$LIBS
-	export LIBS="${LIBS} -lpthread -ldl"
+	export LIBS="${LIBS} -lpthread -ldl -lXv -lXau -lXext -lX11 -lxcb"
 	
 	get_download
 	extract_tar

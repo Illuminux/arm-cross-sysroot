@@ -1,17 +1,16 @@
 #!/bin/bash
 
-URL="http://cairographics.org/releases/cairo-1.12.2.tar.xz"
+URL="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng12/libpng-1.2.51.tar.gz"
 
-DEPEND=()
+DEPEND=(
+	"zlib"
+)
 
 ARGS=(
 	"--host=${HOST}"
 	"--enable-shared"
 	"--disable-static"
-	"--enable-xml"
-	"--enable-xlib-xcb"
 	"--program-prefix=${TARGET}-"
-	"--disable-largefile"
 	"--sbindir=${BASE_DIR}/tmp/sbin"
 	"--libexecdir=${BASE_DIR}/tmp/libexec"
 	"--sysconfdir=${BASE_DIR}/tmp/etc"
@@ -26,4 +25,10 @@ if [ $? == 1 ]; then
 	get_download
 	extract_tar
 	build
+	
+	ln -s "${SYSROOT_DIR}/include/libpng12" "${SYSROOT_DIR}/include/libpng"
 fi
+
+export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/libpng12"
+export CPPFLAGS=$CFLAGS
+export CXXFLAGS=$CPPFLAGS

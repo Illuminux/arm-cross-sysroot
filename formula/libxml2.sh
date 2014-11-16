@@ -36,6 +36,6 @@ if [ $? == 1 ]; then
 	build
 fi
 
-export CFLAGS="${CFLAGS} -I${PREFIX}/include/libxml2"
+export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/libxml2"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CPPFLAGS
