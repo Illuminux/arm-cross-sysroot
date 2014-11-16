@@ -21,8 +21,7 @@ ARGS=(
 )
 
 get_names_from_url
-installed "gstreamer-plugins-good-0.1a.pc"
-#installed "gstreamer-plugins-good-0.10.pc"
+installed "gstreamer-plugins-good-0.10.pc"
 
 if [ $? == 1 ]; then
 	

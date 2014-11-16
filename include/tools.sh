@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 ##
 ## Print error message and abort script
 ##

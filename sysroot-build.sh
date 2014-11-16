@@ -57,6 +57,33 @@ source "${BASE_DIR}/include/build.sh"
 
 
 ##
+## Chcke if a sysroot olready exists (Mac only)
+##
+if [ -f "${SYSROOT_DIR}/.directory" ]; then
+	
+	while true; do
+		echo "The root directory already exists."
+		echo "This is because the script was executed before."
+		echo "If the image is not deleted or changed since the last run, you can press continued."
+		echo "Otherwise, the entire root must be recreated."
+		echo
+		read -p "Continue or abbort the script [C/a]: " Ca
+		
+		Ca=${Ca:-C}
+		
+		case $Ca in
+			
+			[Cc]* ) 
+				rm -rf ${SYSROOT_DIR}
+				break;;
+			
+			[Aa]* ) clear; exit 0;;
+			
+		esac
+	done
+fi
+
+##
 ## Parse the comandline arguments 
 ##
 parse_arguments $@
@@ -149,8 +176,7 @@ source "${BASE_DIR}/formula/cairo.sh"
 source "${BASE_DIR}/formula/gst-plugins-base.sh"
 source "${BASE_DIR}/formula/wavpack.sh"
 
-if [ $(uname -s) = "Linux" ]; then 
-	#source "${BASE_DIR}/formula/v4l-utils.sh"
+if [ $(uname -s) = "Linux" ]; then
 	source "${BASE_DIR}/formula/taglib.sh"
 fi
 
@@ -162,9 +188,11 @@ source "${BASE_DIR}/formula/bluez.sh"
 source "${BASE_DIR}/formula/libmodbus.sh"
 source "${BASE_DIR}/formula/liblqr.sh"
 source "${BASE_DIR}/formula/imagemagick.sh"
-source "${BASE_DIR}/formula/opencv.sh"
 
-
+# cmake sucks, does not compile for raspie
+if ! [ "${BOARD}" == "raspi" ]; then
+	source "${BASE_DIR}/formula/opencv.sh"
+fi
 
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"
@@ -172,6 +200,7 @@ rm -rf "${BASE_DIR}/tmp"
 if [ $(uname -s) = "Darwin" ]; then 
 	echo -n "Unmount source image... " 
 	hdiutil detach $SOURCE_DIR >/dev/null 2>&1 || exit 1
+	rm -rf "${BASE_DIR}/sources.sparseimage"
 	echo "done"
 	
 	echo -n "Move sysroot into a local directory... " 
@@ -183,7 +212,12 @@ if [ $(uname -s) = "Darwin" ]; then
 	echo -n "Unmount sysroot image... " 
 	hdiutil detach $SYSROOT_DIR >/dev/null 2>&1 || exit 1
 	mv "${SYSROOT_DIR}_tmp" "${SYSROOT_DIR}"
+	touch "${SYSROOT_DIR}/.directory"
 	echo "done"
+	echo 
+	echo "Caution: Do not delete or remove the sysroot.sparseimage!"
+	echo "         It will be needed for rebuilding the sysroot!"
+	echo
 else
 	rm -rf "${BASE_DIR}/src"
 fi

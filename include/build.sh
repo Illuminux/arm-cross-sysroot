@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 build(){
 
 	build_autogen
