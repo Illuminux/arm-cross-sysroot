@@ -27,7 +27,7 @@ clear
 ## Working directory of the Script
 ##
 BASE_DIR=`pwd`
-
+TOTAL_START=$(date +%s)
 
 ##
 ## check if config.cfg exists or exit
@@ -108,6 +108,27 @@ else
 	# test access rights for building the sysroot
 	access_rights
 fi
+
+
+##
+## Build and Version information
+##
+if ! [ -f "${SYSROOT_DIR}/buildinfo.txt" ]; then
+	touch "${SYSROOT_DIR}/buildinfo.txt"
+else
+	echo >> "${SYSROOT_DIR}/buildinfo.txt"
+	echo "*** Rebuild ***" >> "${SYSROOT_DIR}/buildinfo.txt"
+	echo >> "${SYSROOT_DIR}/buildinfo.txt"
+fi
+cat >> "${SYSROOT_DIR}/buildinfo.txt" << EOF
+Script Version: 1.0
+Script Date:	17 Nov 2014
+Build Date:		$(date)
+Build User:		$(whoami)
+Build Machine:	$(uname -v)
+
+Packages:
+EOF
 
 
 ##
@@ -222,4 +243,9 @@ else
 	rm -rf "${BASE_DIR}/src"
 fi
 
-echo "Sysroot successfully build"
+TOTAL_END=$(date +%s)
+TOTAL_TIME=$(($BUILD_END-$BUILD_START))
+
+echo >> "${SYSROOT_DIR}/buildinfo.txt"
+echo "Sysroot successfully build in ${TOTAL_TIME} sec" >> "${SYSROOT_DIR}/buildinfo.txt"
+echo "Sysroot successfully build in ${TOTAL_TIME} sec"

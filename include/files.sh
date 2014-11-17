@@ -43,4 +43,6 @@ extract_tar(){
 
 	is_error "$?"
 	cd $BASE_DIR
+	
+	BUILD_START=`date +%s`
 }

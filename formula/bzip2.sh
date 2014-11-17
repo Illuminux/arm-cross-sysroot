@@ -38,6 +38,8 @@ if [ $? == 1 ]; then
 	mv "${SYSROOT_DIR}/bin/bzcat" "${SYSROOT_DIR}/bin/${TARGET}-bzcat"
 	mv "${SYSROOT_DIR}/bin/bzip2" "${SYSROOT_DIR}/bin/${TARGET}-bzip2"
 	mv "${SYSROOT_DIR}/bin/bzip2recover" "${SYSROOT_DIR}/bin/${TARGET}-bzip2recover"
+	
+	build_finishinstall
 
 cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
 prefix=${PREFIX}
