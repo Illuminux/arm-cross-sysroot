@@ -210,10 +210,10 @@ source "${BASE_DIR}/formula/libmodbus.sh"
 source "${BASE_DIR}/formula/liblqr.sh"
 source "${BASE_DIR}/formula/imagemagick.sh"
 
-# cmake sucks, does not compile for raspie
-if ! [ "${BOARD}" == "raspi" ]; then
-	source "${BASE_DIR}/formula/opencv.sh"
-fi
+# cmake sucks
+#if ! [ "${BOARD}" == "raspi" ]; then
+#	source "${BASE_DIR}/formula/opencv.sh"
+#fi
 
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"
