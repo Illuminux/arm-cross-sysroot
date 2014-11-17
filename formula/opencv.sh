@@ -163,4 +163,6 @@ EOF
 	is_error "$?"
 	
 	cd $BASE_DIR
+	
+	build_finishinstall
 fi

@@ -94,5 +94,11 @@ su_build_install() {
 
 build_finishinstall() {
 
-	rm -f $LOG_FILE
+	BUILD_END=`date +%s`
+	BUILD_TIME=`expr $BUILD_END - $BUILD_START`
+	
+	rm -f $LOG_FILE	
+	echo -n " - ${NAME} (${VERSION})" >> "${SYSROOT_DIR}/buildinfo.txt"
+	echo    " - [$BUILD_TIME sec]" >> "${SYSROOT_DIR}/buildinfo.txt"
+	
 }

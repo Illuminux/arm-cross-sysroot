@@ -48,4 +48,6 @@ if [ $? == 1 ]; then
 	is_error "$?"
 
 	cd ${BASE_DIR}
+
+	build_finishinstall
 fi

@@ -21,7 +21,7 @@ if [ $? == 1 ]; then
 	export ARCH="arm"
 	export CROSS_COMPILE="${HOST}-"
 
-	echo -n "  Configure ${NAME}... "
+	echo -n "Configure ${NAME}... "
 	./Configure \
 		linux-generic32 \
 		--prefix=$PREFIX \
@@ -36,4 +36,6 @@ if [ $? == 1 ]; then
 
 	cd $BASE_DIR
 	rm -rf "${SYSROOT_DIR}/ssl"
+	
+	build_finishinstall
 fi

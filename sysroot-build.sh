@@ -27,7 +27,7 @@ clear
 ## Working directory of the Script
 ##
 BASE_DIR=`pwd`
-
+TOTAL_START=$(date +%s)
 
 ##
 ## check if config.cfg exists or exit
@@ -111,6 +111,27 @@ fi
 
 
 ##
+## Build and Version information
+##
+if ! [ -f "${SYSROOT_DIR}/buildinfo.txt" ]; then
+	touch "${SYSROOT_DIR}/buildinfo.txt"
+else
+	echo >> "${SYSROOT_DIR}/buildinfo.txt"
+	echo "*** Rebuild ***" >> "${SYSROOT_DIR}/buildinfo.txt"
+	echo >> "${SYSROOT_DIR}/buildinfo.txt"
+fi
+cat >> "${SYSROOT_DIR}/buildinfo.txt" << EOF
+Script Version: 1.0
+Script Date:	17 Nov 2014
+Build Date:		$(date)
+Build User:		$(whoami)
+Build Machine:	$(uname -v)
+
+Packages:
+EOF
+
+
+##
 ## Make sure that we are still in working directory 
 ##
 cd $BASE_DIR
@@ -189,10 +210,10 @@ source "${BASE_DIR}/formula/libmodbus.sh"
 source "${BASE_DIR}/formula/liblqr.sh"
 source "${BASE_DIR}/formula/imagemagick.sh"
 
-# cmake sucks, does not compile for raspie
-if ! [ "${BOARD}" == "raspi" ]; then
-	source "${BASE_DIR}/formula/opencv.sh"
-fi
+# cmake sucks
+#if ! [ "${BOARD}" == "raspi" ]; then
+#	source "${BASE_DIR}/formula/opencv.sh"
+#fi
 
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"
@@ -222,4 +243,9 @@ else
 	rm -rf "${BASE_DIR}/src"
 fi
 
-echo "Sysroot successfully build"
+TOTAL_END=$(date +%s)
+TOTAL_TIME=$(($BUILD_END-$BUILD_START))
+
+echo >> "${SYSROOT_DIR}/buildinfo.txt"
+echo "Sysroot successfully build in ${TOTAL_TIME} sec" >> "${SYSROOT_DIR}/buildinfo.txt"
+echo "Sysroot successfully build in ${TOTAL_TIME} sec"

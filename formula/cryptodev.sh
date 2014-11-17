@@ -22,6 +22,8 @@ if ! [ -d "${PREFIX}/include/crypto" ]; then
 	is_error "$?"
 	
 	cd $BASE_DIR
+	
+	build_finishinstall
 else
 	echo " already installed"
 fi

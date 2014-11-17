@@ -29,7 +29,6 @@ if [ $? == 1 ]; then
 	VERSION=${DIR_NAME##$NAME*-}
 	
 	build
-	build_finishinstall
 
 cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
 prefix=${PREFIX}

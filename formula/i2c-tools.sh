@@ -46,6 +46,8 @@ if [ $? == 1 ]; then
 	
 	rm -rf "${SYSROOT_DIR}/sbin"
 	rm -rf "${SYSROOT_DIR}/share"
+	
+	build_finishinstall
 
 cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
 prefix=${PREFIX}
