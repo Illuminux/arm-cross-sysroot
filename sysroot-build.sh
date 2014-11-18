@@ -121,7 +121,7 @@ else
 	echo >> "${SYSROOT_DIR}/buildinfo.txt"
 fi
 cat >> "${SYSROOT_DIR}/buildinfo.txt" << EOF
-Script Version: 1.0.1
+Script Version: 1.0.2
 Script Date:	18 Nov 2014
 Build Date:		$(date)
 Build User:		$(whoami)
@@ -246,8 +246,14 @@ fi
 TOTAL_END=`date +%s`
 TOTAL_TIME=`expr $TOTAL_END - $TOTAL_START`
 
+if [ $(uname -s) = "Darwin" ]; then 
+	AWK=gawk
+else
+	AWK=awk
+fi
+
 echo >> "${SYSROOT_DIR}/buildinfo.txt"
 echo -n "Sysroot successfully build in " >> "${SYSROOT_DIR}/buildinfo.txt"
-echo $TOTAL_TIME | gawk '{print strftime("%H:%M:%S", $1,1)}' >> "${SYSROOT_DIR}/buildinfo.txt"
+echo $TOTAL_TIME | $AWK '{print strftime("%H:%M:%S", $1,1)}' >> "${SYSROOT_DIR}/buildinfo.txt"
 echo -n "Sysroot successfully build in " 
-echo $TOTAL_TIME | gawk '{print strftime("%H:%M:%S", $1,1)}'
+echo $TOTAL_TIME | $AWK '{print strftime("%H:%M:%S", $1,1)}'

@@ -18,6 +18,9 @@ system_require() {
 	)
 	
 	if [ $(uname -s) = "Darwin" ]; then 
+		
+		REQUIRES+=("gawk")
+		
 		if ! hash "brew" 2>/dev/null; then
 			echo "For running this script on Mac OS X you have to install Homebrew."
 			echo "You can download Homebrew from: http://brew.sh"
