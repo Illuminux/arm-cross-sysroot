@@ -27,7 +27,7 @@ clear
 ## Working directory of the Script
 ##
 BASE_DIR=`pwd`
-TOTAL_START=$(date +%s)
+TOTAL_START=`date +%s`
 
 ##
 ## check if config.cfg exists or exit
@@ -121,8 +121,8 @@ else
 	echo >> "${SYSROOT_DIR}/buildinfo.txt"
 fi
 cat >> "${SYSROOT_DIR}/buildinfo.txt" << EOF
-Script Version: 1.0
-Script Date:	17 Nov 2014
+Script Version: 1.0.1
+Script Date:	18 Nov 2014
 Build Date:		$(date)
 Build User:		$(whoami)
 Build Machine:	$(uname -v)
@@ -243,9 +243,11 @@ else
 	rm -rf "${BASE_DIR}/src"
 fi
 
-TOTAL_END=$(date +%s)
-TOTAL_TIME=$(($BUILD_END-$BUILD_START))
+TOTAL_END=`date +%s`
+TOTAL_TIME=`expr $TOTAL_END - $TOTAL_START`
 
 echo >> "${SYSROOT_DIR}/buildinfo.txt"
-echo "Sysroot successfully build in ${TOTAL_TIME} sec" >> "${SYSROOT_DIR}/buildinfo.txt"
-echo "Sysroot successfully build in ${TOTAL_TIME} sec"
+echo -n "Sysroot successfully build in " >> "${SYSROOT_DIR}/buildinfo.txt"
+echo $TOTAL_TIME | gawk '{print strftime("%H:%M:%S", $1,1)}' >> "${SYSROOT_DIR}/buildinfo.txt"
+echo -n "Sysroot successfully build in " 
+echo $TOTAL_TIME | gawk '{print strftime("%H:%M:%S", $1,1)}'
