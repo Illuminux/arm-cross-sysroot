@@ -17,7 +17,7 @@ ARGS=(
 )
 
 get_names_from_url
-installed "${NAME}.pc"
+installed "opencv.pc"
 
 if [ $? == 1 ]; then
 	

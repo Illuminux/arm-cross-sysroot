@@ -19,4 +19,4 @@ TARGET="arm-linux-gnueabihf"
 # raspi:      Raspberry PI
 # beaglebone: BeagleBone / Beglebone black
 #
-BORAD="beaglebone"
+BOARD="beaglebone"
