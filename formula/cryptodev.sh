@@ -17,7 +17,7 @@ if ! [ -d "${PREFIX}/include/crypto" ]; then
 	get_download
 	extract_tar
 	
-	echo -n "  Install ${NAME}... "
+	echo -n "Install ${NAME}... "
 	cp -r "${SOURCE_DIR}/${DIR_NAME}/crypto" "${PREFIX}/include/"
 	is_error "$?"
 	

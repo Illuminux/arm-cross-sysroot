@@ -88,6 +88,7 @@ To build the cross sysroot just run the following command:
 	- tslib - Abstraction layer for touchscreen
 	- i2c-tools - Heterogeneous set of I2C tools for Linux
 	- bluez - Bluetooth protocol stack library
+	- libusb - userspace USB programming library
 
 - **Communication:**
 	- libmodbus - Library for the Modbus protocol
@@ -97,9 +98,9 @@ To build the cross sysroot just run the following command:
 	- gsl - GNU Scientific Library
 	- gmp - Multi precision arithmetic library developers tools
 	- mpfr - Multiple precision floating-point computation developers tools
-	- opencv - Open Source Computer Vision Library
+	- <del>opencv - Open Source Computer Vision Library</del><br>*(no idea why, but can only compile on my iMac and not on my Mac Book Pro.* 
 
-- Database:
+- **Database:**
 	- sqlite - Database management system libraries
 
 - **Framework and System Libraries:**
@@ -124,7 +125,7 @@ To build the cross sysroot just run the following command:
 	- libXext - X11 miscellaneous extensions library
 	- pixman - pixel-manipulation library for X
 	- xtrans - X transport library
-	- xproto -  
+	- xproto
 	- xextproto
 	- inputproto 
 	- xcb-proto - X C Binding
@@ -138,6 +139,6 @@ To build the cross sysroot just run the following command:
 	- kbproto - X11 XKB extension wire protocol
 	- libXv - X11 Video extension library
 
-<sup>**1.)**</sup> Can currently only compile under Linux.
+<sup>**1.)**</sup> Linux only.
 
 

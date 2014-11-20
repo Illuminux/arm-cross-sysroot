@@ -121,8 +121,8 @@ else
 	echo >> "${SYSROOT_DIR}/buildinfo.txt"
 fi
 cat >> "${SYSROOT_DIR}/buildinfo.txt" << EOF
-Script Version: 1.0.2
-Script Date:	18 Nov 2014
+Script Version: 1.0.3
+Script Date:	20 Nov 2014
 Build Date:		$(date)
 Build User:		$(whoami)
 Build Machine:	$(uname -v)
@@ -215,6 +215,8 @@ source "${BASE_DIR}/formula/imagemagick.sh"
 #	source "${BASE_DIR}/formula/opencv.sh"
 #fi
 
+source "${BASE_DIR}/formula/libusb.sh"
+
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"
 
@@ -228,6 +230,7 @@ if [ $(uname -s) = "Darwin" ]; then
 	mkdir -p "${SYSROOT_DIR}_tmp"
 	cp -r "${SYSROOT_DIR}/lib" "${SYSROOT_DIR}_tmp/lib"
 	cp -r "${SYSROOT_DIR}/include" "${SYSROOT_DIR}_tmp/include"
+	cp "${SYSROOT_DIR}/buildinfo.txt" "${SYSROOT_DIR}_tmp/buildinfo.txt"
 	echo "done"
 	
 	echo -n "Unmount sysroot image... " 
@@ -252,7 +255,7 @@ else
 	AWK=awk
 fi
 
-echo >> "${SYSROOT_DIR}/buildinfo.txt"
+echo "" >> "${SYSROOT_DIR}/buildinfo.txt"
 echo -n "Sysroot successfully build in " >> "${SYSROOT_DIR}/buildinfo.txt"
 echo $TOTAL_TIME | $AWK '{print strftime("%H:%M:%S", $1,1)}' >> "${SYSROOT_DIR}/buildinfo.txt"
 echo -n "Sysroot successfully build in " 
