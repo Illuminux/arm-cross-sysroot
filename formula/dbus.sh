@@ -17,6 +17,7 @@ ARGS=(
 	"--sysconfdir=${BASE_DIR}/tmp/etc"
 	"--localstatedir=${BASE_DIR}/tmp/var"
 	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--without-x"
 )
 
 
