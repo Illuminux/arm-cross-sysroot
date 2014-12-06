@@ -209,7 +209,7 @@ source "${BASE_DIR}/formula/bluez.sh"
 source "${BASE_DIR}/formula/libmodbus.sh"
 source "${BASE_DIR}/formula/liblqr.sh"
 source "${BASE_DIR}/formula/imagemagick.sh"
-
+source "${BASE_DIR}/formula/libconfig.sh"
 # cmake sucks
 #if ! [ "${BOARD}" == "raspi" ]; then
 #	source "${BASE_DIR}/formula/opencv.sh"

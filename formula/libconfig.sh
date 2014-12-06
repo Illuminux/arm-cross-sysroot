@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="ftp://ftp.gnu.org/gnu/gsl/gsl-1.15.tar.gz"
+URL="http://www.hyperrealm.com/libconfig/libconfig-1.4.9.tar.gz"
 
 DEPEND=()
 
