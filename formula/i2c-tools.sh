@@ -26,7 +26,7 @@ if [ $? == 1 ]; then
 	
 	cd "${SOURCE_DIR}/${DIR_NAME}"
 	
-	echo -n "  Make ${NAME}... "
+	echo -n "Make ${NAME}... "
 	make \
 		CC="${TARGET}-gcc" \
 		AR="${TARGET}-ar" \
@@ -34,7 +34,7 @@ if [ $? == 1 ]; then
 		prefix="${PREFIX}" >$LOG_FILE 2>&1
 	is_error "$?"
 	
-	echo -n "  Install ${NAME}... "
+	echo -n "Install ${NAME}... "
 	make install \
 		CC="${TARGET}-gcc" \
 		AR="${TARGET}-ar" \

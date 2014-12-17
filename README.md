@@ -73,6 +73,7 @@ To build the cross sysroot just run the following command:
 	- libtheora - Theora Video Compression Codec
 	- libvisual - Audio visualization framework
 	- wavpack - Audio codec (lossy and lossless) encoder and decoder 
+	- lib - Open source audio and video processing tools
 	- taglib - Library for reading and editing the meta-data of audio formats <sup>**1.**</sup>
 
 - **Compression Libraries:**
@@ -89,6 +90,7 @@ To build the cross sysroot just run the following command:
 	- i2c-tools - Heterogeneous set of I2C tools for Linux
 	- bluez - Bluetooth protocol stack library
 	- libusb - userspace USB programming library
+	- wiringPi - GPIO Interface library for the Raspberry Pi <sup>**2.**</sup>
 
 - **Communication:**
 	- libmodbus - Library for the Modbus protocol
@@ -119,6 +121,7 @@ To build the cross sysroot just run the following command:
 	- liblqr - Converts plain array images into multi-size representation
 	- libssh2 - SSH2 client-side library
 	- libdirectfb - Direct frame buffer graphics library
+	- libconfig - Configuration File Library
 
 - **X11 Libraries:**
 	- libX11 - X11 client-side library
@@ -139,6 +142,9 @@ To build the cross sysroot just run the following command:
 	- kbproto - X11 XKB extension wire protocol
 	- libXv - X11 Video extension library
 
-<sup>**1.)**</sup> Linux only.
-
+<hr>
+<small>
+<sup>**1.)**</sup> Linux only.<br>
+<sup>**2.)**</sup> Raspberry Pi only.
+</small>
 
