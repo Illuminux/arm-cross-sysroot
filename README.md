@@ -85,6 +85,7 @@ To build the cross sysroot just run the following command:
 	- expat - XML parsing C library
 	- libxml2 - GNOME XML library
 	- json-c - JSON manipulation library
+	- json-glib - GLib JSON manipulation library
 
 - **Hardware Libraries:**
 	- tslib - Abstraction layer for touchscreen

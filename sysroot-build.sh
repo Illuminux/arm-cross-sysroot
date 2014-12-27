@@ -221,6 +221,7 @@ if [ "${BOARD}" == "raspi" ]; then
 fi
 
 source "${BASE_DIR}/formula/libjson.sh"
+source "${BASE_DIR}/formula/json-glib.sh"
 
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"

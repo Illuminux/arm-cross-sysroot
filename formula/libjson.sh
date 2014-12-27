@@ -21,20 +21,4 @@ if [ $? == 1 ]; then
 	get_download
 	extract_tar
 	build
-
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include
-
-Name: ${NAME}
-Description: xtrans library
-Version: ${VERSION}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir}
-Cflags: -I\${includedir}
-EOF
 fi
