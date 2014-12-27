@@ -216,11 +216,11 @@ source "${BASE_DIR}/formula/libconfig.sh"
 #fi
 source "${BASE_DIR}/formula/libusb.sh"
 
-
 if [ "${BOARD}" == "raspi" ]; then
 	source "${BASE_DIR}/formula/wiringpi.sh"
 fi
 
+source "${BASE_DIR}/formula/libjson.sh"
 
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"
