@@ -124,6 +124,7 @@ To build the cross sysroot just run the following command:
 	- libssh2 - SSH2 client-side library
 	- libdirectfb - Direct frame buffer graphics library
 	- libconfig - Configuration File Library
+	- libsoup - HTTP library implementation in C
 
 - **X11 Libraries:**
 	- libX11 - X11 client-side library

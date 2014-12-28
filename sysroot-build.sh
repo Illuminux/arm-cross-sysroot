@@ -222,6 +222,7 @@ fi
 
 source "${BASE_DIR}/formula/libjson.sh"
 source "${BASE_DIR}/formula/json-glib.sh"
+source "${BASE_DIR}/formula/libsoup.sh"
 
 echo "Cleanup build directory."
 rm -rf "${BASE_DIR}/tmp"
