@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng12/libpng-1.2.51.tar.gz"
+URL="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng12/libpng-1.2.52.tar.gz"
 
 DEPEND=(
 	"zlib"
