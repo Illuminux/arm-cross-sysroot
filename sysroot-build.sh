@@ -220,7 +220,7 @@ if [ "${BOARD}" == "raspi" ]; then
 	source "${BASE_DIR}/formula/wiringpi.sh"
 fi
 
-source "${BASE_DIR}/formula/libjson.sh"
+#source "${BASE_DIR}/formula/libjson.sh"
 source "${BASE_DIR}/formula/json-glib.sh"
 source "${BASE_DIR}/formula/libsoup.sh"
 
