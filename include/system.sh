@@ -53,6 +53,11 @@ system_require() {
 		if ! [ -d "/usr/local/Cellar/glib" ]; then
 			MISSING_REQUIRES+=("glib")
 		fi
+	
+		# Intltool - the binary is called "intltoolize"
+		if ! [ -d "/usr/local/Cellar/intltool" ]; then
+			MISSING_REQUIRES+=("intltool")
+		fi
 		
 	fi
 	
