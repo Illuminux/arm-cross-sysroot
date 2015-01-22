@@ -236,8 +236,8 @@ if [ $(uname -s) = "Darwin" ]; then
 	
 	echo -n "Move sysroot into a local directory... " 
 	mkdir -p "${SYSROOT_DIR}_tmp"
-	cp -r "${SYSROOT_DIR}/lib" "${SYSROOT_DIR}_tmp/lib"
-	cp -r "${SYSROOT_DIR}/include" "${SYSROOT_DIR}_tmp/include"
+	cp -RP "${SYSROOT_DIR}/lib" "${SYSROOT_DIR}_tmp/lib"
+	cp -RP "${SYSROOT_DIR}/include" "${SYSROOT_DIR}_tmp/include"
 	cp "${SYSROOT_DIR}/buildinfo.txt" "${SYSROOT_DIR}_tmp/buildinfo.txt"
 	echo "done"
 	
