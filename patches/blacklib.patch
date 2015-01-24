@@ -1,0 +1,113 @@
+diff -rupN BlackLib-ori/v2_0/BlackI2C.h BlackLib/v2_0/BlackI2C.h
+--- BlackLib-ori/v2_0/BlackI2C.h	2015-01-24 10:29:48.000000000 +0100
++++ BlackLib/v2_0/BlackI2C.h	2015-01-24 15:44:48.000000000 +0100
+@@ -45,7 +45,9 @@
+ 
+ #include <fcntl.h>
+ #include <sys/ioctl.h>
++#ifdef LIB
+ #include <linux/i2c.h>
++#endif
+ #include <linux/i2c-dev.h>
+ 
+ 
+diff -rupN BlackLib-ori/v2_0/Makefile BlackLib/v2_0/Makefile
+--- BlackLib-ori/v2_0/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ BlackLib/v2_0/Makefile	2015-01-24 15:41:17.000000000 +0100
+@@ -0,0 +1,96 @@
++DYN_VERS_MAJ=2
++DYN_VERS_MIN=0
++
++VERSION=$(DYN_VERS_MAJ).$(DYN_VERS_MIN)
++DESTDIR=/usr
++PREFIX=
++
++CC		:= $(CC)
++CXX		:= $(CXX)
++INCLUDE	= -I.
++LIBS    =
++
++CPP_SRCS += \
++			BlackCore.cpp \
++			BlackADC.cpp  \
++			BlackGPIO.cpp \
++			BlackI2C.cpp  \
++			BlackPWM.cpp  \
++			BlackSPI.cpp  \
++			BlackUART.cpp \
++
++OBJS += \
++		BlackADC.o  \
++		BlackCore.o \
++		BlackGPIO.o \
++		BlackI2C.o  \
++		BlackPWM.o  \
++		BlackSPI.o  \
++		BlackUART.o
++
++CPP_DEPS += \
++			BlackADC.d \
++			BlackCore.d \
++			BlackGPIO.d \
++			BlackI2C.d \
++			BlackPWM.d \
++			BlackSPI.d \
++			BlackUART.d
++
++OBJ	=	$(SRC:.cpp=.o)
++
++all: libblacklib.so
++
++libblacklib.so: $(OBJS)
++	@echo -n 'Building library: $@ ... '
++	@$(CXX) -shared -o "libblacklib.so" $(OBJS)
++	@echo 'done'
++
++%.o: ./%.cpp
++	@echo -n 'Building file: $< ... '
++	@$(CXX) -O3 -Wall -c -fmessage-length=0 -std=c++11 -fPIC -MMD -MP -DLIB -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
++	@echo 'done'
++
++clean:
++	@echo -n 'Clean ... '
++	@rm -f *.o *.d libblacklib.*
++	@echo 'done'
++
++install-headers:
++	@echo -n 'Install BlackLib Headers ... '
++	@mkdir -p $(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0755 -d				$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackLib.h		$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackCore.h	$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackDef.h		$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackErr.h		$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackADC.h		$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackGPIO.h	$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackI2C.h		$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackPWM.h		$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackSPI.h		$(DESTDIR)$(PREFIX)/include/BlackLib
++	@install -m 0644 BlackUART.h	$(DESTDIR)$(PREFIX)/include/BlackLib
++	@echo 'done'
++
++install: install-headers
++	@echo -n 'Install BlackLib Library... '
++	@install -m 0755 -d						$(DESTDIR)$(PREFIX)/lib
++	@install -m 0755 libblacklib.so $(DESTDIR)$(PREFIX)/lib/libblacklib.so
++	@ln -sf $(DESTDIR)/lib/libblacklib.so $(DESTDIR)$(PREFIX)/lib/libblacklib.so.$(VERSION)
++	@echo 'done'
++
++uninstall:
++	@echo -n 'Uninstall BlackLib ... '
++	@rm -r $(DESTDIR)$(PREFIX)/include/BlackLib
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackLib.h
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackCore.h
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackDef.h
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackErr.h
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackADC.h
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackGPIO.h
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackI2C.h
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackPWM.h
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackSPI.h
++	@rm -f $(DESTDIR)$(PREFIX)/include/BlackLib/BlackUART.h
++	@rm -f $(DESTDIR)$(PREFIX)/lib/libblacklib.*
++	@echo 'done'

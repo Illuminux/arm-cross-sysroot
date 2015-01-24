@@ -221,6 +221,10 @@ if [ "${BOARD}" == "raspi" ]; then
 	source "${BASE_DIR}/formula/wiringpi.sh"
 fi
 
+if [ "${BOARD}" == "beaglebone" ]; then
+	source "${BASE_DIR}/formula/blacklib.sh"
+fi
+
 #source "${BASE_DIR}/formula/libjson.sh"
 source "${BASE_DIR}/formula/json-glib.sh"
 source "${BASE_DIR}/formula/libsoup.sh"

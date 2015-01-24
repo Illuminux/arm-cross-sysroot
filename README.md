@@ -81,11 +81,12 @@ To build the cross sysroot just run the following command:
 	- bzip2 - High-quality block-sorting file compressor
 	- liblzma - XZ-format compression library
 
-- **Markup Language Libraries:**
+- **Markup Language/JSON Libraries:**
 	- expat - XML parsing C library
 	- libxml2 - GNOME XML library
 	- json-c - JSON manipulation library
 	- json-glib - GLib JSON manipulation library
+	- QJson - Qt-based library that maps JSON data to QVariant objects and vice versa.
 
 - **Hardware Libraries:**
 	- tslib - Abstraction layer for touchscreen
@@ -93,6 +94,7 @@ To build the cross sysroot just run the following command:
 	- bluez - Bluetooth protocol stack library
 	- libusb - userspace USB programming library
 	- wiringPi - GPIO Interface library for the Raspberry Pi <sup>**2.**</sup>
+	- BlackLib - GPIO Interface library for Beaglebone Black <sup>**3.**</sup> 
 
 - **Communication:**
 	- libmodbus - Library for the Modbus protocol
@@ -149,5 +151,6 @@ To build the cross sysroot just run the following command:
 <small>
 <sup>**1.)**</sup> Linux only.<br>
 <sup>**2.)**</sup> Raspberry Pi only.
+<sup>**3.)**</sup> Beaglebone Black only.
 </small>
 

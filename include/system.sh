@@ -58,11 +58,6 @@ system_require() {
 		if ! [ -d "/usr/local/Cellar/intltool" ]; then
 			MISSING_REQUIRES+=("intltool")
 		fi
-		
-		# intltool
-		if ! [ -d "/usr/local/Cellar/intltool" ]; then
-			MISSING_REQUIRES+=("intltool")
-		fi
 	fi
 	
 	
