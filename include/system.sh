@@ -15,11 +15,12 @@ system_require() {
 		"bison"
 		"xsltproc"
 		"cmake"
+		"gawk"
 	)
 	
 	if [ $(uname -s) = "Darwin" ]; then 
 		
-		REQUIRES+=("gawk")
+		#REQUIRES+=("gawk")
 		
 		if ! hash "brew" 2>/dev/null; then
 			echo "For running this script on Mac OS X you have to install Homebrew."
@@ -42,9 +43,19 @@ system_require() {
 	# search for required packages
 	if [ $(uname -s) = "Linux" ]; then 
 		
+		# Glib developer package 
+		if ! [ -f "/usr/bin/glib-genmarshal" ]; then 
+			MISSING_REQUIRES+=("libglib2.0-dev")
+		fi
+		
 		# python-xcbgen
 		if ! [ -d "/usr/lib/python2.7/dist-packages/xcbgen" ]; then
 			MISSING_REQUIRES+=("python-xcbgen")
+		fi
+		
+		# Intltool
+		if ! [ -f "/usr/bin/intltoolize" ]; then
+			MISSING_REQUIRES+=("intltool")
 		fi
 		
 	elif [ $(uname -s) = "Darwin" ]; then
