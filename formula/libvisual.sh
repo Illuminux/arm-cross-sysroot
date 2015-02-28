@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="http://skylink.dl.sourceforge.net/project/libvisual/libvisual/libvisual-0.4.0/libvisual-0.4.0.tar.gz"
+URL="http://switch.dl.sourceforge.net/project/libvisual/libvisual/libvisual-0.4.0/libvisual-0.4.0.tar.gz"
 
 DEPEND=()
 
