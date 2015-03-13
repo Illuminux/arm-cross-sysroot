@@ -56,10 +56,10 @@ if [ $? == 1 ]; then
 	cd "${SOURCE_DIR}/${DIR_NAME}/v2_0"
 	echo -n "Make ${NAME}... "
 	if [ "$ARG_MAKE_SHOW" == true ]; then
-		make 2>&1
+		make -j4 2>&1
 		is_error "$?"		
 	else
-		make >$LOG_FILE 2>&1
+		make -j4 >$LOG_FILE 2>&1
 		is_error "$?"
 	fi
 	

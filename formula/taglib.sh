@@ -36,7 +36,7 @@ if [ $? == 1 ]; then
 		-DLLVM_TARGET_ARCH=ARM \
 		-DCMAKE_RELEASE_TYPE=Release >$LOG_FILE 2>&1
 
-	make \
+	make -j4 \
 		CC="${TARGET}-gcc" \
 		CXX="${TARGET}-g++" \
 		AR="${TARGET}-ar" \

@@ -27,7 +27,7 @@ if [ $? == 1 ]; then
 	cd "${SOURCE_DIR}/${DIR_NAME}"
 	
 	echo -n "Make ${NAME}... "
-	make \
+	make -j4 \
 		CC="${TARGET}-gcc" \
 		AR="${TARGET}-ar" \
 		RANLIB="${TARGET}-ranlib" \

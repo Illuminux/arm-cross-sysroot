@@ -155,7 +155,7 @@ EOF
 	
 	
 	echo -n "  Make ${NAME}... "
-	make >$LOG_FILE 2>&1
+	make -j4 >$LOG_FILE 2>&1
 	is_error "$?"
 	
 	echo -n "  Install ${NAME}... "
