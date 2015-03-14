@@ -16,9 +16,10 @@ get_download(){
 		STATUS=$(curl -Lo "${DOWNLOAD_DIR}/${TAR_NAME}" -k# --write-out %{http_code} $URL)
 		if [ $STATUS -ge 400 ]; then 
 			rm -f ${DOWNLOAD_DIR}/${TAR_NAME}
-			cat $LOG_FILE
 			echo 
 			echo "*** Error in $NAME ***"
+			echo "HTTP Status ${STATUS}"
+			echo "  Can not download: ${URL}"
 			echo 
 			exit 1
 		fi
