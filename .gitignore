@@ -10,3 +10,4 @@ config.cfg
 *.sparseimage
 
 *.*~
+.DS_Store

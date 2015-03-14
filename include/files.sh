@@ -13,7 +13,15 @@ get_download(){
 	
 	if ! [ -f "${DOWNLOAD_DIR}/${TAR_NAME}" ]; then
 		echo 
-		curl -L -o "${DOWNLOAD_DIR}/${TAR_NAME}" -k -# $URL
+		STATUS=$(curl -Lo "${DOWNLOAD_DIR}/${TAR_NAME}" -k# --write-out %{http_code} $URL)
+		if [ $STATUS -ge 400 ]; then 
+			rm -f ${DOWNLOAD_DIR}/${TAR_NAME}
+			cat $LOG_FILE
+			echo 
+			echo "*** Error in $NAME ***"
+			echo 
+			exit 1
+		fi
 	else
 		echo "alredy loaded"
 	fi
