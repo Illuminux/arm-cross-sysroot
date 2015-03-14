@@ -1,7 +1,6 @@
 #!/bin/bash
 
-URL="http://www.libraw.org/data/LibRaw-0.14.8.tar.gz"
-
+URL="http://www.libraw.org/data/LibRaw-0.16.0.tar.gz"
 DEPEND=(
 	"lcms2"
 )
