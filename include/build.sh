@@ -1,10 +1,14 @@
 #!/bin/bash
 
-build(){
+build() {
 
 	build_autogen
 	build_configure
-	build_make
+	if [ "${#}" -gt 0 ]; then 
+		build_make $@
+	else
+		build_make
+	fi
 	
 	if [ "${BUILD_AS_ROOT}" = true ]; then
 		su_build_install
