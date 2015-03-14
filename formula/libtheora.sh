@@ -10,6 +10,7 @@ ARGS=(
 	"--host=${HOST}"
 	"--enable-shared"
 	"--disable-static"
+	"--disable-examples"
 	"--program-prefix=${TARGET}-"
 	"--sbindir=${BASE_DIR}/tmp/sbin"
 	"--libexecdir=${BASE_DIR}/tmp/libexec"
@@ -24,5 +25,5 @@ installed "theora.pc"
 if [ $? == 1 ]; then
 	get_download
 	extract_tar
-	build
+	build "-j1"
 fi
