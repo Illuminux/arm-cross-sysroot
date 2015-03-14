@@ -31,7 +31,8 @@ if [ $? == 1 ]; then
 		-DHAVE_CRYPTODEV >$LOG_FILE 2>&1
 	is_error "$?"
 
-	build_make
+	# Must be built with j1 otherwise it crashes!!!
+	build_make "-j1"
 	build_install
 
 	cd $BASE_DIR

@@ -52,15 +52,21 @@ build_configure() {
 
 
 build_make() {
+	
+	if [ "${#}" -eq 0 ]; then 
+		MAKE_PARA="-j4"
+	else
+		MAKE_PARA=$@
+	fi
 
 	cd "${SOURCE_DIR}/${DIR_NAME}"
 
 	echo -n "Make ${NAME}... "
 	if [ "$ARG_MAKE_SHOW" == true ]; then
-		make -j4 2>&1
+		make $MAKE_PARA 2>&1
 		is_error "$?"		
 	else
-		make -j4 >$LOG_FILE 2>&1
+		make $MAKE_PARA >$LOG_FILE 2>&1
 		is_error "$?"
 	fi
 
