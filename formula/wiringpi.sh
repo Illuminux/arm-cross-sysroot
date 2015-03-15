@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if ! [ "${UV_board}" == "raspi" ]; then
+	return
+fi
+
 GV_url="git://git.drogon.net/wiringPi"
 
 DEPEND=()

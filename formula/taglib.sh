@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Linux only
+if ! [ $GV_build_os = "Linux" ]; then
+	return
+fi
+
 GV_url="http://ktown.kde.org/~wheeler/files/src/taglib-1.7.2.tar.gz"
 
 DEPEND=()

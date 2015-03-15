@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if ! [ "${UV_board}" == "beaglebone" ]; then
+	return
+fi
+
 GV_url="https://github.com/gumulka/BlackLib.git"
 
 DEPEND=()

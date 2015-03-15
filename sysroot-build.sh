@@ -108,7 +108,7 @@ system_require
 ##
 ## Mac OS X needs an case sensitiv diskimage
 ##
-if [ $(uname -s) = "Darwin" ]; then 
+if [ $GV_build_os = "Darwin" ]; then 
 	create_source_image
 	create_sysroot_image
 else
@@ -204,11 +204,7 @@ source "${GV_base_dir}/formula/qjson.sh"
 source "${GV_base_dir}/formula/cairo.sh"
 source "${GV_base_dir}/formula/gst-plugins-base.sh"
 source "${GV_base_dir}/formula/wavpack.sh"
-
-if [ $(uname -s) = "Linux" ]; then
-	source "${GV_base_dir}/formula/taglib.sh"
-fi
-
+source "${GV_base_dir}/formula/taglib.sh"
 source "${GV_base_dir}/formula/libx264.sh"
 source "${GV_base_dir}/formula/libav.sh"
 source "${GV_base_dir}/formula/gst-plugins-good.sh"
@@ -223,22 +219,15 @@ source "${GV_base_dir}/formula/libconfig.sh"
 #	source "${GV_base_dir}/formula/opencv.sh"
 #fi
 source "${GV_base_dir}/formula/libusb.sh"
-
-if [ "${UV_board}" == "raspi" ]; then
-	source "${GV_base_dir}/formula/wiringpi.sh"
-fi
-
-if [ "${UV_board}" == "beaglebone" ]; then
-	source "${GV_base_dir}/formula/blacklib.sh"
-fi
-
+source "${GV_base_dir}/formula/wiringpi.sh"
+source "${GV_base_dir}/formula/blacklib.sh"
 source "${GV_base_dir}/formula/json-glib.sh"
 source "${GV_base_dir}/formula/libsoup.sh"
 
 echo "Cleanup build directory."
 rm -rf "${GV_base_dir}/tmp"
 
-if [ $(uname -s) = "Darwin" ]; then 
+if [ $GV_build_os = "Darwin" ]; then 
 	echo -n "Unmount source image... " 
 	hdiutil detach $GV_source_dir >/dev/null 2>&1 || exit 1
 	rm -rf "${GV_base_dir}/sources.sparseimage"
@@ -267,7 +256,7 @@ fi
 GV_total_end=`date +%s`
 GV_total_time=`expr $GV_total_end - $GV_total_start`
 
-if [ $(uname -s) = "Darwin" ]; then 
+if [ $GV_build_os = "Darwin" ]; then 
 	AWK=gawk
 else
 	AWK=awk
