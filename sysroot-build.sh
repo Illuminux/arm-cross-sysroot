@@ -261,8 +261,8 @@ else
 	rm -rf "${GV_base_dir}/src"
 fi
 
-TOTAL_END=`date +%s`
-TOTAL_TIME=`expr $TOTAL_END - $GV_total_start`
+GV_total_end=`date +%s`
+GV_total_time=`expr $GV_total_end - $GV_total_start`
 
 if [ $(uname -s) = "Darwin" ]; then 
 	AWK=gawk
@@ -272,6 +272,6 @@ fi
 
 echo "" >> "${UV_sysroot_dir}/buildinfo.txt"
 echo -n "Sysroot successfully build in " >> "${UV_sysroot_dir}/buildinfo.txt"
-echo $TOTAL_TIME | $AWK '{print strftime("%H:%M:%S", $1,1)}' >> "${UV_sysroot_dir}/buildinfo.txt"
+echo $GV_total_time | $AWK '{print strftime("%H:%M:%S", $1,1)}' >> "${UV_sysroot_dir}/buildinfo.txt"
 echo -n "Sysroot successfully build in " 
-echo $TOTAL_TIME | $AWK '{print strftime("%H:%M:%S", $1,1)}'
+echo $GV_total_time | $AWK '{print strftime("%H:%M:%S", $1,1)}'
