@@ -40,6 +40,7 @@ else
 fi
 
 FU_get_names_from_url
+GV_version="51.22.2"
 FU_installed "libavutil.pc"
 
 if [ $? == 1 ]; then

@@ -50,7 +50,7 @@ FU_installed() {
 	if [ -f "${UV_sysroot_dir}/lib/pkgconfig/$1" ]; then
 		FU_pkg_version "${UV_sysroot_dir}/lib/pkgconfig/$1"
 		if [ $? == 1 ]; then
-			echo "updating"
+			echo " updating"
 			return 1
 		else
 			echo " already installed"
@@ -59,7 +59,7 @@ FU_installed() {
 	elif [ -f "${UV_sysroot_dir}/usr/lib/pkgconfig/$1" ]; then
 		FU_pkg_version "${UV_sysroot_dir}/usr/lib/pkgconfig/$1"
 		if [ $? == 1 ]; then
-			echo "updating"
+			echo " updating"
 			return 1
 		else
 			echo " already installed"
@@ -68,7 +68,7 @@ FU_installed() {
 	elif [ -f "${UV_sysroot_dir}/usr/local/lib/pkgconfig/$1" ]; then
 		FU_pkg_version "${UV_sysroot_dir}/usr/local/lib/pkgconfig/$1"
 		if [ $? == 1 ]; then
-			echo "updating"
+			echo " updating"
 			return 1
 		else
 			echo " already installed"
