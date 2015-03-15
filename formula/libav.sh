@@ -24,7 +24,7 @@ GV_args=(
 	"--enable-gpl"
 )
 
-if [ $(uname -s) = "Darwin" ]; then 
+if [ $GV_build_os = "Darwin" ]; then 
 	GV_args+=(
 		"--ar=gar"
 	)

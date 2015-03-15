@@ -18,7 +18,7 @@ system_require() {
 		"gawk"
 	)
 	
-	if [ $(uname -s) = "Darwin" ]; then 
+	if [ $GV_build_os = "Darwin" ]; then 
 		
 		#LV_requires+=("gawk")
 		
@@ -41,7 +41,7 @@ system_require() {
 	done 
 	
 	# search for required packages
-	if [ $(uname -s) = "Linux" ]; then 
+	if [ $GV_build_os = "Linux" ]; then 
 		
 		# Glib developer package 
 		if ! [ -f "/usr/bin/glib-genmarshal" ]; then 
@@ -58,7 +58,7 @@ system_require() {
 			LV_missing_requires+=("intltool")
 		fi
 		
-	elif [ $(uname -s) = "Darwin" ]; then
+	elif [ $GV_build_os = "Darwin" ]; then
 		
 		# Glib
 		if ! [ -d "/usr/local/Cellar/glib" ]; then
@@ -77,7 +77,7 @@ system_require() {
 		echo "Some required applications are not installed!"
 		echo "You can install them as follows:"
 		
-		if [ $(uname -s) = "Darwin" ]; then 
+		if [ $GV_build_os = "Darwin" ]; then 
 			echo "  $ brew install ${LV_missing_requires[@]}"
 			echo
 			echo "Some packages are not linked. In order to link, type:"

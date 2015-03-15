@@ -31,6 +31,9 @@ GV_base_dir=$(pwd)
 ## Build start time
 GV_total_start=$(date +%s)
 
+## Build platform
+GV_build_os=$(uname -s)
+
 ##
 ## check if config.cfg exists or exit
 ##

@@ -17,7 +17,7 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 	extract_tar
 	
 	# patch for os x
-	if [ $(uname -s) = "Darwin" ]; then 
+	if [ $GV_build_os = "Darwin" ]; then 
 		
 		cd "${GV_source_dir}/${GV_dir_name}"
 		echo -n "Patch ${GV_name}... "		
@@ -112,7 +112,7 @@ EOF
 	
 	echo -n "Configure ${GV_name}... "
 	
-	if [ $(uname -s) = "Darwin" ]; then 
+	if [ $GV_build_os = "Darwin" ]; then 
 		./configure -v \
 			-opensource \
 			-confirm-license \
