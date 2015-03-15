@@ -1,5 +1,7 @@
 #!/bin/bash
 
+return
+
 GV_url="https://github.com/Itseez/opencv.git"
 
 DEPEND=()
