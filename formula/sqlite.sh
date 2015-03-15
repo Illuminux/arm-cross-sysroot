@@ -21,6 +21,7 @@ GV_args=(
 )
 
 FU_get_names_from_url
+GV_version="3.8.7"
 FU_installed "sqlite3.pc"
 
 if [ $? == 1 ]; then

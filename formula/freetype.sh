@@ -19,6 +19,7 @@ GV_args=(
 )
 
 FU_get_names_from_url
+GV_version="14.1.8"
 FU_installed "freetype2.pc"
 
 if [ $? == 1 ]; then

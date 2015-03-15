@@ -17,6 +17,7 @@ GV_args=(
 )
 
 FU_get_names_from_url
+GV_version="8d1"
 FU_installed "jpeg.pc"
 
 if [ $? == 1 ]; then

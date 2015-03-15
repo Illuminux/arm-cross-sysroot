@@ -48,17 +48,45 @@ FU_installed() {
 	echo -n "Build ${GV_name}:"
 	
 	if [ -f "${UV_sysroot_dir}/lib/pkgconfig/$1" ]; then
-		echo " already installed"
-		return 0
+		FU_pkg_version "${UV_sysroot_dir}/lib/pkgconfig/$1"
+		if [ $? == 1 ]; then
+			echo "updating"
+			return 1
+		else
+			echo " already installed"
+			return 0
+		fi
 	elif [ -f "${UV_sysroot_dir}/usr/lib/pkgconfig/$1" ]; then
-		echo " already installed"
-		return 0
+		FU_pkg_version "${UV_sysroot_dir}/usr/lib/pkgconfig/$1"
+		if [ $? == 1 ]; then
+			echo "updating"
+			return 1
+		else
+			echo " already installed"
+			return 0
+		fi
 	elif [ -f "${UV_sysroot_dir}/usr/local/lib/pkgconfig/$1" ]; then
-		echo " already installed"
-		return 0
+		FU_pkg_version "${UV_sysroot_dir}/usr/local/lib/pkgconfig/$1"
+		if [ $? == 1 ]; then
+			echo "updating"
+			return 1
+		else
+			echo " already installed"
+			return 0
+		fi
 	else
 		echo
 		return 1
+	fi
+}
+
+
+FU_pkg_version() {
+
+	if ! [ $(pkg-config --modversion ${1}) = "${GV_version}" ]; then
+		return 1
+	else
+		return 0
 	fi
 }
 

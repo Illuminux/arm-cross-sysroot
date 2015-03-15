@@ -103,7 +103,7 @@ FU_su_build_install() {
 FU_build_finishinstall() {
 
 	LV_build_end=`date +%s`
-	LV_build_time =`expr $LV_build_end - $GV_build_start`
+	LV_build_time=`expr $LV_build_end - $GV_build_start`
 	
 	rm -f $GV_log_file	
 	echo -n " - ${GV_name} (${GV_version})" >> "${UV_sysroot_dir}/buildinfo.txt"

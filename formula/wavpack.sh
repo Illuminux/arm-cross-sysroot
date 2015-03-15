@@ -22,5 +22,23 @@ FU_installed "${GV_name}.pc"
 if [ $? == 1 ]; then
 	FU_get_download
 	FU_extract_tar
-	FU_build
+	FU_build	
+	
+cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
+Requires:
+prefix=${UV_sysroot_dir}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: ${GV_name}
+Description: wavpack library
+Version: ${GV_version}
+Requires:
+Conflicts:
+Libs: -L$\{libdir} -lwavpack
+Libs.private: -lm
+Cflags: -I$\{includedir}
+
+EOF
 fi
