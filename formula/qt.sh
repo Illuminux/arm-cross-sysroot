@@ -7,14 +7,14 @@ DEPEND=()
 GV_args=(
 )
 
-get_names_from_url
+FU_get_names_from_url
 QT_DIR="Qt-${GV_version}-${UV_board}"
 
 echo -n "Build $GV_name:"
 if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 
-	get_download
-	extract_tar
+	FU_get_download
+	FU_extract_tar
 	
 	# patch for os x
 	if [ $GV_build_os = "Darwin" ]; then 
@@ -23,7 +23,7 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 		echo -n "Patch ${GV_name}... "		
 		patch -p1 < "${GV_base_dir}/patches/qt-mac_os_x.patch" >$GV_log_file 2>&1
 		
-		is_error "$?"
+		FU_is_error "$?"
 		
 		cd $GV_base_dir
 	fi
@@ -149,7 +149,7 @@ EOF
 			-nomake demos \
 			-nomake docs \
 			-nomake translations >$GV_log_file 2>&1
-		is_error "$?"
+		FU_is_error "$?"
 		
 	else
 		
@@ -192,14 +192,14 @@ EOF
 			-nomake demos \
 			-nomake docs \
 			-nomake translations >$GV_log_file 2>&1
-		is_error "$?"
+		FU_is_error "$?"
 	fi
 
-	build_make
+	FU_build_make
 	
-	su_build_install
+	su_FU_build_install
 
-	build_finishinstall
+	FU_build_finishinstall
 
 	cd $GV_base_dir
 else

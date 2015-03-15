@@ -6,7 +6,7 @@ DEPEND=()
 
 GV_args=()
 
-get_names_from_url
+FU_get_names_from_url
 
 echo -n "Build $GV_name:"
 
@@ -14,16 +14,16 @@ if ! [ -d "${GV_prefix}/include/crypto" ]; then
 	
 	echo
 	
-	get_download
-	extract_tar
+	FU_get_download
+	FU_extract_tar
 	
 	echo -n "Install ${GV_name}... "
 	cp -r "${GV_source_dir}/${GV_dir_name}/crypto" "${GV_prefix}/include/"
-	is_error "$?"
+	FU_is_error "$?"
 	
 	cd $GV_base_dir
 	
-	build_finishinstall
+	FU_FU_build_finishinstall
 else
 	echo " already installed"
 fi

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-system_require() {
+FU_system_require() {
 
 	# required software
 

@@ -9,12 +9,12 @@ DEPEND=(
 
 GV_args=()
 
-get_names_from_url
-installed "${GV_name}.pc"
+FU_get_names_from_url
+FU_installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
+	FU_get_download
+	FU_extract_tar
 
 	cd "${GV_source_dir}/${GV_dir_name}"
 
@@ -29,14 +29,14 @@ if [ $? == 1 ]; then
 		shared \
 		no-sse2 \
 		-DHAVE_CRYPTODEV >$GV_log_file 2>&1
-	is_error "$?"
+	FU_is_error "$?"
 
 	# Must be built with j1 otherwise it crashes!!!
-	build_make "-j1"
-	build_install
+	FU_build_make "-j1"
+	FU_build_install
 
 	cd $GV_base_dir
 	rm -rf "${UV_sysroot_dir}/ssl"
 	
-	build_finishinstall
+	FU_build_finishinstall
 fi

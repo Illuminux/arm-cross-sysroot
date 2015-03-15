@@ -20,18 +20,18 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-get_names_from_url
-installed "${GV_name}.pc"
+FU_get_names_from_url
+FU_installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
+	FU_get_download
+	FU_extract_tar
 	
 #	cd "${GV_source_dir}/${GV_dir_name}"
 #	echo -n "Patch ${GV_name}... "		
 #	patch -p1 < "${GV_base_dir}/patches/cairo.patch" >$GV_log_file 2>&1
-#	is_error "$?"
+#	FU_is_error "$?"
 #	cd $GV_base_dir
 	
-	build
+	FU_build
 fi

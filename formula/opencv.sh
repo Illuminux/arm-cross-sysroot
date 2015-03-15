@@ -18,8 +18,8 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-get_names_from_url
-installed "opencv.pc"
+FU_get_names_from_url
+FU_installed "opencv.pc"
 
 if [ $? == 1 ]; then
 	
@@ -29,7 +29,7 @@ if [ $? == 1 ]; then
 	if ! [ -d "$UV_download_dir" ]; then
 		echo -n "  Create Download dir... "
 		mkdir -p $UV_download_dir >$GV_log_file 2>&1
-		is_error "$?"
+		FU_is_error "$?"
 		echo "done"
 	fi
 	
@@ -38,7 +38,7 @@ if [ $? == 1 ]; then
 	echo -n "  Download ${GV_name}... "
 	if ! [ -d "${UV_download_dir}/${GV_dir_name}" ]; then
 		git clone $GV_url 2>&1
-		is_error "$?"
+		FU_is_error "$?"
 	else
 		echo "alredy loaded"
 	fi
@@ -46,7 +46,7 @@ if [ $? == 1 ]; then
 	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "  Create source dir... "
 		mkdir -p $GV_source_dir >$GV_log_file 2>&1
-		is_error "$?"
+		FU_is_error "$?"
 	fi
 	
 	echo -n "  Copy ${GV_name}... "
@@ -54,7 +54,7 @@ if [ $? == 1 ]; then
 		rm -rf "${GV_source_dir}/${GV_dir_name}"
 	fi
 	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
-	is_error "$?"
+	FU_is_error "$?"
 	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
 	
 	GCC_CROSS_COMPILER_GV_version=$($UV_target-gcc -dumpversion)
@@ -153,18 +153,18 @@ EOF
 	cmake \
 		-DCMAKE_TOOLCHAIN_FILE="${GV_source_dir}/${GV_dir_name}/platforms/linux/${UV_target}.toolchain.cmake" \
 			"${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
-	is_error "$?"
+	FU_is_error "$?"
 	
 	
 	echo -n "  Make ${GV_name}... "
 	make -j4 >$GV_log_file 2>&1
-	is_error "$?"
+	FU_is_error "$?"
 	
 	echo -n "  Install ${GV_name}... "
 	make install >$GV_log_file 2>&1
-	is_error "$?"
+	FU_is_error "$?"
 	
 	cd $GV_base_dir
 	
-	build_finishinstall
+	FU_build_finishinstall
 fi

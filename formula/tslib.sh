@@ -16,11 +16,11 @@ GV_args=(
 	"ac_cv_func_malloc_0_nonnull=yes"
 )
 
-get_names_from_url
-installed "tslib-0.0.pc"
+FU_get_names_from_url
+FU_installed "tslib-0.0.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	FU_get_download
+	FU_extract_tar
+	FU_build
 fi

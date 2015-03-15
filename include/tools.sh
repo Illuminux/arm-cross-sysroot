@@ -3,7 +3,7 @@
 ##
 ## Print error message and abort script
 ##
-is_error() {
+FU_is_error() {
 	
 	if [ "$1" == "0" ]; then
 		echo "donne"
@@ -21,17 +21,17 @@ is_error() {
 ##
 ## Get the tar name from GV_url
 ##
-get_names_from_url() {
+FU_get_names_from_url() {
 
 	GV_tar_name=${GV_url##*/}
-	get_names_from_dir_name $GV_tar_name
+	FU_get_names_from_dir_name $GV_tar_name
 }
 
 
 ##
 ## Get name, directory name, version and extension from tar name 
 ##
-get_names_from_dir_name() {
+FU_get_names_from_dir_name() {
 	
 	GV_dir_name=${1%.tar.*}
 	GV_name=${GV_dir_name%-*}
@@ -43,7 +43,7 @@ get_names_from_dir_name() {
 ##
 ## Test if formula already is installed 
 ##
-installed() {
+FU_installed() {
 	
 	echo -n "Build ${GV_name}:"
 	
@@ -63,7 +63,7 @@ installed() {
 }
 
 
-must_have_sudo() {
+FU_must_have_sudo() {
 
 	 echo "Cannot write into directory \"${UV_sysroot_dir}\"."
 	 echo "You can run the script by typing \"sudo $0\"."
@@ -71,28 +71,28 @@ must_have_sudo() {
 }
 
 
-access_rights() {
+FU_access_rights() {
 	
 	# test access rights for building the sysroot
 	if ! [ -d ${UV_sysroot_dir} ]; then
 		mkdir -p "${UV_sysroot_dir}" >/dev/null 2>&1 \
-			|| must_have_sudo
+			|| FU_must_have_sudo
 	else
 		touch "${UV_sysroot_dir}/access_test" >/dev/null 2>&1 \
 			&& rm -f "${UV_sysroot_dir}/access_test" \
-			|| must_have_sudo
+			|| FU_must_have_sudo
 	fi
 }
 
 
-print_usage() {
+FU_print_usage() {
 
 	echo "print help"
 	exit 0
 }
 
 
-parse_arguments() {
+FU_parse_arguments() {
 	
 	LV_argv=($@)
 
@@ -106,7 +106,7 @@ parse_arguments() {
 			("--make-show")
 				GV_make_show=true;;
 			("--help")
-				print_usage;;
+				FU_print_usage;;
 		esac
 	done
 
@@ -117,7 +117,7 @@ parse_arguments() {
 ## Mac OS X only:
 ## Create an case senitive disk image and mount it for building the sources
 ## 
-create_source_image(){
+FU_create_source_image(){
 	
 	# Create image if not exists 
 	echo -n "Create Case-Sensitive Disk Image for Sources... "
@@ -155,7 +155,7 @@ create_source_image(){
 ## Mac OS X only:
 ## Create an case senitive disk image and mount it for building the sources
 ## 
-create_sysroot_image(){
+FU_create_sysroot_image(){
 	
 	# Create image if not exists 
 	echo -n "Create Case-Sensitive Disk Image for Sysroot... "

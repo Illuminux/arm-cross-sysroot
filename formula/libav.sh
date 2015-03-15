@@ -39,11 +39,11 @@ else
 	GV_args+=("--disable-neon")
 fi
 
-get_names_from_url
-installed "libavutil.pc"
+FU_get_names_from_url
+FU_installed "libavutil.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	FU_get_download
+	FU_extract_tar
+	FU_build
 fi

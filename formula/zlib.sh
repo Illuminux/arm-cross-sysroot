@@ -4,14 +4,14 @@ GV_url="http://zlib.net/zlib-1.2.8.tar.gz"
 
 GV_args=()
 
-get_names_from_url
-installed "${GV_name}.pc"
+FU_get_names_from_url
+FU_installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 	export CGV_host=$UV_target
-	get_download
-	extract_tar
-	build
+	FU_get_download
+	FU_extract_tar
+	FU_build
 	unset CGV_host
 
 	cd $GV_base_dir

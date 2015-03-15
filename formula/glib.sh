@@ -31,13 +31,13 @@ GV_args=(
 	"ac_cv_func_posix_getgrgid_r=yes"
 )
 
-get_names_from_url
-installed "${GV_name}-2.0.pc"
+FU_get_names_from_url
+FU_installed "${GV_name}-2.0.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	FU_get_download
+	FU_extract_tar
+	FU_build
 fi
 
 export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/glib-2.0 -I${UV_sysroot_dir}/lib/glib-2.0/include"

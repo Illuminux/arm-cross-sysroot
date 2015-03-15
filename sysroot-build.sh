@@ -93,7 +93,7 @@ fi
 ##
 ## Parse the comandline arguments 
 ##
-parse_arguments $@
+FU_parse_arguments $@
 
 
 echo "Start to build an advanced sysroot for ${UV_board}."
@@ -103,17 +103,17 @@ echo
 ##
 ## test required software for host
 ##
-system_require
+FU_system_require
 
 ##
 ## Mac OS X needs an case sensitiv diskimage
 ##
 if [ $GV_build_os = "Darwin" ]; then 
-	create_source_image
-	create_sysroot_image
+	FU_create_source_image
+	FU_create_sysroot_image
 else
 	# test access rights for building the sysroot
-	access_rights
+	FU_access_rights
 fi
 
 

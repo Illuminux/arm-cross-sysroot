@@ -32,8 +32,8 @@ GV_args=(
 	"--datadir=${GV_base_dir}/tmp/share"
 )
 
-get_names_from_url
-installed "gstreamer-plugins-base-0.10.pc"
+FU_get_names_from_url
+FU_installed "gstreamer-plugins-base-0.10.pc"
 
 if [ $? == 1 ]; then
 	
@@ -44,9 +44,9 @@ if [ $? == 1 ]; then
 	TMP_LIBS=$LIBS
 	export LIBS="${LIBS} -lpthread -ldl -lXv -lXau -lXext -lX11 -lxcb"
 	
-	get_download
-	extract_tar
-	build
+	FU_get_download
+	FU_extract_tar
+	FU_build
 	
 	unset LIBS
 	export LIBS=$TMP_LIBS

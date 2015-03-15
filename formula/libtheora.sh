@@ -19,11 +19,11 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-get_names_from_url
-installed "theora.pc"
+FU_get_names_from_url
+FU_installed "theora.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build "-j1"
+	FU_get_download
+	FU_extract_tar
+	FU_build "-j1"
 fi

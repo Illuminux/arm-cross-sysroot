@@ -14,11 +14,11 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-get_names_from_url
-installed "json.pc"
+FU_get_names_from_url
+FU_installed "json.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	FU_get_download
+	FU_extract_tar
+	FU_build
 fi

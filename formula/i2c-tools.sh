@@ -16,13 +16,13 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-get_names_from_url
-installed "${GV_name}.pc"
+FU_get_names_from_url
+FU_installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 		
-	get_download
-	extract_tar
+	FU_get_download
+	FU_extract_tar
 	
 	cd "${GV_source_dir}/${GV_dir_name}"
 	
@@ -32,7 +32,7 @@ if [ $? == 1 ]; then
 		AR="${UV_target}-ar" \
 		RANLIB="${UV_target}-ranlib" \
 		prefix="${GV_prefix}" >$GV_log_file 2>&1
-	is_error "$?"
+	FU_is_error "$?"
 	
 	echo -n "Install ${GV_name}... "
 	make install \
@@ -40,14 +40,14 @@ if [ $? == 1 ]; then
 		AR="${UV_target}-ar" \
 		RANLIB="${UV_target}-ranlib" \
 		prefix="${GV_prefix}" >$GV_log_file 2>&1
-	is_error "$?"
+	FU_is_error "$?"
 	
 	cd $GV_base_dir
 	
 	rm -rf "${UV_sysroot_dir}/sbin"
 	rm -rf "${UV_sysroot_dir}/share"
 	
-	build_finishinstall
+	FU_build_finishinstall
 
 cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
 prefix=${GV_prefix}

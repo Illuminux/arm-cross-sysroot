@@ -16,19 +16,19 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-get_names_from_url
-installed "jpeg.pc"
+FU_get_names_from_url
+FU_installed "jpeg.pc"
 
 if [ $? == 1 ]; then
 	
-	get_download
-	extract_tar
+	FU_get_download
+	FU_extract_tar
 
 	GV_dir_name="jpeg-8d1"
 	GV_name=${GV_dir_name%-*}
 	GV_version=${GV_dir_name##$GV_name*-}
 	
-	build
+	FU_build
 
 cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
 prefix=${GV_prefix}

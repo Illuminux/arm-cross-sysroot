@@ -19,8 +19,8 @@ GV_args=(
 	"--without-gnome"
 )
 
-get_names_from_url
-installed "libsoup-2.4.pc"
+FU_get_names_from_url
+FU_installed "libsoup-2.4.pc"
 
 if [ $? == 1 ]; then
 	
@@ -28,9 +28,9 @@ if [ $? == 1 ]; then
 		mv "${UV_sysroot_dir}/bin/glib-genmarshal" "${UV_sysroot_dir}/bin/glib-genmarshal_bak"
 	fi
 	
-	get_download
-	extract_tar
-	build
+	FU_get_download
+	FU_extract_tar
+	FU_build
 
 	if [ -f "${UV_sysroot_dir}/bin/glib-genmarshal_bak" ]; then 
 		mv "${UV_sysroot_dir}/bin/glib-genmarshal_bak" "${UV_sysroot_dir}/bin/glib-genmarshal"
