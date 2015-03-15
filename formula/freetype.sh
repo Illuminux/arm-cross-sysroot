@@ -1,21 +1,21 @@
 #!/bin/bash
 
-URL="http://download.savannah.gnu.org/releases/freetype/freetype-2.4.9.tar.bz2"
+GV_url="http://download.savannah.gnu.org/releases/freetype/freetype-2.4.9.tar.bz2"
 
 DEPEND=(
 	"zlib"
 )
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
 	"--without-bzip2"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
@@ -27,6 +27,6 @@ if [ $? == 1 ]; then
 	build
 fi
 
-export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/freetype2"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/freetype2"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CPPFLAGS

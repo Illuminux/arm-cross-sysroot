@@ -1,19 +1,19 @@
 #!/bin/bash
 
-URL="https://github.com/Itseez/opencv.git"
+GV_url="https://github.com/Itseez/opencv.git"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--program-prefix=${UV_target}-"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
@@ -21,54 +21,54 @@ installed "opencv.pc"
 
 if [ $? == 1 ]; then
 	
-	DIR_NAME=${DIR_NAME%.*}
-	NAME=$DIR_NAME
+	GV_dir_name=${GV_dir_name%.*}
+	GV_name=$GV_dir_name
 	
-	if ! [ -d "$DOWNLOAD_DIR" ]; then
+	if ! [ -d "$UV_download_dir" ]; then
 		echo -n "  Create Download dir... "
-		mkdir -p $DOWNLOAD_DIR >$LOG_FILE 2>&1
+		mkdir -p $UV_download_dir >$GV_log_file 2>&1
 		is_error "$?"
 		echo "done"
 	fi
 	
-	cd $DOWNLOAD_DIR
+	cd $UV_download_dir
 	
-	echo -n "  Download ${NAME}... "
-	if ! [ -d "${DOWNLOAD_DIR}/${DIR_NAME}" ]; then
-		git clone $URL 2>&1
+	echo -n "  Download ${GV_name}... "
+	if ! [ -d "${UV_download_dir}/${GV_dir_name}" ]; then
+		git clone $GV_url 2>&1
 		is_error "$?"
 	else
 		echo "alredy loaded"
 	fi
 	
-	if ! [ -d "$SOURCE_DIR" ]; then
+	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "  Create source dir... "
-		mkdir -p $SOURCE_DIR >$LOG_FILE 2>&1
+		mkdir -p $GV_source_dir >$GV_log_file 2>&1
 		is_error "$?"
 	fi
 	
-	echo -n "  Copy ${NAME}... "
-	if [ -d "${SOURCE_DIR}/${DIR_NAME}" ]; then
-		rm -rf "${SOURCE_DIR}/${DIR_NAME}"
+	echo -n "  Copy ${GV_name}... "
+	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
+		rm -rf "${GV_source_dir}/${GV_dir_name}"
 	fi
-	cp -rf "${DOWNLOAD_DIR}/${DIR_NAME}" "${SOURCE_DIR}/${DIR_NAME}" >$LOG_FILE 2>&1
+	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
 	is_error "$?"
-	rm -rf "${SOURCE_DIR}/${DIR_NAME}/.git"
+	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
 	
-	GCC_CROSS_COMPILER_VERSION=$($TARGET-gcc -dumpversion)
+	GCC_CROSS_COMPILER_GV_version=$($UV_target-gcc -dumpversion)
 	
-cat > "${SOURCE_DIR}/${DIR_NAME}/platforms/linux/${TARGET}.toolchain.cmake" << EOF
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_VERSION 1)
+cat > "${GV_source_dir}/${GV_dir_name}/platforms/linux/${UV_target}.toolchain.cmake" << EOF
+set(CMAKE_SYSTEM_GV_name Linux)
+set(CMAKE_SYSTEM_GV_version 1)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
-set(GCC_COMPILER_VERSION "${GCC_CROSS_COMPILER_VERSION}" CACHE STRING "GCC Compiler version")
+set(GCC_COMPILER_GV_version "${GCC_CROSS_COMPILER_GV_version}" CACHE STRING "GCC Compiler version")
 
-set(CMAKE_INSTALL_PREFIX $SYSROOT_DIR)
+set(CMAKE_INSTALL_GV_prefix $UV_sysroot_dir)
 
-set(CMAKE_C_COMPILER    $TARGET-gcc)
-set(CMAKE_CXX_COMPILER  $TARGET-g++)
-set(ARM_LINUX_SYSROOT $TOOLCHAIN_DIR CACHE PATH "ARM cross compilation system root")
+set(CMAKE_C_COMPILER    $UV_target-gcc)
+set(CMAKE_CXX_COMPILER  $UV_target-g++)
+set(ARM_LINUX_SYSROOT $UV_toolchain_dir CACHE PATH "ARM cross compilation system root")
 
 set(CMAKE_CXX_FLAGS           ""                    CACHE STRING "c++ flags")
 set(CMAKE_C_FLAGS             ""                    CACHE STRING "c flags")
@@ -107,10 +107,10 @@ macro( find_host_program )
  set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER )
  set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER )
  set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER )
- if( CMAKE_HOST_WIN32 )
+ if( CMAKE_GV_host_WIN32 )
   SET( WIN32 1 )
   SET( UNIX )
- elseif( CMAKE_HOST_APPLE )
+ elseif( CMAKE_GV_host_APPLE )
   SET( APPLE 1 )
   SET( UNIX )
  endif()
@@ -128,10 +128,10 @@ macro( find_host_package )
  set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER )
  set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER )
  set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER )
- if( CMAKE_HOST_WIN32 )
+ if( CMAKE_GV_host_WIN32 )
   SET( WIN32 1 )
   SET( UNIX )
- elseif( CMAKE_HOST_APPLE )
+ elseif( CMAKE_GV_host_APPLE )
   SET( APPLE 1 )
   SET( UNIX )
  endif()
@@ -145,24 +145,24 @@ macro( find_host_package )
 endmacro()
 EOF
 	
-	echo -n "  Configure ${NAME}... "
-	mkdir -p "${SOURCE_DIR}/${DIR_NAME}/build"
-	cd "${SOURCE_DIR}/${DIR_NAME}/build"
+	echo -n "  Configure ${GV_name}... "
+	mkdir -p "${GV_source_dir}/${GV_dir_name}/build"
+	cd "${GV_source_dir}/${GV_dir_name}/build"
 	cmake \
-		-DCMAKE_TOOLCHAIN_FILE="${SOURCE_DIR}/${DIR_NAME}/platforms/linux/${TARGET}.toolchain.cmake" \
-			"${SOURCE_DIR}/${DIR_NAME}" >$LOG_FILE 2>&1
+		-DCMAKE_TOOLCHAIN_FILE="${GV_source_dir}/${GV_dir_name}/platforms/linux/${UV_target}.toolchain.cmake" \
+			"${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
 	is_error "$?"
 	
 	
-	echo -n "  Make ${NAME}... "
-	make -j4 >$LOG_FILE 2>&1
+	echo -n "  Make ${GV_name}... "
+	make -j4 >$GV_log_file 2>&1
 	is_error "$?"
 	
-	echo -n "  Install ${NAME}... "
-	make install >$LOG_FILE 2>&1
+	echo -n "  Install ${GV_name}... "
+	make install >$GV_log_file 2>&1
 	is_error "$?"
 	
-	cd $BASE_DIR
+	cd $GV_base_dir
 	
 	build_finishinstall
 fi

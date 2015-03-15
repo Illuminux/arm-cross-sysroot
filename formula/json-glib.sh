@@ -1,17 +1,17 @@
 #!/bin/bash
 
-URL="ftp://ftp.gnome.org/pub/gnome/sources/json-glib//0.14/json-glib-0.14.2.tar.xz"
+GV_url="ftp://ftp.gnome.org/pub/gnome/sources/json-glib//0.14/json-glib-0.14.2.tar.xz"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--sharedstatedir=${BASE_DIR}/tmp/com"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+GV_args=(
+	"--host=${GV_host}"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--sharedstatedir=${GV_base_dir}/tmp/com"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 	"--disable-glibtest"
 	"--disable-gtk-doc"
 	"--disable-nls"
@@ -22,16 +22,16 @@ installed "json-glib-1.0.pc"
 
 if [ $? == 1 ]; then
 	
-	if [ -f "${SYSROOT_DIR}/bin/glib-genmarshal" ]; then 
-		mv "${SYSROOT_DIR}/bin/glib-genmarshal" "${SYSROOT_DIR}/bin/glib-genmarshal_bak"
+	if [ -f "${UV_sysroot_dir}/bin/glib-genmarshal" ]; then 
+		mv "${UV_sysroot_dir}/bin/glib-genmarshal" "${UV_sysroot_dir}/bin/glib-genmarshal_bak"
 	fi
 	
 	get_download
 	extract_tar
 	build
 
-	if [ -f "${SYSROOT_DIR}/bin/glib-genmarshal_bak" ]; then 
-		mv "${SYSROOT_DIR}/bin/glib-genmarshal_bak" "${SYSROOT_DIR}/bin/glib-genmarshal"
+	if [ -f "${UV_sysroot_dir}/bin/glib-genmarshal_bak" ]; then 
+		mv "${UV_sysroot_dir}/bin/glib-genmarshal_bak" "${UV_sysroot_dir}/bin/glib-genmarshal"
 	fi
 
 fi

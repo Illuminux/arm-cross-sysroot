@@ -1,19 +1,19 @@
 #!/bin/bash
 
-URL="https://github.com/flavio/qjson.git"
+GV_url="https://github.com/flavio/qjson.git"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--program-prefix=${UV_target}-"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
@@ -21,66 +21,66 @@ installed "QJson.pc"
 
 if [ $? == 1 ]; then
 	
-	DIR_NAME=${DIR_NAME%.*}
-	NAME=$DIR_NAME
+	GV_dir_name=${GV_dir_name%.*}
+	GV_name=$GV_dir_name
 	
-	if ! [ -d "$DOWNLOAD_DIR" ]; then
+	if ! [ -d "$UV_download_dir" ]; then
 		echo -n "  Create Download dir... "
-		mkdir -p $DOWNLOAD_DIR >$LOG_FILE 2>&1
+		mkdir -p $UV_download_dir >$GV_log_file 2>&1
 		is_error "$?"
 		echo "done"
 	fi
 	
-	cd $DOWNLOAD_DIR
+	cd $UV_download_dir
 	
-	echo -n "  Download ${NAME}... "
-	if ! [ -d "${DOWNLOAD_DIR}/${DIR_NAME}" ]; then
-		git clone $URL 2>&1
+	echo -n "  Download ${GV_name}... "
+	if ! [ -d "${UV_download_dir}/${GV_dir_name}" ]; then
+		git clone $GV_url 2>&1
 		is_error "$?"
 	else
 		echo "alredy loaded"
 	fi
 	
-	if ! [ -d "$SOURCE_DIR" ]; then
+	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "  Create source dir... "
-		mkdir -p $SOURCE_DIR >$LOG_FILE 2>&1
+		mkdir -p $GV_source_dir >$GV_log_file 2>&1
 		is_error "$?"
 	fi
 	
-	echo -n "  Copy ${NAME}... "
-	if [ -d "${SOURCE_DIR}/${DIR_NAME}" ]; then
-		rm -rf "${SOURCE_DIR}/${DIR_NAME}"
+	echo -n "  Copy ${GV_name}... "
+	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
+		rm -rf "${GV_source_dir}/${GV_dir_name}"
 	fi
-	cp -rf "${DOWNLOAD_DIR}/${DIR_NAME}" "${SOURCE_DIR}/${DIR_NAME}" >$LOG_FILE 2>&1
+	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
 	is_error "$?"
-	rm -rf "${SOURCE_DIR}/${DIR_NAME}/.git"
+	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
 	
 	
-	echo -n "  Configure ${NAME}... "
-	mkdir -p "${SOURCE_DIR}/${DIR_NAME}/build"
-	cd "${SOURCE_DIR}/${DIR_NAME}/build"
+	echo -n "  Configure ${GV_name}... "
+	mkdir -p "${GV_source_dir}/${GV_dir_name}/build"
+	cd "${GV_source_dir}/${GV_dir_name}/build"
 	cmake \
-		-DCMAKE_SYSTEM_NAME="Linux" \
-		-DCMAKE_SYSTEM_VERSION=1 \
+		-DCMAKE_SYSTEM_GV_name="Linux" \
+		-DCMAKE_SYSTEM_GV_version=1 \
 		-DCMAKE_SYSTEM_PROCESSOR="arm" \
-		-DCMAKE_C_COMPILER="$TARGET-gcc" \
-		-DCMAKE_CXX_COMPILER="$TARGET-g++" \
-		-DCMAKE_FIND_ROOT_PATH="${CMAKE_FIND_ROOT_PATH} $TOOLCHAIN_DIR" \
-		-DCMAKE_INSTALL_PREFIX="$SYSROOT_DIR" \
-		-DQT_QMAKE_EXECUTABLE="/usr/local/Trolltech/Qt-4.8.6-${BOARD}/bin/qmake" \
-			"${SOURCE_DIR}/${DIR_NAME}" >$LOG_FILE 2>&1
+		-DCMAKE_C_COMPILER="$UV_target-gcc" \
+		-DCMAKE_CXX_COMPILER="$UV_target-g++" \
+		-DCMAKE_FIND_ROOT_PATH="${CMAKE_FIND_ROOT_PATH} $UV_toolchain_dir" \
+		-DCMAKE_INSTALL_GV_prefix="$UV_sysroot_dir" \
+		-DQT_QMAKE_EXECUTABLE="/usr/local/Trolltech/Qt-4.8.6-${UV_board}/bin/qmake" \
+			"${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
 	is_error "$?"
 	
 	
-	echo -n "  Make ${NAME}... "
-	make -j4 $LOG_FILE 2>&1
+	echo -n "  Make ${GV_name}... "
+	make -j4 $GV_log_file 2>&1
 	is_error "$?"
 	
-	echo -n "  Install ${NAME}... "
-	make install >$LOG_FILE 2>&1
+	echo -n "  Install ${GV_name}... "
+	make install >$GV_log_file 2>&1
 	is_error "$?"
 	
-	cd $BASE_DIR
+	cd $GV_base_dir
 	
 	build_finishinstall
 fi

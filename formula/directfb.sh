@@ -1,20 +1,20 @@
 #!/bin/bash
 
-URL="http://directfb.org/downloads/Core/DirectFB-1.2/DirectFB-1.2.10.tar.gz"
+GV_url="http://directfb.org/downloads/Core/DirectFB-1.2/DirectFB-1.2.10.tar.gz"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir==${BASE_DIR}/tmp/sbin"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
+	"--program-prefix=${UV_target}-"
+	"--sbindir==${GV_base_dir}/tmp/sbin"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
 	"--enable-zlibu"
 	"--disable-voodoo"
 	"--disable-mmx"
@@ -28,14 +28,14 @@ installed "directfb.pc"
 if [ $? == 1 ]; then
 	
 	TMP_LDFLAGS=$LDFLAGS
-	export LDFLAGS="${LDFLAGS} -L${SYSROOT_DIR}/lib/ts"
+	export LDFLAGS="${LDFLAGS} -L${UV_sysroot_dir}/lib/ts"
 	
 	get_download
 	extract_tar
 	
-	echo -n "Patch ${NAME}... "
-	patch "${SOURCE_DIR}/${DIR_NAME}/gfxdrivers/davinci/davinci_c64x.c" \
-		< "${BASE_DIR}/patches/directfb_davinci.patch" >$LOG_FILE 2>&1
+	echo -n "Patch ${GV_name}... "
+	patch "${GV_source_dir}/${GV_dir_name}/gfxdrivers/davinci/davinci_c64x.c" \
+		< "${GV_base_dir}/patches/directfb_davinci.patch" >$GV_log_file 2>&1
 	is_error "$?"
 	
 	build

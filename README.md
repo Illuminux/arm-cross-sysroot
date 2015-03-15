@@ -14,10 +14,10 @@ Change into the *arm-cross-sysroot* directory and copy/rename the file *[config.
 
 Open *config.cfg* with an editor of your choice and and customize it according to your system.
 
-- `SYSROOT_DIR` Directory in which the sysroot should be installed.
-- `DOWNLOAD_DIR` Directory in which the downloads are to be loaded
-- `TOOLCHAIN_DIR` Directory where the toolchain is located (exclude bin directory)
-- `TARGET` Target architecture/Tollchain prefix  
+- `UV_sysroot_dir` Directory in which the sysroot should be installed.
+- `UV_download_dir` Directory in which the downloads are to be loaded
+- `UV_toolchain_dir` Directory where the toolchain is located (exclude bin directory)
+- `UV_target` Target architecture/Tollchain prefix  
 
 To build the cross sysroot just run the following command:
 

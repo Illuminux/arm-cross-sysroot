@@ -26,13 +26,15 @@ clear
 ##
 ## Working directory of the Script
 ##
-BASE_DIR=`pwd`
-TOTAL_START=`date +%s`
+GV_base_dir=$(pwd)
+
+## Build start time
+GV_total_start=$(date +%s)
 
 ##
 ## check if config.cfg exists or exit
 ##
-if ! [ -f "${BASE_DIR}/config.cfg" ]; then
+if ! [ -f "${GV_base_dir}/config.cfg" ]; then
 	
 	echo "Error: The configuration file could not be found!"
 	echo 
@@ -48,18 +50,18 @@ fi
 ##
 ## Includ library and configuration files 
 ##
-source "${BASE_DIR}/config.cfg"
-source "${BASE_DIR}/include/settings.cfg"
-source "${BASE_DIR}/include/system.sh"
-source "${BASE_DIR}/include/tools.sh"
-source "${BASE_DIR}/include/files.sh"
-source "${BASE_DIR}/include/build.sh"
+source "${GV_base_dir}/config.cfg"
+source "${GV_base_dir}/include/settings.cfg"
+source "${GV_base_dir}/include/system.sh"
+source "${GV_base_dir}/include/tools.sh"
+source "${GV_base_dir}/include/files.sh"
+source "${GV_base_dir}/include/build.sh"
 
 
 ##
 ## Chcke if a sysroot olready exists (Mac only)
 ##
-if [ -f "${SYSROOT_DIR}/.directory" ]; then
+if [ -f "${UV_sysroot_dir}/.directory" ]; then
 	
 	while true; do
 		echo "The root directory already exists."
@@ -67,20 +69,22 @@ if [ -f "${SYSROOT_DIR}/.directory" ]; then
 		echo "If the image is not deleted or changed since the last run, you can press continued."
 		echo "Otherwise, the entire root must be recreated."
 		echo
-		read -p "Continue or abbort the script [C/a]: " Ca
+		read -p "Continue or abbort the script [C/a]: " LV_key
 		
-		Ca=${Ca:-C}
+		LV_key=${Ca:-C}
 		
-		case $Ca in
+		case $LV_key in
 			
 			[Cc]* ) 
-				rm -rf ${SYSROOT_DIR}
+				rm -rf ${UV_sysroot_dir}
 				break;;
 			
 			[Aa]* ) clear; exit 0;;
 			
 		esac
 	done
+	
+	unset LV_key
 fi
 
 ##
@@ -89,7 +93,7 @@ fi
 parse_arguments $@
 
 
-echo "Start to build an advanced sysroot for ${BOARD}."
+echo "Start to build an advanced sysroot for ${UV_board}."
 echo
 
 
@@ -113,14 +117,14 @@ fi
 ##
 ## Build and Version information
 ##
-if ! [ -f "${SYSROOT_DIR}/buildinfo.txt" ]; then
-	touch "${SYSROOT_DIR}/buildinfo.txt"
+if ! [ -f "${UV_sysroot_dir}/buildinfo.txt" ]; then
+	touch "${UV_sysroot_dir}/buildinfo.txt"
 else
-	echo >> "${SYSROOT_DIR}/buildinfo.txt"
-	echo "*** Rebuild ***" >> "${SYSROOT_DIR}/buildinfo.txt"
-	echo >> "${SYSROOT_DIR}/buildinfo.txt"
+	echo >> "${UV_sysroot_dir}/buildinfo.txt"
+	echo "*** Rebuild ***" >> "${UV_sysroot_dir}/buildinfo.txt"
+	echo >> "${UV_sysroot_dir}/buildinfo.txt"
 fi
-cat >> "${SYSROOT_DIR}/buildinfo.txt" << EOF
+cat >> "${UV_sysroot_dir}/buildinfo.txt" << EOF
 Script Version: 1.0.3
 Script Date:	20 Nov 2014
 Build Date:		$(date)
@@ -134,131 +138,131 @@ EOF
 ##
 ## Make sure that we are still in working directory 
 ##
-cd $BASE_DIR
+cd $GV_base_dir
 
 
 ##
 ## Execute all formulas. The scripts have to be processed in this sequence!
 ##
-source "${BASE_DIR}/formula/zlib.sh"
-source "${BASE_DIR}/formula/bzip2.sh"
-source "${BASE_DIR}/formula/liblzma.sh"
-source "${BASE_DIR}/formula/libffi.sh"
-source "${BASE_DIR}/formula/expat.sh"
-source "${BASE_DIR}/formula/tslib.sh"
-source "${BASE_DIR}/formula/glib.sh"
-source "${BASE_DIR}/formula/dbus.sh"
-source "${BASE_DIR}/formula/gsl.sh"
-source "${BASE_DIR}/formula/gmp.sh"
-source "${BASE_DIR}/formula/mpfr.sh"
-source "${BASE_DIR}/formula/ncurses.sh"
-source "${BASE_DIR}/formula/readline.sh"
-source "${BASE_DIR}/formula/sqlite.sh"
-source "${BASE_DIR}/formula/cryptodev.sh"
-source "${BASE_DIR}/formula/openssl.sh"
-source "${BASE_DIR}/formula/libssh2.sh"
-source "${BASE_DIR}/formula/curl.sh"
-source "${BASE_DIR}/formula/libxml2.sh"
-source "${BASE_DIR}/formula/gstreamer.sh"
-source "${BASE_DIR}/formula/libjpeg.sh"
-source "${BASE_DIR}/formula/libpng.sh"
-source "${BASE_DIR}/formula/libtiff.sh"
-source "${BASE_DIR}/formula/lcms2.sh"
-source "${BASE_DIR}/formula/libraw.sh"
-source "${BASE_DIR}/formula/alsa-lib.sh"
-source "${BASE_DIR}/formula/libogg.sh"
-source "${BASE_DIR}/formula/libvorbis.sh"
-source "${BASE_DIR}/formula/libtheora.sh"
-source "${BASE_DIR}/formula/libvisual.sh"
-source "${BASE_DIR}/formula/liborc.sh"
-source "${BASE_DIR}/formula/pixman.sh"
-source "${BASE_DIR}/formula/util-macros.sh"
-source "${BASE_DIR}/formula/xtrans.sh"
-source "${BASE_DIR}/formula/xproto.sh"
-source "${BASE_DIR}/formula/xextproto.sh"
-source "${BASE_DIR}/formula/inputproto.sh"
-source "${BASE_DIR}/formula/xcb-proto.sh"
-source "${BASE_DIR}/formula/libpthread-stubs.sh"
-source "${BASE_DIR}/formula/libXau.sh"
-source "${BASE_DIR}/formula/libgpg-error.sh"
-source "${BASE_DIR}/formula/libgcrypt.sh"
-source "${BASE_DIR}/formula/libxslt.sh"
-source "${BASE_DIR}/formula/libxcb.sh"
-source "${BASE_DIR}/formula/videoproto.sh"
-source "${BASE_DIR}/formula/kbproto.sh"
-source "${BASE_DIR}/formula/freetype.sh"
-source "${BASE_DIR}/formula/fontconfig.sh"
-source "${BASE_DIR}/formula/libX11.sh"
-source "${BASE_DIR}/formula/libXext.sh"
-source "${BASE_DIR}/formula/libXv.sh"
-source "${BASE_DIR}/formula/directfb.sh"
-source "${BASE_DIR}/formula/qt.sh"
-source "${BASE_DIR}/formula/qjson.sh"
-source "${BASE_DIR}/formula/cairo.sh"
-source "${BASE_DIR}/formula/gst-plugins-base.sh"
-source "${BASE_DIR}/formula/wavpack.sh"
+source "${GV_base_dir}/formula/zlib.sh"
+source "${GV_base_dir}/formula/bzip2.sh"
+source "${GV_base_dir}/formula/liblzma.sh"
+source "${GV_base_dir}/formula/libffi.sh"
+source "${GV_base_dir}/formula/expat.sh"
+source "${GV_base_dir}/formula/tslib.sh"
+source "${GV_base_dir}/formula/glib.sh"
+source "${GV_base_dir}/formula/dbus.sh"
+source "${GV_base_dir}/formula/gsl.sh"
+source "${GV_base_dir}/formula/gmp.sh"
+source "${GV_base_dir}/formula/mpfr.sh"
+source "${GV_base_dir}/formula/ncurses.sh"
+source "${GV_base_dir}/formula/readline.sh"
+source "${GV_base_dir}/formula/sqlite.sh"
+source "${GV_base_dir}/formula/cryptodev.sh"
+source "${GV_base_dir}/formula/openssl.sh"
+source "${GV_base_dir}/formula/libssh2.sh"
+source "${GV_base_dir}/formula/curl.sh"
+source "${GV_base_dir}/formula/libxml2.sh"
+source "${GV_base_dir}/formula/gstreamer.sh"
+source "${GV_base_dir}/formula/libjpeg.sh"
+source "${GV_base_dir}/formula/libpng.sh"
+source "${GV_base_dir}/formula/libtiff.sh"
+source "${GV_base_dir}/formula/lcms2.sh"
+source "${GV_base_dir}/formula/libraw.sh"
+source "${GV_base_dir}/formula/alsa-lib.sh"
+source "${GV_base_dir}/formula/libogg.sh"
+source "${GV_base_dir}/formula/libvorbis.sh"
+source "${GV_base_dir}/formula/libtheora.sh"
+source "${GV_base_dir}/formula/libvisual.sh"
+source "${GV_base_dir}/formula/liborc.sh"
+source "${GV_base_dir}/formula/pixman.sh"
+source "${GV_base_dir}/formula/util-macros.sh"
+source "${GV_base_dir}/formula/xtrans.sh"
+source "${GV_base_dir}/formula/xproto.sh"
+source "${GV_base_dir}/formula/xextproto.sh"
+source "${GV_base_dir}/formula/inputproto.sh"
+source "${GV_base_dir}/formula/xcb-proto.sh"
+source "${GV_base_dir}/formula/libpthread-stubs.sh"
+source "${GV_base_dir}/formula/libXau.sh"
+source "${GV_base_dir}/formula/libgpg-error.sh"
+source "${GV_base_dir}/formula/libgcrypt.sh"
+source "${GV_base_dir}/formula/libxslt.sh"
+source "${GV_base_dir}/formula/libxcb.sh"
+source "${GV_base_dir}/formula/videoproto.sh"
+source "${GV_base_dir}/formula/kbproto.sh"
+source "${GV_base_dir}/formula/freetype.sh"
+source "${GV_base_dir}/formula/fontconfig.sh"
+source "${GV_base_dir}/formula/libX11.sh"
+source "${GV_base_dir}/formula/libXext.sh"
+source "${GV_base_dir}/formula/libXv.sh"
+source "${GV_base_dir}/formula/directfb.sh"
+source "${GV_base_dir}/formula/qt.sh"
+source "${GV_base_dir}/formula/qjson.sh"
+source "${GV_base_dir}/formula/cairo.sh"
+source "${GV_base_dir}/formula/gst-plugins-base.sh"
+source "${GV_base_dir}/formula/wavpack.sh"
 
 if [ $(uname -s) = "Linux" ]; then
-	source "${BASE_DIR}/formula/taglib.sh"
+	source "${GV_base_dir}/formula/taglib.sh"
 fi
 
-source "${BASE_DIR}/formula/libx264.sh"
-source "${BASE_DIR}/formula/libav.sh"
-source "${BASE_DIR}/formula/gst-plugins-good.sh"
-source "${BASE_DIR}/formula/i2c-tools.sh"
-source "${BASE_DIR}/formula/bluez.sh"
-source "${BASE_DIR}/formula/libmodbus.sh"
-source "${BASE_DIR}/formula/liblqr.sh"
-source "${BASE_DIR}/formula/imagemagick.sh"
-source "${BASE_DIR}/formula/libconfig.sh"
+source "${GV_base_dir}/formula/libx264.sh"
+source "${GV_base_dir}/formula/libav.sh"
+source "${GV_base_dir}/formula/gst-plugins-good.sh"
+source "${GV_base_dir}/formula/i2c-tools.sh"
+source "${GV_base_dir}/formula/bluez.sh"
+source "${GV_base_dir}/formula/libmodbus.sh"
+source "${GV_base_dir}/formula/liblqr.sh"
+source "${GV_base_dir}/formula/imagemagick.sh"
+source "${GV_base_dir}/formula/libconfig.sh"
 # cmake sucks
-#if ! [ "${BOARD}" == "raspi" ]; then
-#	source "${BASE_DIR}/formula/opencv.sh"
+#if ! [ "${UV_board}" == "raspi" ]; then
+#	source "${GV_base_dir}/formula/opencv.sh"
 #fi
-source "${BASE_DIR}/formula/libusb.sh"
+source "${GV_base_dir}/formula/libusb.sh"
 
-if [ "${BOARD}" == "raspi" ]; then
-	source "${BASE_DIR}/formula/wiringpi.sh"
+if [ "${UV_board}" == "raspi" ]; then
+	source "${GV_base_dir}/formula/wiringpi.sh"
 fi
 
-if [ "${BOARD}" == "beaglebone" ]; then
-	source "${BASE_DIR}/formula/blacklib.sh"
+if [ "${UV_board}" == "beaglebone" ]; then
+	source "${GV_base_dir}/formula/blacklib.sh"
 fi
 
-source "${BASE_DIR}/formula/json-glib.sh"
-source "${BASE_DIR}/formula/libsoup.sh"
+source "${GV_base_dir}/formula/json-glib.sh"
+source "${GV_base_dir}/formula/libsoup.sh"
 
 echo "Cleanup build directory."
-rm -rf "${BASE_DIR}/tmp"
+rm -rf "${GV_base_dir}/tmp"
 
 if [ $(uname -s) = "Darwin" ]; then 
 	echo -n "Unmount source image... " 
-	hdiutil detach $SOURCE_DIR >/dev/null 2>&1 || exit 1
-	rm -rf "${BASE_DIR}/sources.sparseimage"
+	hdiutil detach $GV_source_dir >/dev/null 2>&1 || exit 1
+	rm -rf "${GV_base_dir}/sources.sparseimage"
 	echo "done"
 	
 	echo -n "Move sysroot into a local directory... " 
-	mkdir -p "${SYSROOT_DIR}_tmp"
-	cp -RP "${SYSROOT_DIR}/lib" "${SYSROOT_DIR}_tmp/lib"
-	cp -RP "${SYSROOT_DIR}/include" "${SYSROOT_DIR}_tmp/include"
-	cp "${SYSROOT_DIR}/buildinfo.txt" "${SYSROOT_DIR}_tmp/buildinfo.txt"
+	mkdir -p "${UV_sysroot_dir}_tmp"
+	cp -RP "${UV_sysroot_dir}/lib" "${UV_sysroot_dir}_tmp/lib"
+	cp -RP "${UV_sysroot_dir}/include" "${UV_sysroot_dir}_tmp/include"
+	cp "${UV_sysroot_dir}/buildinfo.txt" "${UV_sysroot_dir}_tmp/buildinfo.txt"
 	echo "done"
 	
 	echo -n "Unmount sysroot image... " 
-	hdiutil detach $SYSROOT_DIR >/dev/null 2>&1 || exit 1
-	mv "${SYSROOT_DIR}_tmp" "${SYSROOT_DIR}"
-	touch "${SYSROOT_DIR}/.directory"
+	hdiutil detach $UV_sysroot_dir >/dev/null 2>&1 || exit 1
+	mv "${UV_sysroot_dir}_tmp" "${UV_sysroot_dir}"
+	touch "${UV_sysroot_dir}/.directory"
 	echo "done"
 	echo 
 	echo "Caution: Do not delete or remove the sysroot.sparseimage!"
 	echo "         It will be needed for rebuilding the sysroot!"
 	echo
 else
-	rm -rf "${BASE_DIR}/src"
+	rm -rf "${GV_base_dir}/src"
 fi
 
 TOTAL_END=`date +%s`
-TOTAL_TIME=`expr $TOTAL_END - $TOTAL_START`
+TOTAL_TIME=`expr $TOTAL_END - $GV_total_start`
 
 if [ $(uname -s) = "Darwin" ]; then 
 	AWK=gawk
@@ -266,8 +270,8 @@ else
 	AWK=awk
 fi
 
-echo "" >> "${SYSROOT_DIR}/buildinfo.txt"
-echo -n "Sysroot successfully build in " >> "${SYSROOT_DIR}/buildinfo.txt"
-echo $TOTAL_TIME | $AWK '{print strftime("%H:%M:%S", $1,1)}' >> "${SYSROOT_DIR}/buildinfo.txt"
+echo "" >> "${UV_sysroot_dir}/buildinfo.txt"
+echo -n "Sysroot successfully build in " >> "${UV_sysroot_dir}/buildinfo.txt"
+echo $TOTAL_TIME | $AWK '{print strftime("%H:%M:%S", $1,1)}' >> "${UV_sysroot_dir}/buildinfo.txt"
 echo -n "Sysroot successfully build in " 
 echo $TOTAL_TIME | $AWK '{print strftime("%H:%M:%S", $1,1)}'

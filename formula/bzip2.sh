@@ -1,56 +1,56 @@
 #!/bin/bash
 
-URL="http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz"
+GV_url="http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz"
 
-ARGS=()
+GV_args=()
 
 get_names_from_url
-installed "${NAME}.pc"
+installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 	get_download
 	extract_tar
 	
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	cd "${GV_source_dir}/${GV_dir_name}"
 	
-	echo -n "Make ${NAME}... "
+	echo -n "Make ${GV_name}... "
 
 	make -f Makefile-libbz2_so \
-		CC="${TARGET}-gcc" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" >$LOG_FILE 2>&1
+		CC="${UV_target}-gcc" \
+		AR="${UV_target}-ar" \
+		RANLIB="${UV_target}-ranlib" >$GV_log_file 2>&1
 	is_error "$?"
 
-	echo -n "Install ${NAME}... "
+	echo -n "Install ${GV_name}... "
 
-	cp -av libbz2.so* "${SYSROOT_DIR}/lib" >/dev/null
+	cp -av libbz2.so* "${UV_sysroot_dir}/lib" >/dev/null
 
 	make install \
-		CC="${TARGET}-gcc" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" \
-		PREFIX="${SYSROOT_DIR}" >$LOG_FILE 2>&1
+		CC="${UV_target}-gcc" \
+		AR="${UV_target}-ar" \
+		RANLIB="${UV_target}-ranlib" \
+		GV_prefix="${UV_sysroot_dir}" >$GV_log_file 2>&1
 	is_error "$?"
 	
-	cd $BASE_DIR
-	rm -rf "${SYSROOT_DIR}/man"
-	mv "${SYSROOT_DIR}/bin/bunzip2" "${SYSROOT_DIR}/bin/${TARGET}-bunzip2"
-	mv "${SYSROOT_DIR}/bin/bzcat" "${SYSROOT_DIR}/bin/${TARGET}-bzcat"
-	mv "${SYSROOT_DIR}/bin/bzip2" "${SYSROOT_DIR}/bin/${TARGET}-bzip2"
-	mv "${SYSROOT_DIR}/bin/bzip2recover" "${SYSROOT_DIR}/bin/${TARGET}-bzip2recover"
+	cd $GV_base_dir
+	rm -rf "${UV_sysroot_dir}/man"
+	mv "${UV_sysroot_dir}/bin/bunzip2" "${UV_sysroot_dir}/bin/${UV_target}-bunzip2"
+	mv "${UV_sysroot_dir}/bin/bzcat" "${UV_sysroot_dir}/bin/${UV_target}-bzcat"
+	mv "${UV_sysroot_dir}/bin/bzip2" "${UV_sysroot_dir}/bin/${UV_target}-bzip2"
+	mv "${UV_sysroot_dir}/bin/bzip2recover" "${UV_sysroot_dir}/bin/${UV_target}-bzip2recover"
 	
 	build_finishinstall
 
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
+cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
+prefix=${GV_prefix}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}
 includedir=\${prefix}/include
 
-Name: ${NAME}
+Name: ${GV_name}
 Description: bz2 compression library
-Version: ${VERSION}
+Version: ${GV_version}
 
 Requires:
 Libs: -L\${libdir} -L\${sharedlibdir} -lbz2

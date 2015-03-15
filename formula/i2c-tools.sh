@@ -1,64 +1,64 @@
 #!/bin/bash
 
-URL="http://dl.lm-sensors.org/i2c-tools/releases/i2c-tools-3.1.1.tar.bz2"
+GV_url="http://dl.lm-sensors.org/i2c-tools/releases/i2c-tools-3.1.1.tar.bz2"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--program-prefix=${UV_target}-"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
-installed "${NAME}.pc"
+installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 		
 	get_download
 	extract_tar
 	
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	cd "${GV_source_dir}/${GV_dir_name}"
 	
-	echo -n "Make ${NAME}... "
+	echo -n "Make ${GV_name}... "
 	make -j4 \
-		CC="${TARGET}-gcc" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" \
-		prefix="${PREFIX}" >$LOG_FILE 2>&1
+		CC="${UV_target}-gcc" \
+		AR="${UV_target}-ar" \
+		RANLIB="${UV_target}-ranlib" \
+		prefix="${GV_prefix}" >$GV_log_file 2>&1
 	is_error "$?"
 	
-	echo -n "Install ${NAME}... "
+	echo -n "Install ${GV_name}... "
 	make install \
-		CC="${TARGET}-gcc" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" \
-		prefix="${PREFIX}" >$LOG_FILE 2>&1
+		CC="${UV_target}-gcc" \
+		AR="${UV_target}-ar" \
+		RANLIB="${UV_target}-ranlib" \
+		prefix="${GV_prefix}" >$GV_log_file 2>&1
 	is_error "$?"
 	
-	cd $BASE_DIR
+	cd $GV_base_dir
 	
-	rm -rf "${SYSROOT_DIR}/sbin"
-	rm -rf "${SYSROOT_DIR}/share"
+	rm -rf "${UV_sysroot_dir}/sbin"
+	rm -rf "${UV_sysroot_dir}/share"
 	
 	build_finishinstall
 
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
+cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
+prefix=${GV_prefix}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}
 includedir=\${prefix}/include/linux
 
-Name: ${NAME}
+Name: ${GV_name}
 Description: I2C Tools libraries
-Version: ${VERSION}
+Version: ${GV_version}
 
 Requires:
 Libs: -L\${libdir}

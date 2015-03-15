@@ -1,19 +1,19 @@
 #!/bin/bash
 
-URL="http://zlib.net/zlib-1.2.8.tar.gz"
+GV_url="http://zlib.net/zlib-1.2.8.tar.gz"
 
-ARGS=()
+GV_args=()
 
 get_names_from_url
-installed "${NAME}.pc"
+installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
-	export CHOST=$TARGET
+	export CGV_host=$UV_target
 	get_download
 	extract_tar
 	build
-	unset CHOST
+	unset CGV_host
 
-	cd $BASE_DIR
-	rm -rf "$SYSROOT_DIR/share"
+	cd $GV_base_dir
+	rm -rf "$UV_sysroot_dir/share"
 fi

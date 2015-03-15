@@ -1,29 +1,29 @@
 #!/bin/bash
 
-URL="http://www.kernel.org/pub/linux/bluetooth/bluez-5.18.tar.xz"
+GV_url="http://www.kernel.org/pub/linux/bluetooth/bluez-5.18.tar.xz"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
+	"--program-prefix=${UV_target}-"
 	"--enable-threads"
 	"--enable-library"
 	"--disable-udev"
 	"--disable-cups"
 	"--disable-obex"
 	"--disable-systemd"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
-installed "${NAME}.pc"
+installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 	
@@ -37,16 +37,16 @@ if [ $? == 1 ]; then
 	unset LIBS
 	export LIBS=$TMP_LIBS
 			
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
+cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
+prefix=${GV_prefix}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}
 includedir=\${prefix}/include
 
-Name: ${NAME}
+Name: ${GV_name}
 Description: Bluetooth library
-Version: ${VERSION}
+Version: ${GV_version}
 
 Requires:
 Libs: -L\${libdir} -L\${sharedlibdir} -lbluetooth

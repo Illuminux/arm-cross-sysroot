@@ -10,11 +10,7 @@ build() {
 		build_make
 	fi
 	
-	if [ "${BUILD_AS_ROOT}" = true ]; then
-		su_build_install
-	else
-		build_install
-	fi
+	build_install
 	
 	build_finishinstall
 }
@@ -22,93 +18,97 @@ build() {
 
 build_autogen() {
 	
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	cd "${GV_source_dir}/${GV_dir_name}"
 	
-	if ! [ -f "${SOURCE_DIR}/${DIR_NAME}/configure" ]; then
-		echo -n "Autogen ${NAME}... "
-		./autogen.sh >$LOG_FILE 2>&1
+	if ! [ -f "${GV_source_dir}/${GV_dir_name}/configure" ]; then
+		echo -n "Autogen ${GV_name}... "
+		./autogen.sh >$GV_log_file 2>&1
 		is_error "$?"
 	fi
 	
-	cd $BASE_DIR
+	cd $GV_base_dir
 }
 
 
 build_configure() {
 
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	cd "${GV_source_dir}/${GV_dir_name}"
 	
-	echo -n "Configure ${NAME}... "
-	if [ "$ARG_CONF_HELP" == true ]; then
+	echo -n "Configure ${GV_name}... "
+	if [ "$GV_conf_help" == true ]; then
 		./configure --help
 		exit
-	elif [ "$ARG_CONF_SHOW" == true ]; then
-		echo "" >$LOG_FILE 2>&1
-		./configure --prefix="${SYSROOT_DIR}" ${ARGS[@]} 2>&1
+	elif [ "$GV_conf_show" == true ]; then
+		echo "" >$GV_log_file 2>&1
+		./configure --prefix="${UV_sysroot_dir}" ${GV_args[@]} 2>&1
 		is_error "$?"
 	else
-		./configure --prefix="${SYSROOT_DIR}" ${ARGS[@]} >$LOG_FILE 2>&1
+		./configure --prefix="${UV_sysroot_dir}" ${GV_args[@]} >$GV_log_file 2>&1
 		is_error "$?"
 	fi
 
-	cd $BASE_DIR
+	cd $GV_base_dir
 }
 
 
 build_make() {
 	
 	if [ "${#}" -eq 0 ]; then 
-		MAKE_PARA="-j4"
+		LV_make_args="-j4"
 	else
-		MAKE_PARA=$@
+		LV_make_args=$@
 	fi
 
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	cd "${GV_source_dir}/${GV_dir_name}"
 
-	echo -n "Make ${NAME}... "
-	if [ "$ARG_MAKE_SHOW" == true ]; then
-		make $MAKE_PARA 2>&1
+	echo -n "Make ${GV_name}... "
+	if [ "$GV_make_show" == true ]; then
+		make $LV_make_args 2>&1
 		is_error "$?"		
 	else
-		make $MAKE_PARA >$LOG_FILE 2>&1
+		make $LV_make_args >$GV_log_file 2>&1
 		is_error "$?"
 	fi
 
-	cd $BASE_DIR
+	cd $GV_base_dir
+	
+	unset LV_make_args
 }
 
 
 build_install() {
 
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	cd "${GV_source_dir}/${GV_dir_name}"
 	
-	echo -n "Install ${NAME}... "
-	make install >$LOG_FILE 2>&1
+	echo -n "Install ${GV_name}... "
+	make install >$GV_log_file 2>&1
 	is_error "$?"
 
-	cd $BASE_DIR
+	cd $GV_base_dir
 }
 
 
 su_build_install() {
 
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	cd "${GV_source_dir}/${GV_dir_name}"
 	
-	echo -n "Install as root ${NAME}... "
-	sudo make install >$LOG_FILE 2>&1
+	echo -n "Install as root ${GV_name}... "
+	sudo make install >$GV_log_file 2>&1
 	is_error "$?"
 
-	cd $BASE_DIR
+	cd $GV_base_dir
 }
 
 
 build_finishinstall() {
 
-	BUILD_END=`date +%s`
-	BUILD_TIME=`expr $BUILD_END - $BUILD_START`
+	LV_build_end=`date +%s`
+	LV_build_time =`expr $LV_build_end - $GV_build_start`
 	
-	rm -f $LOG_FILE	
-	echo -n " - ${NAME} (${VERSION})" >> "${SYSROOT_DIR}/buildinfo.txt"
-	echo    " - [$BUILD_TIME sec]" >> "${SYSROOT_DIR}/buildinfo.txt"
+	rm -f $GV_log_file	
+	echo -n " - ${GV_name} (${GV_version})" >> "${UV_sysroot_dir}/buildinfo.txt"
+	echo    " - [$LV_build_time sec]" >> "${UV_sysroot_dir}/buildinfo.txt"
 	
+	unset LV_build_end
+	unset LV_build_time
 }

@@ -1,14 +1,14 @@
 #!/bin/bash
 
-URL="http://ftp.gnome.org/pub/gnome/sources/glib/2.40/glib-2.40.0.tar.xz"
+GV_url="http://ftp.gnome.org/pub/gnome/sources/glib/2.40/glib-2.40.0.tar.xz"
 
 DEPEND=(
 	"zlib"
 	"libffi"
 )
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
 	"--disable-gtk-doc"
@@ -20,11 +20,11 @@ ARGS=(
 	"--disable-libelf"
 	"--disable-always-build-tests"
 	"--disable-installed-tests"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 	"glib_cv_stack_grows=no"
 	"glib_cv_uscore=yes"
 	"ac_cv_func_posix_getpwuid_r=yes"
@@ -32,7 +32,7 @@ ARGS=(
 )
 
 get_names_from_url
-installed "${NAME}-2.0.pc"
+installed "${GV_name}-2.0.pc"
 
 if [ $? == 1 ]; then
 	get_download
@@ -40,6 +40,6 @@ if [ $? == 1 ]; then
 	build
 fi
 
-export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/glib-2.0 -I${SYSROOT_DIR}/lib/glib-2.0/include"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/glib-2.0 -I${UV_sysroot_dir}/lib/glib-2.0/include"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CPPFLAGS

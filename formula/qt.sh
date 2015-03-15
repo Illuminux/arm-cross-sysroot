@@ -1,16 +1,16 @@
 #!/bin/bash
 
-URL="http://download.qt-project.org/official_releases/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz"
+GV_url="http://download.qt-project.org/official_releases/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz"
 
 DEPEND=()
 
-ARGS=(
+GV_args=(
 )
 
 get_names_from_url
-QT_DIR="Qt-${VERSION}-${BOARD}"
+QT_DIR="Qt-${GV_version}-${UV_board}"
 
-echo -n "Build $NAME:"
+echo -n "Build $GV_name:"
 if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 
 	get_download
@@ -19,31 +19,31 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 	# patch for os x
 	if [ $(uname -s) = "Darwin" ]; then 
 		
-		cd "${SOURCE_DIR}/${DIR_NAME}"
-		echo -n "Patch ${NAME}... "		
-		patch -p1 < "${BASE_DIR}/patches/qt-mac_os_x.patch" >$LOG_FILE 2>&1
+		cd "${GV_source_dir}/${GV_dir_name}"
+		echo -n "Patch ${GV_name}... "		
+		patch -p1 < "${GV_base_dir}/patches/qt-mac_os_x.patch" >$GV_log_file 2>&1
 		
 		is_error "$?"
 		
-		cd $BASE_DIR
+		cd $GV_base_dir
 	fi
 	
 	
-	if [ "${BOARD}" == "beaglebone" ]; then 
+	if [ "${UV_board}" == "beaglebone" ]; then 
 		
 		MKSPECS_DIR="qws/linux-arm-beaglebone-gnueabihf-g++"
 		
 		QMAKE_CFLAGS_RELEASE="-O3 -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=hard"
 		QMAKE_CXXFLAGS_RELEASE="-O3 -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=hard"
 		
-	elif [ "${BOARD}" == "raspi" ]; then
+	elif [ "${UV_board}" == "raspi" ]; then
 		
 		MKSPECS_DIR="qws/linux-arm-raspi-gnueabihf-g++"
 		
 		QMAKE_CFLAGS_RELEASE="-O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard"
 		QMAKE_CXXFLAGS_RELEASE="-O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard"
 		
-	elif [ "${BOARD}" == "hardfloat" ]; then
+	elif [ "${UV_board}" == "hardfloat" ]; then
 		
 		MKSPECS_DIR="qws/linux-arm-gnueabihf-g++"
 		
@@ -60,13 +60,13 @@ if ! [ -d "/usr/local/Trolltech/${QT_DIR}" ]; then
 	fi
 	
 
-	mkdir "${SOURCE_DIR}/${DIR_NAME}/mkspecs/${MKSPECS_DIR}/"
+	mkdir "${GV_source_dir}/${GV_dir_name}/mkspecs/${MKSPECS_DIR}/"
 	cp \
-		"${SOURCE_DIR}/${DIR_NAME}/mkspecs/qws/linux-arm-g++/qplatformdefs.h" \
-		"${SOURCE_DIR}/${DIR_NAME}/mkspecs/${MKSPECS_DIR}/"
+		"${GV_source_dir}/${GV_dir_name}/mkspecs/qws/linux-arm-g++/qplatformdefs.h" \
+		"${GV_source_dir}/${GV_dir_name}/mkspecs/${MKSPECS_DIR}/"
 	
-cat > "${SOURCE_DIR}/${DIR_NAME}/mkspecs/${MKSPECS_DIR}/qmake.conf" << EOF
-# qmake configuration for building for ${BOARD}
+cat > "${GV_source_dir}/${GV_dir_name}/mkspecs/${MKSPECS_DIR}/qmake.conf" << EOF
+# qmake configuration for building for ${UV_board}
 #
 include(../../common/linux.conf)
 include(../../common/gcc-base-unix.conf)
@@ -79,26 +79,26 @@ include(../../common/qws.conf)
 QMAKE_CFLAGS_RELEASE   = ${QMAKE_CFLAGS_RELEASE}
 QMAKE_CXXFLAGS_RELEASE = ${QMAKE_CXXFLAGS_RELEASE}
 
-QMAKE_CC         = ${TOOLCHAIN_BIN_DIR}/${TARGET}-gcc
-QMAKE_CXX        = ${TOOLCHAIN_BIN_DIR}/${TARGET}-g++
-QMAKE_LINK       = ${TOOLCHAIN_BIN_DIR}/${TARGET}-g++
-QMAKE_LINK_SHLIB = ${TOOLCHAIN_BIN_DIR}/${TARGET}-g++
+QMAKE_CC         = ${UV_toolchain_dir}/bin/${UV_target}-gcc
+QMAKE_CXX        = ${UV_toolchain_dir}/bin/${UV_target}-g++
+QMAKE_LINK       = ${UV_toolchain_dir}/bin/${UV_target}-g++
+QMAKE_LINK_SHLIB = ${UV_toolchain_dir}/bin/${UV_target}-g++
 
 # modifications to linux.conf"
-QMAKE_AR         = ${TOOLCHAIN_BIN_DIR}/${TARGET}-ar cqs
-QMAKE_OBJCOPY    = ${TOOLCHAIN_BIN_DIR}/${TARGET}-objcopy
-QMAKE_STRIP      = ${TOOLCHAIN_BIN_DIR}/${TARGET}-strip
-QMAKE_READELF    = ${TOOLCHAIN_BIN_DIR}/${TARGET}-readelf
+QMAKE_AR         = ${UV_toolchain_dir}/bin/${UV_target}-ar cqs
+QMAKE_OBJCOPY    = ${UV_toolchain_dir}/bin/${UV_target}-objcopy
+QMAKE_STRIP      = ${UV_toolchain_dir}/bin/${UV_target}-strip
+QMAKE_READELF    = ${UV_toolchain_dir}/bin/${UV_target}-readelf
 
-QMAKE_INCDIR    += ${SYSROOT_DIR}/include \\
-                   ${SYSROOT_DIR}/include/dbus-1.0 \\
-                   ${SYSROOT_DIR}/lib/dbus-1.0/include \\
-                   ${SYSROOT_DIR}/include/glib-2.0 \\
-                   ${SYSROOT_DIR}/lib/glib-2.0/include \\
-                   ${SYSROOT_DIR}/include/gstreamer-0.10 \\
-                   ${SYSROOT_DIR}/include/libxml2 \\
+QMAKE_INCDIR    += ${UV_sysroot_dir}/include \\
+                   ${UV_sysroot_dir}/include/dbus-1.0 \\
+                   ${UV_sysroot_dir}/lib/dbus-1.0/include \\
+                   ${UV_sysroot_dir}/include/glib-2.0 \\
+                   ${UV_sysroot_dir}/lib/glib-2.0/include \\
+                   ${UV_sysroot_dir}/include/gstreamer-0.10 \\
+                   ${UV_sysroot_dir}/include/libxml2 \\
 
-QMAKE_LIBDIR    += ${SYSROOT_DIR}/lib
+QMAKE_LIBDIR    += ${UV_sysroot_dir}/lib
 
 QMAKE_LIBS      += -lz -ldl -lpthread -lgio-2.0 -lgobject-2.0 -lglib-2.0 \\ 
                    -lgmodule-2.0 -lresolv -lgthread-2.0 -lrt -lfusion \\
@@ -108,9 +108,9 @@ QMAKE_LIBS      += -lz -ldl -lpthread -lgio-2.0 -lgobject-2.0 -lglib-2.0 \\
 load(qt_config)
 EOF
 
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	cd "${GV_source_dir}/${GV_dir_name}"
 	
-	echo -n "Configure ${NAME}... "
+	echo -n "Configure ${GV_name}... "
 	
 	if [ $(uname -s) = "Darwin" ]; then 
 		./configure -v \
@@ -148,7 +148,7 @@ EOF
 			-nomake examples \
 			-nomake demos \
 			-nomake docs \
-			-nomake translations >$LOG_FILE 2>&1
+			-nomake translations >$GV_log_file 2>&1
 		is_error "$?"
 		
 	else
@@ -191,7 +191,7 @@ EOF
 			-nomake examples \
 			-nomake demos \
 			-nomake docs \
-			-nomake translations >$LOG_FILE 2>&1
+			-nomake translations >$GV_log_file 2>&1
 		is_error "$?"
 	fi
 
@@ -201,7 +201,7 @@ EOF
 
 	build_finishinstall
 
-	cd $BASE_DIR
+	cd $GV_base_dir
 else
 	echo " already installed"
 fi

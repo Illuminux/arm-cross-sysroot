@@ -1,17 +1,17 @@
 #!/bin/bash
 
-URL="https://s3.amazonaws.com/json-c_releases/releases/json-c-0.10.tar.gz"
+GV_url="https://s3.amazonaws.com/json-c_releases/releases/json-c-0.10.tar.gz"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+GV_args=(
+	"--host=${GV_host}"
+	"--program-prefix=${UV_target}-"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url

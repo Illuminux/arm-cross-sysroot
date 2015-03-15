@@ -1,25 +1,25 @@
 #!/bin/bash
 
-URL="ftp.gnu.org:/pub/gnu/readline/readline-6.0.tar.gz"
+GV_url="ftp.gnu.org:/pub/gnu/readline/readline-6.0.tar.gz"
 
 DEPEND=(
 	"ncurses"
 )
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 	"--with-curses"
 )
 
 get_names_from_url
-installed "${NAME}.pc"
+installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 	
@@ -33,16 +33,16 @@ if [ $? == 1 ]; then
 	unset LIBS
 	export LIBS=$TMP_LIBS
 
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
+cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
+prefix=${GV_prefix}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}
 includedir=\${prefix}/include
 
-Name: ${NAME}
+Name: ${GV_name}
 Description: GNU Readline Library
-Version: ${VERSION}
+Version: ${GV_version}
 
 Requires:
 Libs: -L\${libdir} -L\${sharedlibdir} -lreadline

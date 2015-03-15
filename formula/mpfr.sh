@@ -1,27 +1,27 @@
 #!/bin/bash
 
-URL="http://www.mpfr.org/mpfr-current/mpfr-3.1.2.tar.bz2"
+GV_url="http://www.mpfr.org/mpfr-current/mpfr-3.1.2.tar.bz2"
 
 DEPEND=(
 	"gmp"
 )
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
 	"--enable-gmp-internals"
 	"--enable-assert"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--program-prefix=${UV_target}-"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
-installed "${NAME}.pc"
+installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 	
@@ -29,16 +29,16 @@ if [ $? == 1 ]; then
 	extract_tar
 	build
 
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
+cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
+prefix=${GV_prefix}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}
 includedir=\${prefix}/include
 
-Name: ${NAME}
+Name: ${GV_name}
 Description: mpfr library
-Version: ${VERSION}
+Version: ${GV_version}
 
 Requires:
 Libs: -L\${libdir} -L\${sharedlibdir} -lmpfr

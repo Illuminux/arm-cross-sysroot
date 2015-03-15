@@ -1,18 +1,18 @@
 #!/bin/bash
 
-URL="https://libav.org/releases/libav-0.8.16.tar.xz"
+GV_url="https://libav.org/releases/libav-0.8.16.tar.xz"
 
 DEPEND=()
 
-ARGS=(
-	"--cross-prefix=${HOST}-"
+GV_args=(
+	"--cross-prefix=${GV_host}-"
 	"--target-os=linux"
 	"--arch=arm"
 	"--enable-cross-compile"
 	"--enable-shared"
 	"--disable-static"
-	"--datadir=${BASE_DIR}/tmp/share/avconv"
-	"--mandir=${BASE_DIR}/tmp/share/man"
+	"--datadir=${GV_base_dir}/tmp/share/avconv"
+	"--mandir=${GV_base_dir}/tmp/share/man"
 	"--disable-altivec"
 	"--disable-amd3dnow"
 	"--disable-amd3dnowext"
@@ -25,18 +25,18 @@ ARGS=(
 )
 
 if [ $(uname -s) = "Darwin" ]; then 
-	ARGS+=(
+	GV_args+=(
 		"--ar=gar"
 	)
 fi
 
 
-if [ "${BOARD}" == "beaglebone" ]; then 
-	ARGS+=("--cpu=cortex-a8")
-elif [ "${BOARD}" == "raspi" ]; then
-	ARGS+=("--disable-neon")
+if [ "${UV_board}" == "beaglebone" ]; then 
+	GV_args+=("--cpu=cortex-a8")
+elif [ "${UV_board}" == "raspi" ]; then
+	GV_args+=("--disable-neon")
 else
-	ARGS+=("--disable-neon")
+	GV_args+=("--disable-neon")
 fi
 
 get_names_from_url

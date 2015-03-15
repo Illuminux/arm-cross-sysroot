@@ -1,28 +1,28 @@
 #!/bin/bash
 
-URL="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.0.tar.gz"
+GV_url="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.0.tar.gz"
 
 DEPEND=(
 	"expat"
 	"glib"
 )
 
-ARGS=(		
+GV_args=(		
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--host=${HOST}"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--program-prefix=${UV_target}-"
+	"--host=${GV_host}"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 	"--without-x"
 )
 
 
 get_names_from_url
-installed "${NAME}-1.pc"
+installed "${GV_name}-1.pc"
 
 if [ $? == 1 ]; then
 	
@@ -37,6 +37,6 @@ if [ $? == 1 ]; then
 	export LIBS=$TMP_LIBS
 fi
 
-export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/dbus-1.0 -I${SYSROOT_DIR}/lib/dbus-1.0/include"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/dbus-1.0 -I${UV_sysroot_dir}/lib/dbus-1.0/include"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CPPFLAGS

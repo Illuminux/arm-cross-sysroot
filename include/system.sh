@@ -4,7 +4,7 @@ system_require() {
 
 	# required software
 
-	REQUIRES=(
+	LV_requires=(
 		"git"
 		"gettext"
 		"curl"
@@ -20,7 +20,7 @@ system_require() {
 	
 	if [ $(uname -s) = "Darwin" ]; then 
 		
-		#REQUIRES+=("gawk")
+		#LV_requires+=("gawk")
 		
 		if ! hash "brew" 2>/dev/null; then
 			echo "For running this script on Mac OS X you have to install Homebrew."
@@ -30,13 +30,13 @@ system_require() {
 		fi
 	fi
 	
-	MISSING_REQUIRES=()
+	LV_missing_requires=()
 	
 	# Serach for required programs 
-	for REQUIRE in "${REQUIRES[@]}"
+	for VAR_require in "${LV_requires[@]}"
 	do
-		if ! hash $REQUIRE 2>/dev/null; then
-			MISSING_REQUIRES+=($REQUIRE)
+		if ! hash $VAR_require 2>/dev/null; then
+			LV_missing_requires+=($VAR_require)
 		fi
 	done 
 	
@@ -45,45 +45,45 @@ system_require() {
 		
 		# Glib developer package 
 		if ! [ -f "/usr/bin/glib-genmarshal" ]; then 
-			MISSING_REQUIRES+=("libglib2.0-dev")
+			LV_missing_requires+=("libglib2.0-dev")
 		fi
 		
 		# python-xcbgen
 		if ! [ -d "/usr/lib/python2.7/dist-packages/xcbgen" ]; then
-			MISSING_REQUIRES+=("python-xcbgen")
+			LV_missing_requires+=("python-xcbgen")
 		fi
 		
 		# Intltool
 		if ! [ -f "/usr/bin/intltoolize" ]; then
-			MISSING_REQUIRES+=("intltool")
+			LV_missing_requires+=("intltool")
 		fi
 		
 	elif [ $(uname -s) = "Darwin" ]; then
 		
 		# Glib
 		if ! [ -d "/usr/local/Cellar/glib" ]; then
-			MISSING_REQUIRES+=("glib")
+			LV_missing_requires+=("glib")
 		fi
 	
 		# Intltool - the binary is called "intltoolize"
 		if ! [ -d "/usr/local/Cellar/intltool" ]; then
-			MISSING_REQUIRES+=("intltool")
+			LV_missing_requires+=("intltool")
 		fi
 	fi
 	
 	
-	if [ ${#MISSING_REQUIRES[@]} -ne 0 ]; then
+	if [ ${#LV_missing_requires[@]} -ne 0 ]; then
 		
 		echo "Some required applications are not installed!"
 		echo "You can install them as follows:"
 		
 		if [ $(uname -s) = "Darwin" ]; then 
-			echo "  $ brew install ${MISSING_REQUIRES[@]}"
+			echo "  $ brew install ${LV_missing_requires[@]}"
 			echo
 			echo "Some packages are not linked. In order to link, type:"
-			echo "  $ brew link [NAME] --force"
+			echo "  $ brew link [GV_name] --force"
 		else
-			echo "  $ sudo apt-get install ${MISSING_REQUIRES[@]}"
+			echo "  $ sudo apt-get install ${LV_missing_requires[@]}"
 		fi
 		
 		echo
@@ -91,11 +91,14 @@ system_require() {
 	fi
 	
 	# Check if cross compiler is avalible
-	if ! [ -f "${TOOLCHAIN_DIR}/bin/${TARGET}-gcc" ]; then
+	if ! [ -f "${UV_toolchain_dir}/bin/${UV_target}-gcc" ]; then
 		
 		echo "Error: Cross compiler not found!"
 		echo "Please check your configuration file."
 		echo 
 		exit 1
 	fi
+	
+	unset LV_requires 
+	unset LV_missing_requires
 }

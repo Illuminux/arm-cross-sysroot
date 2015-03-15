@@ -1,53 +1,53 @@
 #!/bin/bash
 
-URL="http://ktown.kde.org/~wheeler/files/src/taglib-1.7.2.tar.gz"
+GV_url="http://ktown.kde.org/~wheeler/files/src/taglib-1.7.2.tar.gz"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--program-prefix=${UV_target}-"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
-installed "${NAME}.pc"
+installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 	get_download
 	extract_tar
 	
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	cd "${GV_source_dir}/${GV_dir_name}"
 	
-	echo -n "  Make ${NAME}... "
+	echo -n "  Make ${GV_name}... "
 	cmake \
-		-DCMAKE_C_COMPILER="${TOOLCHAIN_BIN_DIR}/${TARGET}-gcc" \
-		-DCMAKE_CXX_COMPILER="${TOOLCHAIN_BIN_DIR}/${TARGET}-g++" \
-		-DCMAKE_FIND_ROOT_PATH="${TOOLCHAIN_BIN_DIR}/.." \
+		-DCMAKE_C_COMPILER="${UV_toolchain_dir}/bin/${UV_target}-gcc" \
+		-DCMAKE_CXX_COMPILER="${UV_toolchain_dir}/bin/${UV_target}-g++" \
+		-DCMAKE_FIND_ROOT_PATH="${UV_toolchain_dir}/bin/.." \
 		-DCMAKE_CROSSCOMPILING=True \
-		-DCMAKE_INSTALL_PREFIX=$SYSROOT_DIR \
-		-DLLVM_DEFAULT_TARGET_TRIPLE=${TARGET} \
-		-DLLVM_TARGET_ARCH=ARM \
-		-DCMAKE_RELEASE_TYPE=Release >$LOG_FILE 2>&1
+		-DCMAKE_INSTALL_GV_prefix=$UV_sysroot_dir \
+		-DLLVM_DEFAULT_UV_target_TRIPLE=${UV_target} \
+		-DLLVM_UV_target_ARCH=ARM \
+		-DCMAKE_RELEASE_TYPE=Release >$GV_log_file 2>&1
 
 	make -j4 \
-		CC="${TARGET}-gcc" \
-		CXX="${TARGET}-g++" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" >>$LOG_FILE 2>&1
+		CC="${UV_target}-gcc" \
+		CXX="${UV_target}-g++" \
+		AR="${UV_target}-ar" \
+		RANLIB="${UV_target}-ranlib" >>$GV_log_file 2>&1
 	is_error "$?"
 	
-	echo -n "  Install ${NAME}... "
-	make install >$LOG_FILE 2>&1
+	echo -n "  Install ${GV_name}... "
+	make install >$GV_log_file 2>&1
 	is_error "$?"
 
-	cd ${BASE_DIR}
+	cd ${GV_base_dir}
 
 	build_finishinstall
 fi

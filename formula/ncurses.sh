@@ -1,21 +1,21 @@
 #!/bin/bash
 
-URL="http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz"
+GV_url="http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datadir=${BASE_DIR}/tmp/share"
-	"--mandir=${BASE_DIR}/tmp/share"
-	"--infodir=${BASE_DIR}/tmp/info"
+	"--program-prefix=${UV_target}-"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datadir=${GV_base_dir}/tmp/share"
+	"--mandir=${GV_base_dir}/tmp/share"
+	"--infodir=${GV_base_dir}/tmp/info"
 	"--with-shared "
 	"--enable-pc-files"
 	"--disable-big-core"
@@ -24,23 +24,23 @@ ARGS=(
 )
 
 get_names_from_url
-installed "${NAME}.pc"
+installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 	get_download
 	extract_tar
 	build
 	
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
+cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
+prefix=${GV_prefix}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}
 includedir=\${prefix}/include
 
-Name: ${NAME}
+Name: ${GV_name}
 Description: Text-based user interfaces library
-Version: ${VERSION}
+Version: ${GV_version}
 
 Requires:
 Libs: -L\${libdir} -L\${sharedlibdir} -lncurses

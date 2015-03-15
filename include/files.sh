@@ -2,56 +2,58 @@
 
 get_download(){
 	
-	if ! [ -d "$DOWNLOAD_DIR" ]; then
+	if ! [ -d "$UV_download_dir" ]; then
 		echo -n "Create Download dir... "
-		mkdir -p $DOWNLOAD_DIR >$LOG_FILE 2>&1
+		mkdir -p $UV_download_dir >$GV_log_file 2>&1
 		is_error "$?"
 		echo "done"
 	fi
 	
-	echo -n "Download ${TAR_NAME}... "
+	echo -n "Download ${GV_tar_name}... "
 	
-	if ! [ -f "${DOWNLOAD_DIR}/${TAR_NAME}" ]; then
+	if ! [ -f "${UV_download_dir}/${GV_tar_name}" ]; then
 		echo 
-		STATUS=$(curl -Lo "${DOWNLOAD_DIR}/${TAR_NAME}" -k# --write-out %{http_code} $URL)
-		if [ $STATUS -ge 400 ]; then 
-			rm -f ${DOWNLOAD_DIR}/${TAR_NAME}
+		LV_status=$(curl -Lo "${UV_download_dir}/${GV_tar_name}" -k# --write-out %{http_code} $GV_url)
+		if [ $LV_status -ge 400 ]; then 
+			rm -f ${UV_download_dir}/${GV_tar_name}
 			echo 
-			echo "*** Error in $NAME ***"
-			echo "HTTP Status ${STATUS}"
-			echo "  Can not download: ${URL}"
+			echo "*** Error in $GV_name ***"
+			echo "HTTP Status ${LV_status}"
+			echo "  Can not download: ${GV_url}"
 			echo 
 			exit 1
 		fi
 	else
 		echo "alredy loaded"
 	fi
+	
+	unset LV_status
 }
 
 extract_tar(){
 	
-	if ! [ -d "$SOURCE_DIR" ]; then
+	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "  Create source dir... "
-		mkdir -p $SOURCE_DIR >$LOG_FILE 2>&1
+		mkdir -p $GV_source_dir >$GV_log_file 2>&1
 		is_error "$?"
 	fi
 	
-	echo -n "Extract ${TAR_NAME}... "
+	echo -n "Extract ${GV_tar_name}... "
 	
-	if [ -d "${SOURCE_DIR}/${DIR_NAME}" ]; then
-		rm -rf "${SOURCE_DIR}/${DIR_NAME}"
+	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
+		rm -rf "${GV_source_dir}/${GV_dir_name}"
 	fi
 	
-	cd $SOURCE_DIR
+	cd $GV_source_dir
 	
-	if [ "${EXTENSION}" = "zip" ]; then
-		unzip ${DOWNLOAD_DIR}/${TAR_NAME} >$LOG_FILE 2>&1
+	if [ "${GV_extension}" = "zip" ]; then
+		unzip ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
 	else 
-		tar xvf ${DOWNLOAD_DIR}/${TAR_NAME} >$LOG_FILE 2>&1
+		tar xvf ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
 	fi
 
 	is_error "$?"
-	cd $BASE_DIR
+	cd $GV_base_dir
 	
-	BUILD_START=`date +%s`
+	GV_build_start=`date +%s`
 }

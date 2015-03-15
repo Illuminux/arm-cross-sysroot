@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="ftp://xmlsoft.org/libxml2/libxml2-2.8.0.tar.gz"
+GV_url="ftp://xmlsoft.org/libxml2/libxml2-2.8.0.tar.gz"
 
 DEPEND=(
 	"zlib"
@@ -10,23 +10,23 @@ DEPEND=(
 
 ## @TODO Error while compiling with liblzma
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
+	"--program-prefix=${UV_target}-"
 	"--without-python"
 	"--without-lzma"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
 
-LIBSML2SCR=$DIR_NAME
+LIBSML2SCR=$GV_dir_name
 
 installed "libxml-2.0.pc"
 
@@ -36,6 +36,6 @@ if [ $? == 1 ]; then
 	build
 fi
 
-export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/libxml2"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/libxml2"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CPPFLAGS

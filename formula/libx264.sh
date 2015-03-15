@@ -1,12 +1,12 @@
 #!/bin/bash
 
-URL="ftp://ftp.videolan.org/pub/x264/snapshots/x264-snapshot-20141114-2245-stable.tar.bz2"
+GV_url="ftp://ftp.videolan.org/pub/x264/snapshots/x264-snapshot-20141114-2245-stable.tar.bz2"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--cross-prefix=${HOST}-"
+GV_args=(
+	"--host=${GV_host}"
+	"--cross-prefix=${GV_host}-"
 	"--enable-shared"
 )
 

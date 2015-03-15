@@ -1,19 +1,19 @@
 #!/bin/bash
 
-URL="http://jpegclub.org/support/files/jpegsrc.v8d1.tar.gz"
+GV_url="http://jpegclub.org/support/files/jpegsrc.v8d1.tar.gz"
 
 DEPEND=()
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--program-prefix=${UV_target}-"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
@@ -24,22 +24,22 @@ if [ $? == 1 ]; then
 	get_download
 	extract_tar
 
-	DIR_NAME="jpeg-8d1"
-	NAME=${DIR_NAME%-*}
-	VERSION=${DIR_NAME##$NAME*-}
+	GV_dir_name="jpeg-8d1"
+	GV_name=${GV_dir_name%-*}
+	GV_version=${GV_dir_name##$GV_name*-}
 	
 	build
 
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
+cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
+prefix=${GV_prefix}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}
 includedir=\${prefix}/include
 
-Name: ${NAME}
+Name: ${GV_name}
 Description: jpeg library
-Version: ${VERSION}
+Version: ${GV_version}
 
 Requires:
 Libs: -L\${libdir} -L\${sharedlibdir} -ljpeg

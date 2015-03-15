@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="http://download.osgeo.org/libtiff/tiff-4.0.2.tar.gz"
+GV_url="http://download.osgeo.org/libtiff/tiff-4.0.2.tar.gz"
 
 DEPEND=(
 	"zlib"
@@ -8,17 +8,17 @@ DEPEND=(
 	"liblzma"
 )
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
+	"--program-prefix=${UV_target}-"
 	"--disable-largefile"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
@@ -29,6 +29,6 @@ if [ $? == 1 ]; then
 	extract_tar
 	build
 
-	cd $BASE_DIR
-	rm -rf "${SYSROOT_DIR}/share"
+	cd $GV_base_dir
+	rm -rf "${UV_sysroot_dir}/share"
 fi

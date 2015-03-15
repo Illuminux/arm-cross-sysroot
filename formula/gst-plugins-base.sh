@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.36.tar.bz2"
+GV_url="http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.36.tar.bz2"
 
 DEPEND=(
 	"gstreamer"
@@ -14,22 +14,22 @@ DEPEND=(
 	"zlib"
 )
 
-ARGS=(
-	"--host=${HOST}"
+GV_args=(
+	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
-	"--program-prefix=${TARGET}-"
+	"--program-prefix=${UV_target}-"
 	"--disable-nls"
 	"--disable-examples"
 	"--disable-largefile"
 	"--disable-gtk-doc"
 	"--disable-app"
 	"--disable-alsa" # alsa mixer?
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datadir=${BASE_DIR}/tmp/share"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sysconfdir=${GV_base_dir}/tmp/etc"
+	"--localstatedir=${GV_base_dir}/tmp/var"
+	"--datadir=${GV_base_dir}/tmp/share"
 )
 
 get_names_from_url
@@ -37,8 +37,8 @@ installed "gstreamer-plugins-base-0.10.pc"
 
 if [ $? == 1 ]; then
 	
-	if [ -f "${SYSROOT_DIR}/bin/glib-genmarshal" ]; then 
-		mv "${SYSROOT_DIR}/bin/glib-genmarshal" "${SYSROOT_DIR}/bin/glib-genmarshal_bak"
+	if [ -f "${UV_sysroot_dir}/bin/glib-genmarshal" ]; then 
+		mv "${UV_sysroot_dir}/bin/glib-genmarshal" "${UV_sysroot_dir}/bin/glib-genmarshal_bak"
 	fi
 	
 	TMP_LIBS=$LIBS
@@ -51,7 +51,7 @@ if [ $? == 1 ]; then
 	unset LIBS
 	export LIBS=$TMP_LIBS
 
-	if [ -f "${SYSROOT_DIR}/bin/glib-genmarshal_bak" ]; then 
-		mv "${SYSROOT_DIR}/bin/glib-genmarshal_bak" "${SYSROOT_DIR}/bin/glib-genmarshal"
+	if [ -f "${UV_sysroot_dir}/bin/glib-genmarshal_bak" ]; then 
+		mv "${UV_sysroot_dir}/bin/glib-genmarshal_bak" "${UV_sysroot_dir}/bin/glib-genmarshal"
 	fi
 fi
