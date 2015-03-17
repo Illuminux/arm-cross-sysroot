@@ -2,6 +2,8 @@
 
 GV_url="http://tukaani.org/xz/xz-5.1.4beta.tar.gz"
 
+DEPEND=()
+
 GV_args=(
 	"--host=${GV_host}"
 	"--enable-shared"

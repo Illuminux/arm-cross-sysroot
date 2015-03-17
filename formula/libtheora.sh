@@ -4,6 +4,7 @@ GV_url="http://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.gz"
 
 DEPEND=(
 	"libogg"
+	"libvorbis"
 )
 
 GV_args=(

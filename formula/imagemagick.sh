@@ -2,7 +2,16 @@
 
 GV_url="http://mirror.checkdomain.de/imagemagick/releases/ImageMagick-6.7.7-10.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"glib"
+	"freetype"
+	"fontconfig"
+	"libjpeg"
+	"lcms2"
+	"liblqr"
+	"liblzma"
+	"libtiff4"
+)
 
 GV_args=(
 	"--host=${GV_host}"

@@ -4,6 +4,7 @@ GV_url="http://download.savannah.gnu.org/releases/freetype/freetype-2.4.9.tar.bz
 
 DEPEND=(
 	"zlib"
+	"libpng"
 )
 
 GV_args=(

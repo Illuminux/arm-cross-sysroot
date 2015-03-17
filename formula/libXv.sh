@@ -2,7 +2,9 @@
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXv-1.0.7.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"libXext"
+)
 
 GV_args=(
 	"--host=${GV_host}"

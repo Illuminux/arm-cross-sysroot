@@ -5,6 +5,7 @@ GV_url="http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.36.tar.gz"
 DEPEND=(
 	"glib"
 	"libxml2"
+	"gsl"
 )
 
 GV_args=(

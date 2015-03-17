@@ -2,7 +2,10 @@
 
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/xextproto-7.2.1.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"util-macros"
+	"xproto"
+)
 
 GV_args=(
 	"--host=${GV_host}"

@@ -115,7 +115,32 @@ FU_access_rights() {
 
 FU_print_usage() {
 
-	echo "print help"
+	echo "Usage: ${0} [Option]"
+	echo
+	echo "  Options:"
+	echo "    --list             List all formulas."
+	echo "    --configure-help   Display the configure options for the first new formula."
+	echo "    --configure-show   Display the configure output for the new formula."
+	echo "    --make-show        Display the make output for the new formula."
+	echo "    --help             Display this message"
+	echo
+	exit 0
+}
+
+FU_print_list() {
+
+	echo 
+	echo "Available formulas:"
+	
+	for LV_formula in "${GV_build_formulas[@]}"; do 
+		LV_name=${LV_formula%;*}
+		LV_info=${LV_formula##*;}
+		echo "${LV_name}:"
+		echo $LV_info
+		echo
+	done
+	
+	echo
 	exit 0
 }
 
@@ -123,21 +148,28 @@ FU_print_usage() {
 FU_parse_arguments() {
 	
 	LV_argv=($@)
+	if [ $# -gt 0 ]; then 
+		
+		for GV_arg in "${LV_argv[@]}"; do
 
-	for GV_arg in "${LV_argv[@]}"
-	do
-		case "$LV_argv" in
-			("--configure-show")
-				GV_conf_show=true;;
-			("--configure-help")
-				GV_conf_help=true;;
-			("--make-show")
-				GV_make_show=true;;
-			("--help")
-				FU_print_usage;;
-		esac
-	done
-
+			case $GV_arg in
+				"--list")
+					FU_print_list
+					;;
+				"--configure-show")
+					GV_conf_show=true
+					;;
+				"--configure-help")
+					GV_conf_help=true
+					;;
+				"--make-show")
+					GV_make_show=true
+					;;
+				*)
+					FU_print_usage
+			esac
+		done
+	fi
 }
 
 

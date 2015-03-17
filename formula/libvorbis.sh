@@ -2,7 +2,9 @@
 
 GV_url="http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.2.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"libogg"
+)
 
 GV_args=(
 	"--host=${GV_host}"

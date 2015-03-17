@@ -2,7 +2,11 @@
 
 GV_url="http://ftp.gnome.org/pub/GNOME/sources/libsoup/2.40/libsoup-2.40.3.tar.xz"
 
-DEPEND=()
+DEPEND=(
+	"glib"
+	"libxml2"
+	"sqlite"
+)
 
 GV_args=(
 	"--host=${GV_host}"

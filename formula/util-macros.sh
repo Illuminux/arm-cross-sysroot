@@ -2,6 +2,8 @@
 
 GV_url="http://xorg.freedesktop.org/releases/individual/util/util-macros-1.16.2.tar.bz2"
 
+DEPEND=()
+
 GV_args=(
 	"--host=${GV_host}"
 	"--sbindir=${GV_base_dir}/tmp/sbin"

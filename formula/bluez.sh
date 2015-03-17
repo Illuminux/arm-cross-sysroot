@@ -2,7 +2,10 @@
 
 GV_url="http://www.kernel.org/pub/linux/bluetooth/bluez-5.18.tar.xz"
 
-DEPEND=()
+DEPEND=(
+	"glib"
+	"dbus"
+)
 
 GV_args=(
 	"--host=${GV_host}"

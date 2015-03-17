@@ -2,7 +2,11 @@
 
 GV_url="http://cairographics.org/releases/cairo-1.12.2.tar.xz"
 
-DEPEND=()
+DEPEND=(
+	"libpng"
+	"glib"
+	"pixman"
+)
 
 GV_args=(
 	"--host=${GV_host}"

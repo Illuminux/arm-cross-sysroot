@@ -2,6 +2,8 @@
 
 GV_url="http://zlib.net/zlib-1.2.8.tar.gz"
 
+DEPEND=()
+
 GV_args=()
 
 FU_get_names_from_url

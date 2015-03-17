@@ -2,6 +2,8 @@
 
 GV_url="http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz"
 
+DEPEND=()
+
 GV_args=()
 
 FU_get_names_from_url

@@ -148,7 +148,7 @@ cd $GV_base_dir
 ## Execute all formulas. The scripts have to be processed in this sequence!
 ##
 for LV_formula in "${GV_build_formulas[@]}"; do 
-	source "${GV_base_dir}/formula/${LV_formula}.sh"
+	source "${GV_base_dir}/formula/${LV_formula%;*}.sh"
 done
 
 

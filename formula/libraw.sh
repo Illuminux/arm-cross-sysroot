@@ -2,6 +2,7 @@
 
 GV_url="http://www.libraw.org/data/LibRaw-0.16.0.tar.gz"
 DEPEND=(
+	"libjpeg"
 	"lcms2"
 )
 

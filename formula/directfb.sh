@@ -2,7 +2,11 @@
 
 GV_url="http://directfb.org/downloads/Core/DirectFB-1.2/DirectFB-1.2.10.tar.gz"
 
-DEPEND=()
+DEPEND=(
+	"freetype"
+	"libjpeg"
+	"libpng"
+)
 
 GV_args=(
 	"--host=${GV_host}"

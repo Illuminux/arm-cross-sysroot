@@ -13,7 +13,8 @@ FU_get_download(){
 	
 	if ! [ -f "${UV_download_dir}/${GV_tar_name}" ]; then
 		echo 
-		LV_status=$(curl -Lo "${UV_download_dir}/${GV_tar_name}" -k# --write-out %{http_code} $GV_url)
+		LV_status=$(curl -Lo "${UV_download_dir}/${GV_tar_name}" -# --write-out %{http_code} $GV_url)
+		
 		if [ $LV_status -ge 400 ]; then 
 			rm -f ${UV_download_dir}/${GV_tar_name}
 			echo 

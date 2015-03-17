@@ -2,7 +2,9 @@
 
 GV_url="https://github.com/flavio/qjson.git"
 
-DEPEND=()
+DEPEND=(
+	"qt"
+)
 
 GV_args=(
 	"--host=${GV_host}"

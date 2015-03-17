@@ -2,7 +2,9 @@
 
 GV_url="http://libssh2.org/download/libssh2-1.4.2.tar.gz"
 
-DEPEND=()
+DEPEND=(
+	"openssl"
+)
 
 GV_args=(
 	"--host=${GV_host}"

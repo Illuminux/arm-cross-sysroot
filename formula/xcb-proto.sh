@@ -2,7 +2,10 @@
 
 GV_url="http://xcb.freedesktop.org/dist/xcb-proto-1.7.1.tar.gz"
 
-DEPEND=()
+DEPEND=(
+	"util-macros"
+	"xproto"
+)
 
 GV_args=(
 	"--host=${GV_host}"

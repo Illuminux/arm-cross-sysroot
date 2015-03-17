@@ -2,7 +2,12 @@
 
 GV_url="http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-0.10.31.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"gst-plugins-base"
+	"cairo"
+	"libjpeg"
+	"libpng"
+)
 
 GV_args=(
 	"--host=${GV_host}"

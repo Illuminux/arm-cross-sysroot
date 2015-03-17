@@ -2,7 +2,21 @@
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/libX11-1.5.0.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"util-macros"
+	"xtrans"
+	"xproto"
+	"xextproto"
+	"inputproto"
+	"xcb-proto"
+	"libpthread-stubs"
+	"libXau"
+	"libxslt"
+	"libxcb"
+	"videoproto"
+	"kbproto"
+	"fontconfig"
+)
 
 GV_args=(
 	"--host=${GV_host}"

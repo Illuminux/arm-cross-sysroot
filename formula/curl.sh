@@ -2,7 +2,10 @@
 
 GV_url="http://curl.haxx.se/download/curl-7.26.0.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"openssl"
+	"libssh2"
+)
 
 GV_args=(
 	"--host=${GV_host}"

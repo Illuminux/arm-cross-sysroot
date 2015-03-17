@@ -2,7 +2,9 @@
 
 GV_url="http://liblqr.wdfiles.com/local--files/en:download-page/liblqr-1-0.4.2.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"glib"
+)
 
 GV_args=(
 	"--host=${GV_host}"

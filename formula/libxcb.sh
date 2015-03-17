@@ -2,7 +2,10 @@
 
 GV_url="http://xcb.freedesktop.org/dist/libxcb-1.8.1.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"libXau"
+	"xcb-proto"
+)
 
 GV_args=(
 	"--host=${GV_host}"

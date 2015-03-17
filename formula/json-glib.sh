@@ -2,7 +2,9 @@
 
 GV_url="ftp://ftp.gnome.org/pub/gnome/sources/json-glib//0.14/json-glib-0.14.2.tar.xz"
 
-DEPEND=()
+DEPEND=(
+	"glib"
+)
 
 GV_args=(
 	"--host=${GV_host}"

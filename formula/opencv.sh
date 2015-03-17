@@ -4,7 +4,9 @@ return
 
 GV_url="https://github.com/Itseez/opencv.git"
 
-DEPEND=()
+DEPEND=(
+	"cryptodev"
+)
 
 GV_args=(
 	"--host=${GV_host}"

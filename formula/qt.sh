@@ -2,10 +2,12 @@
 
 GV_url="http://download.qt-project.org/official_releases/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz"
 
-DEPEND=()
-
-GV_args=(
+DEPEND=(
+	"libX11"
+	"libXv"
 )
+
+GV_args=()
 
 FU_get_names_from_url
 QT_DIR="Qt-${GV_version}-${UV_board}"

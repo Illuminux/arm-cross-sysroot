@@ -2,7 +2,10 @@
 
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/inputproto-2.2.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"util-macros"
+	"xextproto"
+)
 
 GV_args=(
 	"--host=${GV_host}"

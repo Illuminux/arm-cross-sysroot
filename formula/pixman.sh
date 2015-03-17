@@ -2,7 +2,9 @@
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/pixman-0.26.0.tar.bz2"
 
-DEPEND=()
+DEPEND=(
+	"libpng"
+)
 
 GV_args=(
 	"--host=${GV_host}"
