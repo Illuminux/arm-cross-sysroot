@@ -23,7 +23,7 @@ FU_build_autogen() {
 	if ! [ -f "${GV_source_dir}/${GV_dir_name}/configure" ]; then
 		echo -n "Autogen ${GV_name}... "
 		./autogen.sh >$GV_log_file 2>&1
-		FU_is_error "$?"
+		FU_tools_is_error "$?"
 	fi
 	
 	cd $GV_base_dir
@@ -41,10 +41,10 @@ FU_build_configure() {
 	elif [ "$GV_conf_show" == true ]; then
 		echo "" >$GV_log_file 2>&1
 		./configure --prefix="${UV_sysroot_dir}" ${GV_args[@]} 2>&1
-		FU_is_error "$?"
+		FU_tools_is_error "$?"
 	else
 		./configure --prefix="${UV_sysroot_dir}" ${GV_args[@]} >$GV_log_file 2>&1
-		FU_is_error "$?"
+		FU_tools_is_error "$?"
 	fi
 
 	cd $GV_base_dir
@@ -64,10 +64,10 @@ FU_build_make() {
 	echo -n "Make ${GV_name}... "
 	if [ "$GV_make_show" == true ]; then
 		make $LV_make_args 2>&1
-		FU_is_error "$?"		
+		FU_tools_is_error "$?"		
 	else
 		make $LV_make_args >$GV_log_file 2>&1
-		FU_is_error "$?"
+		FU_tools_is_error "$?"
 	fi
 
 	cd $GV_base_dir
@@ -82,19 +82,19 @@ FU_build_install() {
 	
 	echo -n "Install ${GV_name}... "
 	make install >$GV_log_file 2>&1
-	FU_is_error "$?"
+	FU_tools_is_error "$?"
 
 	cd $GV_base_dir
 }
 
 
-FU_su_build_install() {
+FU_build_su_install() {
 
 	cd "${GV_source_dir}/${GV_dir_name}"
 	
 	echo -n "Install as root ${GV_name}... "
 	sudo make install >$GV_log_file 2>&1
-	FU_is_error "$?"
+	FU_tools_is_error "$?"
 
 	cd $GV_base_dir
 }

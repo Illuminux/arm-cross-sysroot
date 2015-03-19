@@ -10,8 +10,8 @@ DEPEND=()
 
 GV_args=()
 
-FU_get_names_from_url
-FU_installed "wiringPi.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "wiringPi.pc"
 
 if [ $? == 1 ]; then
 	
@@ -21,7 +21,7 @@ if [ $? == 1 ]; then
 	if ! [ -d "$UV_download_dir" ]; then
 		echo -n "  Create Download dir... "
 		mkdir -p $UV_download_dir >$GV_log_file 2>&1
-		FU_is_error "$?"
+		FU_tools_is_error "$?"
 		echo "done"
 	fi
 	
@@ -30,7 +30,7 @@ if [ $? == 1 ]; then
 	echo -n "Download ${GV_name}... "
 	if ! [ -d "${UV_download_dir}/${GV_dir_name}" ]; then
 		git clone $GV_url 2>&1
-		FU_is_error "$?"
+		FU_tools_is_error "$?"
 	else
 		echo "alredy loaded"
 	fi
@@ -38,7 +38,7 @@ if [ $? == 1 ]; then
 	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "Create source dir... "
 		mkdir -p $GV_source_dir >$GV_log_file 2>&1
-		FU_is_error "$?"
+		FU_tools_is_error "$?"
 	fi
 	
 	echo -n "Copy ${GV_name}... "
@@ -46,7 +46,7 @@ if [ $? == 1 ]; then
 		rm -rf "${GV_source_dir}/${GV_dir_name}"
 	fi
 	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
-	FU_is_error "$?"
+	FU_tools_is_error "$?"
 	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
 	
 	
@@ -86,7 +86,7 @@ if [ $? == 1 ]; then
 	echo -n "Build and Install ${GV_name}... "
 	chmod +x build.sh
 	./build.sh >$GV_log_file 2>&1
-	FU_is_error "$?"
+	FU_tools_is_error "$?"
 	
 	cd $GV_base_dir
 	

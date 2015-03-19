@@ -18,16 +18,16 @@ GV_args=(
 	"--with-curses"
 )
 
-FU_get_names_from_url
-FU_installed "${GV_name}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
 	
 	TMP_LIBS=$LIBS
 	export LIBS="${LIBS} -lncurses"
 	
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	FU_build
 	
 	unset LIBS

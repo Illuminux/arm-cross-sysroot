@@ -28,8 +28,8 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-FU_get_names_from_url
-FU_installed "gstreamer-0.10.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "gstreamer-0.10.pc"
 
 if [ $? == 1 ]; then
 	
@@ -40,8 +40,8 @@ if [ $? == 1 ]; then
 	TMP_LIBS=$LIBS
 	export LIBS="${LIBS} -lpthread"
 	
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	FU_build
 
 	unset LIBS

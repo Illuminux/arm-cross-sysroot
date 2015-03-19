@@ -9,12 +9,12 @@ DEPEND=(
 
 GV_args=()
 
-FU_get_names_from_url
-FU_installed "${GV_name}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 
 	cd "${GV_source_dir}/${GV_dir_name}"
 
@@ -29,7 +29,7 @@ if [ $? == 1 ]; then
 		shared \
 		no-sse2 \
 		-DHAVE_CRYPTODEV >$GV_log_file 2>&1
-	FU_is_error "$?"
+	FU_tools_is_error "$?"
 
 	# Must be built with j1 otherwise it crashes!!!
 	FU_build_make "-j1"

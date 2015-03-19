@@ -10,12 +10,12 @@ GV_args=(
 	"--enable-shared"
 )
 
-FU_get_names_from_url
+FU_tools_get_names_from_url
 GV_version="0.142.x"
-FU_installed "x264.pc"
+FU_tools_installed "x264.pc"
 
 if [ $? == 1 ]; then
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	FU_build
 fi

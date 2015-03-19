@@ -18,11 +18,11 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-FU_get_names_from_url
-FU_installed "xau.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "xau.pc"
 
 if [ $? == 1 ]; then
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	FU_build
 fi

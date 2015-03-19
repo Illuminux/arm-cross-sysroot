@@ -19,8 +19,8 @@ GV_args=(
 	"--disable-nls"
 )
 
-FU_get_names_from_url
-FU_installed "json-glib-1.0.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "json-glib-1.0.pc"
 
 if [ $? == 1 ]; then
 	
@@ -28,8 +28,8 @@ if [ $? == 1 ]; then
 		mv "${UV_sysroot_dir}/bin/glib-genmarshal" "${UV_sysroot_dir}/bin/glib-genmarshal_bak"
 	fi
 	
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	FU_build
 
 	if [ -f "${UV_sysroot_dir}/bin/glib-genmarshal_bak" ]; then 

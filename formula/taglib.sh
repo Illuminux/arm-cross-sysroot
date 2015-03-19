@@ -21,12 +21,12 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-FU_get_names_from_url
-FU_installed "${GV_name}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${GV_name}.pc"
 
 if [ $? == 1 ]; then
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	
 	cd "${GV_source_dir}/${GV_dir_name}"
 	
@@ -46,11 +46,11 @@ if [ $? == 1 ]; then
 		CXX="${UV_target}-g++" \
 		AR="${UV_target}-ar" \
 		RANLIB="${UV_target}-ranlib" >>$GV_log_file 2>&1
-	FU_is_error "$?"
+	FU_tools_is_error "$?"
 	
 	echo -n "  Install ${GV_name}... "
 	make install >$GV_log_file 2>&1
-	FU_is_error "$?"
+	FU_tools_is_error "$?"
 
 	cd ${GV_base_dir}
 

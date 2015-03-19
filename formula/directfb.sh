@@ -26,21 +26,21 @@ GV_args=(
 	"--disable-png"
 )
 
-FU_get_names_from_url
-FU_installed "directfb.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "directfb.pc"
 
 if [ $? == 1 ]; then
 	
 	TMP_LDFLAGS=$LDFLAGS
 	export LDFLAGS="${LDFLAGS} -L${UV_sysroot_dir}/lib/ts"
 	
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	
 	echo -n "Patch ${GV_name}... "
 	patch "${GV_source_dir}/${GV_dir_name}/gfxdrivers/davinci/davinci_c64x.c" \
 		< "${GV_base_dir}/patches/directfb_davinci.patch" >$GV_log_file 2>&1
-	FU_is_error "$?"
+	FU_tools_is_error "$?"
 	
 	FU_build
 	

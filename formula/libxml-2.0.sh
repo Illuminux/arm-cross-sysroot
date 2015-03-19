@@ -1,16 +1,22 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXv-1.0.7.tar.bz2"
+GV_url="ftp://xmlsoft.org/libxml2/libxml2-2.8.0.tar.gz"
 
 DEPEND=(
-	"libXext"
+	"zlib"
+	"liblzma"
 )
+
+
+## @TODO Error while compiling with liblzma
 
 GV_args=(
 	"--host=${GV_host}"
 	"--enable-shared"
 	"--disable-static"
 	"--program-prefix=${UV_target}-"
+	"--without-python"
+	"--without-lzma"
 	"--sbindir=${GV_base_dir}/tmp/sbin"
 	"--libexecdir=${GV_base_dir}/tmp/libexec"
 	"--sysconfdir=${GV_base_dir}/tmp/etc"
@@ -19,10 +25,17 @@ GV_args=(
 )
 
 FU_tools_get_names_from_url
-FU_tools_installed "xv.pc"
+
+LIBSML2SCR=$GV_dir_name
+
+FU_tools_installed "libxml-2.0.pc"
 
 if [ $? == 1 ]; then
 	FU_file_get_download
 	FU_file_extract_tar
 	FU_build
 fi
+
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/libxml2"
+export CPPFLAGS=$CFLAGS
+export CXXFLAGS=$CPPFLAGS

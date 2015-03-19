@@ -13,11 +13,11 @@ GV_args=(
 	"--datarootdir=${UV_sysroot_dir}/lib"
 )
 
-FU_get_names_from_url
-FU_installed "xorg-macros.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "xorg-macros.pc"
 
 if [ $? == 1 ]; then
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	FU_build
 fi

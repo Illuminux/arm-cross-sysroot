@@ -93,7 +93,7 @@ fi
 ##
 ## Parse the comandline arguments 
 ##
-FU_parse_arguments $@
+FU_tools_parse_arguments $@
 
 
 echo "Start to build an advanced sysroot for ${UV_board}."
@@ -109,11 +109,11 @@ FU_system_require
 ## Mac OS X needs an case sensitiv diskimage
 ##
 if [ $GV_build_os = "Darwin" ]; then 
-	FU_create_source_image
-	FU_create_sysroot_image
+	FU_tools_create_source_image
+	FU_tools_create_sysroot_image
 else
 	# test access rights for building the sysroot
-	FU_access_rights
+	FU_tools_access_rights
 fi
 
 
@@ -148,7 +148,9 @@ cd $GV_base_dir
 ## Execute all formulas. The scripts have to be processed in this sequence!
 ##
 for LV_formula in "${GV_build_formulas[@]}"; do 
-	source "${GV_base_dir}/formula/${LV_formula%;*}.sh"
+	if ! [ -f "${UV_sysroot_dir}/lib/pkgconfig/${LV_formula%;*}.pc" ]; then 
+		echo ${LV_formula%;*}.pc
+	fi
 done
 
 

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-FU_get_download(){
+FU_file_get_download(){
 	
 	if ! [ -d "$UV_download_dir" ]; then
 		echo -n "Create Download dir... "
 		mkdir -p $UV_download_dir >$GV_log_file 2>&1
-		FU_is_error "$?"
+		FU_tools_is_error "$?"
 		echo "done"
 	fi
 	
@@ -31,12 +31,12 @@ FU_get_download(){
 	unset LV_status
 }
 
-FU_extract_tar(){
+FU_file_extract_tar(){
 	
 	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "  Create source dir... "
 		mkdir -p $GV_source_dir >$GV_log_file 2>&1
-		FU_is_error "$?"
+		FU_tools_is_error "$?"
 	fi
 	
 	echo -n "Extract ${GV_tar_name}... "
@@ -53,7 +53,7 @@ FU_extract_tar(){
 		tar xvf ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
 	fi
 
-	FU_is_error "$?"
+	FU_tools_is_error "$?"
 	cd $GV_base_dir
 	
 	GV_build_start=`date +%s`

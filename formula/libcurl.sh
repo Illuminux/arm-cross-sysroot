@@ -1,9 +1,10 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXv-1.0.7.tar.bz2"
+GV_url="http://curl.haxx.se/download/curl-7.26.0.tar.bz2"
 
 DEPEND=(
-	"libXext"
+	"openssl"
+	"libssh2"
 )
 
 GV_args=(
@@ -11,18 +12,28 @@ GV_args=(
 	"--enable-shared"
 	"--disable-static"
 	"--program-prefix=${UV_target}-"
-	"--sbindir=${GV_base_dir}/tmp/sbin"
-	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--sbindir==${GV_base_dir}/tmp/sbin"
 	"--sysconfdir=${GV_base_dir}/tmp/etc"
 	"--localstatedir=${GV_base_dir}/tmp/var"
 	"--datarootdir=${GV_base_dir}/tmp/share"
+	"--sbindir=${GV_base_dir}/tmp/sbin"
+	"--libexecdir=${GV_base_dir}/tmp/libexec"
+	"--with-ssl"
+	"--enable-ipv6"
 )
 
 FU_tools_get_names_from_url
-FU_tools_installed "xv.pc"
+FU_tools_installed "libcurl.pc"
 
 if [ $? == 1 ]; then
+	
+	TMP_LIBS=$LIBS
+	export LIBS="${LIBS} -lpthread -ldl"
+	
 	FU_file_get_download
 	FU_file_extract_tar
 	FU_build
+	
+	unset LIBS
+	export LIBS=$TMP_LIBS
 fi

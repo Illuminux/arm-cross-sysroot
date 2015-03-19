@@ -15,16 +15,16 @@ GV_args=(
 	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
-FU_get_names_from_url
-FU_installed "libusb-1.0.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "libusb-1.0.pc"
 
 if [ $? == 1 ]; then
 	
 	TMP_LIBS=$LIBS
 	export LIBS="${LIBS} -lpthread -lrt"
 	
-	FU_get_download
-	FU_extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	FU_build
 	
 	unset LIBS
