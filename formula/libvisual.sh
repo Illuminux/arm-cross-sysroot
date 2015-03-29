@@ -2,32 +2,35 @@
 
 GV_url="http://switch.dl.sourceforge.net/project/libvisual/libvisual/libvisual-0.4.0/libvisual-0.4.0.tar.gz"
 
-DEPEND=()
-
-GV_args=(
-	"--host=${GV_host}"
-	"--enable-shared"
-	"--disable-static"
-	"--disable-nls"
-	"--program-prefix=${UV_target}-"
-	"--sbindir=${GV_base_dir}/tmp/sbin"
-	"--libexecdir=${GV_base_dir}/tmp/libexec"
-	"--sysconfdir=${GV_base_dir}/tmp/etc"
-	"--localstatedir=${GV_base_dir}/tmp/var"
-	"--datadir=${GV_base_dir}/tmp/share"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "libvisual-0.4.pc"
 
 if [ $? == 1 ]; then
 	
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-nls"
+		"--enable-debug"
+	)
+	
 	FU_file_get_download
 	FU_file_extract_tar
-	FU_build
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
 	
 fi
 
 export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/libvisual-0.4"
 export CPPFLAGS=$CFLAGS
-export CXXFLAGS=$CPPFLAGS
+export CXXFLAGS=$CFLAGS

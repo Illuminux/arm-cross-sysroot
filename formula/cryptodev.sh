@@ -2,15 +2,17 @@
 
 GV_url="http://download.gna.org/cryptodev-linux/cryptodev-linux-1.6.tar.gz"
 
-DEPEND=()
-
-GV_args=()
+GV_depend=()
 
 FU_tools_get_names_from_url
 
 echo -n "Build $GV_name:"
 
 if ! [ -d "${GV_prefix}/include/crypto" ]; then
+	
+	FU_tools_check_depend
+
+	GV_args=()
 	
 	echo
 	
@@ -23,7 +25,7 @@ if ! [ -d "${GV_prefix}/include/crypto" ]; then
 	
 	cd $GV_base_dir
 	
-	FU_FU_build_finishinstall
+	FU_build_finishinstall
 else
 	echo " already installed"
 fi

@@ -1,11 +1,8 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/proto/xproto-7.0.23.tar.bz2"
+GV_url="http://xorg.freedesktop.org/releases/individual/util/util-macros-1.19.0.tar.bz2"
 
-GV_depend=(
-	"util-macros"
-	"xtrans"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -19,16 +16,16 @@ if [ $? == 1 ]; then
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
-		"--without-xmlto"
-		"--without-fop"
-		"--without-xsltproc"
 	)
 	
 	FU_file_get_download
 	FU_file_extract_tar
 		
 	FU_build_configure
-	FU_build_make
-	FU_build_install "install-strip"
+	FU_build_make "install"
+	FU_build_install
+	
+	mv -f "${UV_sysroot_dir}/${GV_host}/share/pkgconfig/xorg-macros.pc" \
+		"${UV_sysroot_dir}/lib/pkgconfig/"
 	
 fi

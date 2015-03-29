@@ -2,27 +2,29 @@
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.7.tar.bz2"
 
-DEPEND=(
+GV_depend=(
 	"xproto"
-)
-
-GV_args=(
-	"--host=${GV_host}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${UV_target}-"
-	"--sbindir=${GV_base_dir}/tmp/sbin"
-	"--libexecdir=${GV_base_dir}/tmp/libexec"
-	"--sysconfdir=${GV_base_dir}/tmp/etc"
-	"--localstatedir=${GV_base_dir}/tmp/var"
-	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 FU_tools_get_names_from_url
 FU_tools_installed "xau.pc"
 
 if [ $? == 1 ]; then
+	
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+	)
+	
 	FU_file_get_download
 	FU_file_extract_tar
-	FU_build
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
+	
 fi

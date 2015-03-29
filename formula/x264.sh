@@ -1,13 +1,11 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/proto/xproto-7.0.23.tar.bz2"
+GV_url="ftp://ftp.videolan.org/pub/x264/snapshots/x264-snapshot-20141114-2245-stable.tar.bz2"
 
-GV_depend=(
-	"util-macros"
-	"xtrans"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
+GV_version="0.142.x"
 FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
@@ -16,19 +14,19 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"--host=${GV_host}"
-		"--program-prefix=${UV_target}-"
+		"--cross-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
-		"--without-xmlto"
-		"--without-fop"
-		"--without-xsltproc"
+		"--enable-shared"
+		"--enable-debug"
+		"--enable-strip"
 	)
 	
 	FU_file_get_download
 	FU_file_extract_tar
 		
-	FU_build_configure
+	FU_build_configure	
 	FU_build_make
-	FU_build_install "install-strip"
+	FU_build_install "install"
 	
 fi

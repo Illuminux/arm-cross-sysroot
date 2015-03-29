@@ -1,29 +1,43 @@
 #!/bin/bash
 
 GV_url="http://www.libraw.org/data/LibRaw-0.16.0.tar.gz"
-DEPEND=(
-	"libjpeg"
+
+GV_depend=(
+	"zlib"
+	"libzma"
+	"jpeg"
+	"jasper"
 	"lcms2"
 )
 
-GV_args=(
-	"--host=${GV_host}"
-	"--enable-shared"
-	"--disable-static"
-	"--enable-lcms"
-	"--program-prefix=${UV_target}-"
-	"--sbindir=${GV_base_dir}/tmp/sbin"
-	"--libexecdir=${GV_base_dir}/tmp/libexec"
-	"--sysconfdir=${GV_base_dir}/tmp/etc"
-	"--localstatedir=${GV_base_dir}/tmp/var"
-	"--datarootdir=${GV_base_dir}/tmp/share"
-)
-
 FU_tools_get_names_from_url
-FU_tools_installed "libraw.pc"
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
+	
+	FU_tools_check_depend
+	
+	export LIBS="-lpthread -llcms2 -ljpeg -llzma -lz -lm"
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--enable-lcms"
+		"--enable-jpeg"
+		"--enable-jasper"
+	)
+	
 	FU_file_get_download
 	FU_file_extract_tar
-	FU_build
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
+	
+	unset LIBS
+	
 fi

@@ -2,33 +2,36 @@
 
 GV_url="http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.9.91.tar.bz2"
 
-DEPEND=(
+GV_depend=(
 	"zlib"
 	"freetype"
 	"expat"
 )
 
-GV_args=(
-	"--host=${GV_host}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${UV_target}-"
-	"--enable-libxml2"
-	"--disable-docs"
-	"--sbindir=${GV_base_dir}/tmp/sbin"
-	"--libexecdir=${GV_base_dir}/tmp/libexec"
-	"--sysconfdir=${GV_base_dir}/tmp/etc"
-	"--localstatedir=${GV_base_dir}/tmp/var"
-	"--datarootdir=${GV_base_dir}/tmp/share"
-)
-
 FU_tools_get_names_from_url
-FU_tools_installed "fontconfig.pc"
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
 	
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--enable-libxml2"
+		"--disable-docs"
+		"--with-arch=ARM"
+	)
+	
 	FU_file_get_download
 	FU_file_extract_tar
-	FU_build
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install
 	
 fi

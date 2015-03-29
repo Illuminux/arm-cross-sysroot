@@ -1,0 +1,45 @@
+#!/bin/bash
+
+GV_url="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.0.tar.gz"
+
+GV_depend=(
+	"expat"
+	"glib"
+)
+
+FU_tools_get_names_from_url
+FU_tools_installed "dbus-1.pc"
+
+if [ $? == 1 ]; then
+	
+	FU_tools_check_depend
+
+	export LIBS="-lpthread -lgio-2.0 -lgobject-2.0 -lffi -lgmodule-2.0 -ldl -lglib-2.0 -lz -lresolv -lrt -lm"
+	
+	GV_args=(
+		"--host=${GV_host}"
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-xml-docs"
+		"--disable-doxygen-docs"
+		"--without-x"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install "install-strip"
+	
+	unset LIBS
+	
+fi
+
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/dbus-1.0 -I${UV_sysroot_dir}/lib/dbus-1.0/include"
+export CPPFLAGS=$CFLAGS
+export CXXFLAGS=$CFLAGS
+

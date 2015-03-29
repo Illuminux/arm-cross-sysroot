@@ -6,56 +6,29 @@ fi
 
 GV_url="https://github.com/gumulka/BlackLib.git"
 
-DEPEND=()
-
 GV_args=()
 
 FU_tools_get_names_from_url
-FU_tools_installed "blacklib.pc"
+GV_version="2.0"
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
 	
+	FU_tools_check_depend
+	
+	export CC=$UV_target-gcc
+	export CXX=$UV_target-g++
+
+	GV_depend=()
+		
 	GV_dir_name=${GV_dir_name%.*}
 	GV_name=$GV_dir_name
 	
-	if ! [ -d "$UV_download_dir" ]; then
-		echo -n "  Create Download dir... "
-		mkdir -p $UV_download_dir >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
-		echo "done"
-	fi
-	
-	cd $UV_download_dir
-	
-	echo -n "Download ${GV_name}... "
-	if ! [ -d "${UV_download_dir}/${GV_dir_name}" ]; then
-		git clone $GV_url 2>&1
-		FU_tools_is_error "$?"
-	else
-		echo "alredy loaded"
-	fi
-	
-	if ! [ -d "$GV_source_dir" ]; then
-		echo -n "Create source dir... "
-		mkdir -p $GV_source_dir >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
-	fi
-	
-	echo -n "Copy ${GV_name}... "
-	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
-		rm -rf "${GV_source_dir}/${GV_dir_name}"
-	fi
-	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
-	FU_tools_is_error "$?"
-	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
-	
+	FU_file_git_clone
 	
 	cd "${GV_source_dir}/${GV_dir_name}"
 	
 	patch -p1 < "${GV_base_dir}/patches/blacklib.patch" >$GV_log_file 2>&1
-	
-	export CC=$UV_target-gcc
-	export CXX=$UV_target-g++
 	
 	cd "${GV_source_dir}/${GV_dir_name}/v2_0"
 	echo -n "Make ${GV_name}... "
@@ -85,7 +58,7 @@ includedir=\${prefix}/include/BlackLib
 
 Name: ${GV_name}
 Description: GPIO Interface library for the Beaglebone Black
-Version: 2.0
+Version: ${GV_version}
 
 EOF
 fi

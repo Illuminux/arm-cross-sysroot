@@ -2,7 +2,7 @@
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/libX11-1.5.0.tar.bz2"
 
-DEPEND=(
+GV_depend=(
 	"util-macros"
 	"xtrans"
 	"xproto"
@@ -18,28 +18,32 @@ DEPEND=(
 	"fontconfig"
 )
 
-GV_args=(
-	"--host=${GV_host}"
-	"--enable-shared"
-	"--disable-static"
-	"--disable-composecache"
-	"--program-prefix=${UV_target}-"
-	"--sbindir=${GV_base_dir}/tmp/sbin"
-	"--libexecdir=${GV_base_dir}/tmp/libexec"
-	"--sysconfdir=${GV_base_dir}/tmp/etc"
-	"--localstatedir=${GV_base_dir}/tmp/var"
-	"--datarootdir=${GV_base_dir}/tmp/share"
-)
-
 FU_tools_get_names_from_url
 FU_tools_installed "x11.pc"
 
 if [ $? == 1 ]; then
+	
+	FU_tools_check_depend
+	
+	export LIBS="-lcrypto -ldl"
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-composecache"
+	)
+	
 	FU_file_get_download
 	FU_file_extract_tar
-	FU_build
+	
+	FU_build_configure
+	FU_build_make
+	FU_build_install
+	
+	unset LIBS
+	
 fi
-
-#export CFLAGS="${CFLAGS} -I${GV_prefix}/include/X11"
-#export CPPFLAGS=$CFLAGS
-#export CXXFLAGS=$CPPFLAGS

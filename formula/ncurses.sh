@@ -2,48 +2,43 @@
 
 GV_url="http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz"
 
-DEPEND=()
+GV_depend=()
 
-GV_args=(
-	"--host=${GV_host}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${UV_target}-"
-	"--sbindir=${GV_base_dir}/tmp/sbin"
-	"--libexecdir=${GV_base_dir}/tmp/libexec"
-	"--sysconfdir=${GV_base_dir}/tmp/etc"
-	"--localstatedir=${GV_base_dir}/tmp/var"
-	"--datadir=${GV_base_dir}/tmp/share"
-	"--mandir=${GV_base_dir}/tmp/share"
-	"--infodir=${GV_base_dir}/tmp/info"
-	"--with-shared "
-	"--enable-pc-files"
-	"--disable-big-core"
-	"--disable-big-strings"
-	"--disable-largefile"
-)
 
 FU_tools_get_names_from_url
-FU_tools_installed "${GV_name}.pc"
+GV_version="5.9.20110404"
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
+	
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--with-shared"
+		"--with-normal"
+		"--with-debug"
+		"--enable-pc-files"
+		"--enable-ext-mouse"
+		"--disable-big-core"
+		"--disable-big-strings"
+		"--disable-largefile"
+		"--without-manpages"
+		"--without-progs"
+		"--without-tests"
+		"ac_cv_path_PKG_CONFIG=${PKG_CONFIG_PATH}"
+	)
+	
 	FU_file_get_download
 	FU_file_extract_tar
-	FU_build
-	
-cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
-prefix=${GV_prefix}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install
 
-Name: ${GV_name}
-Description: Text-based user interfaces library
-Version: ${GV_version}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir} -lncurses
-Cflags: -I\${includedir}
-EOF
 fi

@@ -1,12 +1,11 @@
 #!/bin/bash
 
-GV_url="http://ktown.kde.org/~wheeler/files/src/taglib-1.7.2.tar.gz"
+GV_url="https://github.com/libical/libical/releases/download/v1.0.1/libical-1.0.1.tar.gz"
 
-GV_depend=(
-	"zlib"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
+GV_version="1.0"
 FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
@@ -26,23 +25,18 @@ if [ $? == 1 ]; then
 		"-DCMAKE_CXX_COMPILER='$UV_target-g++'"
 		"-DCMAKE_CROSSCOMPILING=True"
 		"-DCMAKE_INSTALL_PREFIX='$UV_sysroot_dir'"
-		"-DCMAKE_LIBRARY_PATH='${UV_sysroot_dir}/lib'"
-		"-DCMAKE_INCLUDE_PATH='${UV_sysroot_dir}/include'"
-		"-DZLIB_INCLUDE_DIR='${UV_sysroot_dir}/include'"
-		"-DZLIB_LIBRARY='${UV_sysroot_dir}/lib/libz.so'"
-		"-DCMAKE_RELEASE_TYPE='Release'"
+		"-DSHARED_ONLY=yes"
 	)
 	
 	FU_file_get_download
 	FU_file_extract_tar
 	
 	cd "${GV_source_dir}/${GV_dir_name}"
-	
 	echo -n "Configure ${GV_name}... "
-	cmake ${GV_args[@]}	>$GV_log_file 2>&1
+	cmake ${GV_args[@]}	"${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
 	FU_tools_is_error "$?"
 	
-	FU_build_make
+	FU_build_make	
 	FU_build_install
 	
 	unset CC

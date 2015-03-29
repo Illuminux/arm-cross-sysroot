@@ -1,34 +1,36 @@
 #!/bin/bash
 
-GV_url="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng12/libpng-1.2.53.tar.gz"
+GV_url="http://download.sourceforge.net/libpng/libpng-1.6.16.tar.xz"
 
-DEPEND=(
+GV_depend=(
 	"zlib"
 )
 
-GV_args=(
-	"--host=${GV_host}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${UV_target}-"
-	"--sbindir=${GV_base_dir}/tmp/sbin"
-	"--libexecdir=${GV_base_dir}/tmp/libexec"
-	"--sysconfdir=${GV_base_dir}/tmp/etc"
-	"--localstatedir=${GV_base_dir}/tmp/var"
-	"--datarootdir=${GV_base_dir}/tmp/share"
-)
-
 FU_tools_get_names_from_url
-FU_tools_installed "${GV_name}.pc"
+FU_tools_installed "libpng16.pc"
 
 if [ $? == 1 ]; then
+	
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+	)
+	
 	FU_file_get_download
 	FU_file_extract_tar
-	FU_build
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
 	
-	ln -s "${UV_sysroot_dir}/include/libpng12" "${UV_sysroot_dir}/include/libpng"
 fi
 
-export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/libpng12"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/libpng16"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CPPFLAGS

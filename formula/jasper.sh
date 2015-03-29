@@ -1,19 +1,16 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/lib/pixman-0.26.0.tar.bz2"
+GV_url="http://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip"
 
-GV_depend=(
-	"libpng"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
-FU_tools_installed "pixman-1.pc"
+GV_version="1.900.1"
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
-	
-	export LIBS="-lpng16 -lz -lm"
 
 	GV_args=(
 		"--host=${GV_host}"
@@ -22,20 +19,21 @@ if [ $? == 1 ]; then
 		"--includedir=${UV_sysroot_dir}/include"
 		"--enable-shared"
 		"--disable-static"
-		"--disable-mmx"
-		"--disable-sse2"
-		"--disable-vmx"
-		"--disable-arm-iwmmxt"
-		"--disable-mips-dspr2"
+		"--enable-debug"
 	)
 	
 	FU_file_get_download
 	FU_file_extract_tar
-		
+	
+	GV_dir_name=${GV_tar_name%.zip*}
+	GV_name=${GV_dir_name%-*}
+	GV_version=${GV_dir_name##$GV_name*-}
+	GV_extension=${GV_tar_name##*.}
+
 	FU_build_configure
 	FU_build_make
 	FU_build_install "install-strip"
 	
-	unset LIBS
-	
+	FU_build_pkg_file "-ljasper"
+
 fi

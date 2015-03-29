@@ -1,19 +1,20 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/lib/pixman-0.26.0.tar.bz2"
+GV_url="ftp://xmlsoft.org/libxml2/libxml2-2.8.0.tar.gz"
 
 GV_depend=(
-	"libpng"
+	"zlib"
+	"liblzma"
 )
 
 FU_tools_get_names_from_url
-FU_tools_installed "pixman-1.pc"
+FU_tools_installed "libxml-2.0.pc"
 
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 	
-	export LIBS="-lpng16 -lz -lm"
+	export LIBS="-lpthread -llzma"
 
 	GV_args=(
 		"--host=${GV_host}"
@@ -22,11 +23,7 @@ if [ $? == 1 ]; then
 		"--includedir=${UV_sysroot_dir}/include"
 		"--enable-shared"
 		"--disable-static"
-		"--disable-mmx"
-		"--disable-sse2"
-		"--disable-vmx"
-		"--disable-arm-iwmmxt"
-		"--disable-mips-dspr2"
+		"--without-python"
 	)
 	
 	FU_file_get_download
@@ -39,3 +36,7 @@ if [ $? == 1 ]; then
 	unset LIBS
 	
 fi
+
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/libxml2"
+export CPPFLAGS=$CFLAGS
+export CXXFLAGS=$CFLAGS

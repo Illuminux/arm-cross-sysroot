@@ -2,27 +2,11 @@
 
 GV_url="http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-0.10.31.tar.bz2"
 
-DEPEND=(
+GV_depend=(
 	"gst-plugins-base"
 	"cairo"
 	"libjpeg"
 	"libpng"
-)
-
-GV_args=(
-	"--host=${GV_host}"
-	"--enable-shared"
-	"--enable-static"
-	"--program-prefix=${UV_target}-"
-	"--disable-nls"
-	"--disable-examples"
-	"--disable-largefile"
-	"--disable-gtk-doc"
-	"--sbindir=${GV_base_dir}/tmp/sbin"
-	"--libexecdir=${GV_base_dir}/tmp/libexec"
-	"--sysconfdir=${GV_base_dir}/tmp/etc"
-	"--localstatedir=${GV_base_dir}/tmp/var"
-	"--datarootdir=${GV_base_dir}/tmp/share"
 )
 
 FU_tools_get_names_from_url
@@ -30,23 +14,31 @@ FU_tools_installed "gstreamer-plugins-good-0.10.pc"
 
 if [ $? == 1 ]; then
 	
-	if [ -f "${UV_sysroot_dir}/bin/glib-genmarshal" ]; then 
-		mv "${UV_sysroot_dir}/bin/glib-genmarshal" "${UV_sysroot_dir}/bin/glib-genmarshal_bak"
-	fi
+	FU_tools_check_depend
 	
-	TMP_LIBS=$LIBS
-	export LIBS="${LIBS} -lpthread -ldl -lXv -lXau -lXext -lX11 -lxcb"
+	export LIBS="-lpthread -ldl -lXv -lXau -lXext -lX11 -lxcb -lz -lresolv -lm"
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--enable-static"
+		"--disable-nls"
+		"--disable-examples"
+		"--disable-largefile"
+		"--disable-gtk-doc"
+	)
 	
 	FU_file_get_download
 	FU_file_extract_tar
-	FU_build
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install "install-strip"
 	
 	unset LIBS
-	export LIBS=$TMP_LIBS
-
-	if [ -f "${UV_sysroot_dir}/bin/glib-genmarshal_bak" ]; then 
-		mv "${UV_sysroot_dir}/bin/glib-genmarshal_bak" "${UV_sysroot_dir}/bin/glib-genmarshal"
-	fi
 
 cat > "${UV_sysroot_dir}/lib/pkgconfig/gstreamer-plugins-good-0.10.pc" << EOF
 prefix=${GV_prefix}
