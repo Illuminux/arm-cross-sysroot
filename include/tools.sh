@@ -53,7 +53,7 @@ FU_tools_installed() {
 			echo " updating"
 			return 1
 		else
-			echo " already installed"
+			echo " already installed (${GV_version})"
 			return 0
 		fi
 	elif [ -f "${UV_sysroot_dir}/usr/lib/pkgconfig/$1" ]; then
@@ -62,7 +62,7 @@ FU_tools_installed() {
 			echo " updating"
 			return 1
 		else
-			echo " already installed"
+			echo " already installed (${GV_version})"
 			return 0
 		fi
 	elif [ -f "${UV_sysroot_dir}/usr/local/lib/pkgconfig/$1" ]; then
@@ -71,7 +71,7 @@ FU_tools_installed() {
 			echo " updating"
 			return 1
 		else
-			echo " already installed"
+			echo " already installed (${GV_version})"
 			return 0
 		fi
 	else
@@ -103,7 +103,7 @@ FU_tools_access_rights() {
 	
 	# test access rights for building the sysroot
 	if ! [ -d ${UV_sysroot_dir} ]; then
-		mkdir -p "${UV_sysroot_dir}" >/dev/null 2>&1 \
+		mkdir -p ${UV_sysroot_dir} >/dev/null 2>&1 \
 			|| FU_tools_must_have_sudo
 	else
 		touch "${UV_sysroot_dir}/access_test" >/dev/null 2>&1 \
@@ -119,10 +119,10 @@ FU_tools_print_usage() {
 	echo
 	echo "  Options:"
 	echo "    --list             List all formulas."
-	echo "    --list-info        List all formulas with description."
 	echo "    --configure-help   Display the configure options for the first new formula."
 	echo "    --configure-show   Display the configure output for the new formula."
 	echo "    --make-show        Display the make output for the new formula."
+	echo "    --version			 Script Version"
 	echo "    --help             Display this message"
 	echo
 	exit 0
@@ -164,33 +164,52 @@ FU_tools_parse_arguments() {
 	
 	LV_argv=($@)
 	
-	#echo ${LV_argv##*--disable-}
-	
-	if [ $# -gt 0 ]; then 
+	while [ "$1" != "" ]; do
 		
-		for GV_arg in "${LV_argv[@]}"; do
-
-			case $GV_arg in
-				"--list")
-					FU_tools_print_list
-					;;
-				"--list-info")
-					FU_tools_print_listinfo
-					;;
-				"--configure-show")
-					GV_conf_show=true
-					;;
-				"--configure-help")
-					GV_conf_help=true
-					;;
-				"--make-show")
-					GV_make_show=true
-					;;
-				*)
-					FU_tools_print_usage
-			esac
-		done
-	fi
+		LV_param=$(echo $1 | gawk -F= '{print $1}')
+	    LV_value=$(echo $1 | gawk -F= '{print $2}')
+		
+		case $LV_param in
+				
+			-h | --help)
+				FU_tools_print_usage
+				exit 0
+				;;
+				
+			-l | --list)
+				FU_tools_print_list
+				exit 0
+				;;
+				
+			--configure-show)
+				GV_conf_show=true
+				;;
+				
+			--configure-help)
+				GV_conf_help=true
+				;;
+		
+			--make-show)
+				GV_make_show=true
+				;;
+				
+			-v | --vesrion)
+				echo $GV_version
+				;;
+				
+			*)
+				echo "ERROR: unknown parameter \"$LV_param\""
+				FU_tools_print_usage
+				exit 1
+				;;
+		esac
+		
+		shift
+	done
+	
+	unset LV_param
+	unset LV_value
+	
 }
 
 
@@ -269,3 +288,7 @@ FU_tools_create_sysroot_image(){
 	fi
 }
 
+
+FU_tools_check_depend() {
+	return 0
+}
