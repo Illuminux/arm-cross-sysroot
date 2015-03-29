@@ -31,11 +31,46 @@ FU_file_get_download(){
 	unset LV_status
 }
 
+FU_file_git_clone(){
+
+	if ! [ -d "$UV_download_dir" ]; then
+		echo -n "  Create Download dir... "
+		mkdir -p $UV_download_dir >$GV_log_file 2>&1
+		FU_tools_is_error "$?"
+		echo "done"
+	fi
+	
+	cd $UV_download_dir
+	
+	echo -n "Download ${GV_name}... "
+	if ! [ -d "${UV_download_dir}/${GV_dir_name}" ]; then
+		git clone $GV_url 2>&1
+		FU_tools_is_error "$?"
+	else
+		echo "alredy loaded"
+	fi
+	
+	if ! [ -d "$GV_source_dir" ]; then
+		echo -n "  Create source dir... "
+		mkdir -p $GV_source_dir >$GV_log_file 2>&1
+		FU_tools_is_error "$?"
+	fi
+	
+	echo -n "Copy ${GV_name}... "
+	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
+		rm -rf "${GV_source_dir}/${GV_dir_name}"
+	fi
+	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
+	FU_tools_is_error "$?"
+	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
+}
+
 FU_file_extract_tar(){
 	
 	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "  Create source dir... "
 		mkdir -p $GV_source_dir >$GV_log_file 2>&1
+		mkdir -p "${GV_source_dir}/bin"
 		FU_tools_is_error "$?"
 	fi
 	
@@ -48,7 +83,7 @@ FU_file_extract_tar(){
 	cd $GV_source_dir
 	
 	if [ "${GV_extension}" = "zip" ]; then
-		unzip ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
+		unzip -o ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
 	else 
 		tar xvf ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
 	fi
