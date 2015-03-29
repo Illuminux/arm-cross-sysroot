@@ -5,7 +5,7 @@
 # to build the libraries for an ARM target. It does not contains any 
 # of the the source. They will be downloaded during the build process.
 #
-# Copyright (C) 2014  Knut Welzel
+# Copyright (C) 2014-15  Knut Welzel
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,6 +33,14 @@ GV_total_start=$(date +%s)
 
 ## Build platform
 GV_build_os=$(uname -s)
+
+if [ $GV_build_os = "Darwin" ]; then 
+	LIBTOOL=glibtool
+	SED=gsed
+else
+	LIBTOOL=libtool
+	SED=sed
+fi
 
 ##
 ## check if config.cfg exists or exit
@@ -62,35 +70,6 @@ source "${GV_base_dir}/include/build.sh"
 
 
 ##
-## Chcke if a sysroot olready exists (Mac only)
-##
-if [ -f "${UV_sysroot_dir}/.directory" ]; then
-	
-	while true; do
-		echo "The root directory already exists."
-		echo "This is because the script was executed before."
-		echo "If the image is not deleted or changed since the last run, you can press continued."
-		echo "Otherwise, the entire root must be recreated."
-		echo
-		read -p "Continue or abbort the script [C/a]: " LV_key
-		
-		LV_key=${Ca:-C}
-		
-		case $LV_key in
-			
-			[Cc]* ) 
-				rm -rf ${UV_sysroot_dir}
-				break;;
-			
-			[Aa]* ) clear; exit 0;;
-			
-		esac
-	done
-	
-	unset LV_key
-fi
-
-##
 ## Parse the comandline arguments 
 ##
 FU_tools_parse_arguments $@
@@ -107,15 +86,15 @@ FU_system_require
 
 ##
 ## Mac OS X needs an case sensitiv diskimage
+## !!! libX11 can only build on a case sensitiv filesystem !!!
 ##
 if [ $GV_build_os = "Darwin" ]; then 
 	FU_tools_create_source_image
-	FU_tools_create_sysroot_image
+	FU_tools_access_rights
 else
 	# test access rights for building the sysroot
 	FU_tools_access_rights
 fi
-
 
 ##
 ## Build and Version information
@@ -128,8 +107,8 @@ else
 	echo >> "${UV_sysroot_dir}/buildinfo.txt"
 fi
 cat >> "${UV_sysroot_dir}/buildinfo.txt" << EOF
-Script Version: 1.0.3
-Script Date:	20 Nov 2014
+Script Version: $GV_version
+Script Date:	$GV_build_date
 Build Date:		$(date)
 Build User:		$(whoami)
 Build Machine:	$(uname -v)
@@ -148,40 +127,22 @@ cd $GV_base_dir
 ## Execute all formulas. The scripts have to be processed in this sequence!
 ##
 for LV_formula in "${GV_build_formulas[@]}"; do 
-	if ! [ -f "${UV_sysroot_dir}/lib/pkgconfig/${LV_formula%;*}.pc" ]; then 
-		echo ${LV_formula%;*}.pc
-	fi
+	
+	source "${GV_base_dir}/formula/${LV_formula}.sh"
 done
 
 
 echo "Cleanup build directory."
-rm -rf "${GV_base_dir}/tmp"
 
 if [ $GV_build_os = "Darwin" ]; then 
 	echo -n "Unmount source image... " 
 	hdiutil detach $GV_source_dir >/dev/null 2>&1 || exit 1
 	rm -rf "${GV_base_dir}/sources.sparseimage"
 	echo "done"
-	
-	echo -n "Move sysroot into a local directory... " 
-	mkdir -p "${UV_sysroot_dir}_tmp"
-	cp -RP "${UV_sysroot_dir}/lib" "${UV_sysroot_dir}_tmp/lib"
-	cp -RP "${UV_sysroot_dir}/include" "${UV_sysroot_dir}_tmp/include"
-	cp "${UV_sysroot_dir}/buildinfo.txt" "${UV_sysroot_dir}_tmp/buildinfo.txt"
-	echo "done"
-	
-	echo -n "Unmount sysroot image... " 
-	hdiutil detach $UV_sysroot_dir >/dev/null 2>&1 || exit 1
-	mv "${UV_sysroot_dir}_tmp" "${UV_sysroot_dir}"
-	touch "${UV_sysroot_dir}/.directory"
-	echo "done"
-	echo 
-	echo "Caution: Do not delete or remove the sysroot.sparseimage!"
-	echo "         It will be needed for rebuilding the sysroot!"
-	echo
 else
-	rm -rf "${GV_base_dir}/src"
+	rm -rf "${BASE_DIR}/src"
 fi
+
 
 GV_total_end=`date +%s`
 GV_total_time=`expr $GV_total_end - $GV_total_start`
@@ -192,8 +153,10 @@ else
 	AWK=awk
 fi
 
+echo
 echo "" >> "${UV_sysroot_dir}/buildinfo.txt"
 echo -n "Sysroot successfully build in " >> "${UV_sysroot_dir}/buildinfo.txt"
 echo $GV_total_time | $AWK '{print strftime("%H:%M:%S", $1,1)}' >> "${UV_sysroot_dir}/buildinfo.txt"
-echo -n "Sysroot successfully build in " 
+echo -n "Sysroot successfully build in "
 echo $GV_total_time | $AWK '{print strftime("%H:%M:%S", $1,1)}'
+echo
