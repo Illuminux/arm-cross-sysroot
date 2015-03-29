@@ -1,20 +1,5 @@
 #!/bin/bash
 
-FU_build() {
-
-	FU_build_autogen
-	FU_build_configure
-	if [ "${#}" -gt 0 ]; then 
-		FU_build_make $@
-	else
-		FU_build_make
-	fi
-	
-	FU_build_install
-	
-	FU_build_finishinstall
-}
-
 
 FU_build_autogen() {
 	
@@ -32,7 +17,7 @@ FU_build_autogen() {
 
 FU_build_configure() {
 
-	cd "${GV_source_dir}/${GV_dir_name}"
+	cd "${GV_source_dir}/${GV_dir_name}"	
 	
 	echo -n "Configure ${GV_name}... "
 	if [ "$GV_conf_help" == true ]; then
@@ -40,10 +25,10 @@ FU_build_configure() {
 		exit
 	elif [ "$GV_conf_show" == true ]; then
 		echo "" >$GV_log_file 2>&1
-		./configure --prefix="${UV_sysroot_dir}" ${GV_args[@]} 2>&1
+		./configure --prefix="${UV_sysroot_dir}/${GV_host}" ${GV_args[@]} 2>&1
 		FU_tools_is_error "$?"
 	else
-		./configure --prefix="${UV_sysroot_dir}" ${GV_args[@]} >$GV_log_file 2>&1
+		./configure --prefix="${UV_sysroot_dir}/${GV_host}" ${GV_args[@]} >$GV_log_file 2>&1
 		FU_tools_is_error "$?"
 	fi
 
@@ -77,23 +62,17 @@ FU_build_make() {
 
 
 FU_build_install() {
-
+	
+	if [ "${#}" -eq 0 ]; then 
+		LV_make_args="install"
+	else
+		LV_make_args=$@
+	fi
+	
 	cd "${GV_source_dir}/${GV_dir_name}"
 	
 	echo -n "Install ${GV_name}... "
-	make install >$GV_log_file 2>&1
-	FU_tools_is_error "$?"
-
-	cd $GV_base_dir
-}
-
-
-FU_build_su_install() {
-
-	cd "${GV_source_dir}/${GV_dir_name}"
-	
-	echo -n "Install as root ${GV_name}... "
-	sudo make install >$GV_log_file 2>&1
+	make $LV_make_args >$GV_log_file 2>&1
 	FU_tools_is_error "$?"
 
 	cd $GV_base_dir
@@ -111,4 +90,26 @@ FU_build_finishinstall() {
 	
 	unset LV_build_end
 	unset LV_build_time
+}
+
+
+FU_build_pkg_file() {
+	
+	mkdir -p "${UV_sysroot_dir}/lib/pkgconfig/"
+
+cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
+prefix=${GV_prefix}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+sharedlibdir=\${libdir}
+includedir=\${prefix}/include
+
+Name: ${GV_name}
+Description: ${GV_name} Library
+Version: ${GV_version}
+
+Requires:
+Libs: -L\${libdir} -L\${sharedlibdir} $1
+Cflags: -I\${includedir}
+EOF
 }
