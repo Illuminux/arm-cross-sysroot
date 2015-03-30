@@ -193,8 +193,9 @@ FU_tools_parse_arguments() {
 				GV_make_show=true
 				;;
 				
-			-v | --vesrion)
-				echo $GV_version
+			-v | --version)
+				echo "${GV_version} (Build ${GV_build_date})"
+				exit 0
 				;;
 				
 			*)

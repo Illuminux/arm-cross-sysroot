@@ -21,7 +21,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-clear
+#clear
 
 ##
 ## Working directory of the Script
@@ -49,12 +49,12 @@ if ! [ -f "${GV_base_dir}/config.cfg" ]; then
 	
 	echo "Error: The configuration file could not be found!"
 	echo 
-	echo "Rename or copy the file config.cfg.sample into config.cfg"
-	echo "and customize the variable according to your system settings."
+	echo "Rename or copy the file config.cfg.sample into config.cfg" \
+	     "and customize the variable according to your system settings."
 	echo "  $ cp config.cfg.sample config.cfg"
 	echo "  $ nano config.cfg"
 	echo 
-	exit
+	exit 1
 fi
 
 
