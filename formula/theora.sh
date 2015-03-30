@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.gz"
+GV_sha1="0b91be522746a29351a5ee592fd8160940059303"
 
 GV_depend=(
 	"ogg"

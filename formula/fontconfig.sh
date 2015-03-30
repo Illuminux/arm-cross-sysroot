@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.9.91.tar.bz2"
+GV_sha1="9f4dff0a6e50ade2b919f33795eae8438a285595"
 
 GV_depend=(
 	"zlib"

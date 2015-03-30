@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://sourceforge.net/projects/opencvlibrary/files/latest/download/opencv-2.4.10"
+GV_sha1="0b185f5e332d5feef91722a6ed68c36a6d33909e"
 
 DEPEND=(
 	"cryptodev"

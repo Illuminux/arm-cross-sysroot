@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="ftp://ftp.gnome.org/pub/gnome/sources/json-glib//0.14/json-glib-0.14.2.tar.xz"
+GV_sha1="077c5a7bfabdaefba1f4472100e29add9aa910a4"
 
 GV_depend=(
 	"glib"

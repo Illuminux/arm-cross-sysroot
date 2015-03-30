@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz"
+GV_sha1="f5230890dc0be42fb5c58fbf793da253155de106"
 
 GV_depend=()
 

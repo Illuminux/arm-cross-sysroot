@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://www.libraw.org/data/LibRaw-0.16.0.tar.gz"
+GV_sha1="492239aa209b1ddd1f030da4fc2978498c32a29b"
 
 GV_depend=(
 	"zlib"

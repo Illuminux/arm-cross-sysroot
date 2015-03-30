@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz"
+GV_sha1="3f89f861209ce81a6bab1fd1998c0ef311712002"
 
 GV_depend=()
 

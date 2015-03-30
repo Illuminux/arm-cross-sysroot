@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/pixman-0.26.0.tar.bz2"
+GV_sha1="d772cf794ec5da0966eba3cb360919a0a5e0d23f"
 
 GV_depend=(
 	"libpng"

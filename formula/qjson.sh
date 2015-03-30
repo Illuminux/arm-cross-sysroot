@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="https://github.com/flavio/qjson.git"
+GV_sha1=""
 
 GV_depend=(
 	"qt"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.7.tar.bz2"
+GV_sha1="29c47207fd246425b906f525b2220235ce4cd0f6"
 
 GV_depend=(
 	"xproto"

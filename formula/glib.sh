@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://ftp.gnome.org/pub/gnome/sources/glib/2.40/glib-2.40.0.tar.xz"
+GV_sha1="44e1442ed4d1bf3fa89138965deb35afc1335a65"
 
 GV_depend=(
 	"zlib"

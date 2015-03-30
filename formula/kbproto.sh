@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/kbproto-1.0.6.tar.bz2"
+GV_sha1="a2cc82357c22a1f4d6243017982c32703c95575c"
 
 GV_depend=(
 	"util-macros"

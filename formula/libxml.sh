@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="ftp://xmlsoft.org/libxml2/libxml2-2.8.0.tar.gz"
+GV_sha1="a0c553bd51ba79ab6fff26dc700004c6a41f5250"
 
 GV_depend=(
 	"zlib"

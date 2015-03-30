@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://www.kernel.org/pub/linux/bluetooth/bluez-5.18.tar.xz"
+GV_sha1="5d5121b7c4afba5b4b55c1e1db2ef5d77a362a43"
 
 GV_depend=(
 	"glib"

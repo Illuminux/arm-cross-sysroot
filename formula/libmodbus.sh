@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://libmodbus.org/releases/libmodbus-3.0.6.tar.gz"
+GV_sha1="32002975fab4b9882a0b0d4d6095dcf90b5390ce"
 
 GV_depend=()
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://dl.lm-sensors.org/i2c-tools/releases/i2c-tools-3.1.1.tar.bz2"
+GV_sha1="05e4e3b34ebc921812e14527936c0fae65729204"
 
 GV_depend=()
 

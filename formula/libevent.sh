@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="https://github.com/downloads/libevent/libevent/libevent-2.0.19-stable.tar.gz"
+GV_sha1="28c109190345ce5469add8cf3f45c5dd57fe2a85"
 
 GV_depend=(
 	"gmp"

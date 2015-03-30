@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://tukaani.org/xz/xz-5.1.4beta.tar.gz"
+GV_sha1="e6562e8c704b49a0ded7333dfd0da876a5714cdf"
 
 GV_depend=()
 

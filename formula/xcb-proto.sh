@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xcb.freedesktop.org/dist/xcb-proto-1.7.1.tar.gz"
+GV_sha1="4c7d56da2669943b981eb5e739e5c89787140720"
 
 GV_depend=(
 	"util-macros"

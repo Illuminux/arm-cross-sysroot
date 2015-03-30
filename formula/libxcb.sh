@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xcb.freedesktop.org/dist/libxcb-1.8.1.tar.bz2"
+GV_sha1="98199b6054750a06cddd4e77baa4354af547ce6f"
 
 GV_depend=(
 	"libXau"

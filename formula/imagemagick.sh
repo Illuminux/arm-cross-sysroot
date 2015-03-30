@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://mirror.checkdomain.de/imagemagick/releases/ImageMagick-6.7.7-10.tar.bz2"
+GV_sha1="acb4f2647a19895abb2af5bd1379b0cca151c58a"
 
 GV_depend=(
 	"glib"

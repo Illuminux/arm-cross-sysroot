@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://jpegclub.org/support/files/jpegsrc.v8d1.tar.gz"
+GV_sha1="13553b2dba20cb059b10c74ddd00f5395e4f9cee"
 
 GV_depend=()
 

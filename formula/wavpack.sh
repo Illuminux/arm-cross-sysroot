@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://www.wavpack.com/wavpack-4.70.0.tar.bz2"
+GV_sha1="7bf2022c988c19067196ee1fdadc919baacf46d1"
 
 GV_depend=()
 

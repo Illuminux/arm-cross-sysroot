@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/inputproto-2.2.tar.bz2"
+GV_sha1="500e0a6dac3523887c0b82753fe5e9d4bb982137"
 
 GV_depend=(
 	"util-macros"

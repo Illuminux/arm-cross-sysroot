@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/videoproto-2.3.2.tar.bz2"
+GV_sha1="aa60e3b93c6a78ad03f1c502b910e7c45faaedbc"
 
 GV_depend=(
 	"util-macros"

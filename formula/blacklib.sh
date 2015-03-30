@@ -5,6 +5,7 @@ if ! [ "${UV_board}" == "beaglebone" ]; then
 fi
 
 GV_url="https://github.com/gumulka/BlackLib.git"
+GV_sha1=""
 
 GV_args=()
 

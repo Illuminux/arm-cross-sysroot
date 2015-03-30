@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz"
+GV_sha1="3e042e5f2c7223bffdaac9646a533b8c758b65b5"
 
 GV_depend=()
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://download.savannah.gnu.org/releases/freetype/freetype-2.4.9.tar.bz2"
+GV_sha1="5cb80ab9d369c4e81a2221bcf45adcea2c996b9b"
 
 GV_depend=(
 	"zlib"

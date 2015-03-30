@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://download.osgeo.org/libtiff/tiff-4.0.2.tar.gz"
+GV_sha1="d84b7b33a6cfb3d15ca386c8c16b05047f8b5352"
 
 GV_depend=(
 	"zlib"

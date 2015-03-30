@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/util/util-macros-1.19.0.tar.bz2"
+GV_sha1="00cfc636694000112924198e6b9e4d72f1601338"
 
 GV_depend=()
 

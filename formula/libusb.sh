@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.9/libusb-1.0.9.tar.bz2"
+GV_sha1="025582ff2f6216e2dbc2610ae16b2e073e1b3346"
 
 GV_depend=()
 

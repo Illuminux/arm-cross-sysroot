@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="https://libav.org/releases/libav-0.8.16.tar.xz"
+GV_sha1="df88b8f7d04d47edea8b19d80814227f0c058e57"
 
 GV_depend=()
 

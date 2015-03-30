@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="ftp://ftp.gnu.org/gnu/gsl/gsl-1.15.tar.gz"
+GV_sha1="d914f84b39a5274b0a589d9b83a66f44cd17ca8e"
 
 GV_depend=()
 

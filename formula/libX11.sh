@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/libX11-1.5.0.tar.bz2"
+GV_sha1="8177535c9c59d8c3ab98d55ce53520b5737ccd1a"
 
 GV_depend=(
 	"util-macros"

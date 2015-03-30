@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://directfb.org/downloads/Core/DirectFB-1.2/DirectFB-1.2.10.tar.gz"
+GV_sha1="3fa31289d730d348bdc46b21a83ce0679120b451"
 
 GV_depend=(
 	"freetype"

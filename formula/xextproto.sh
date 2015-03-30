@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/xextproto-7.2.1.tar.bz2"
+GV_sha1="f969e02009adf2d51fd1ba4583a859984728a461"
 
 GV_depend=(
 	"util-macros"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://optimate.dl.sourceforge.net/project/lcms/lcms/2.2/lcms2-2.2.tar.gz"
+GV_sha1="55ae4884a92c7fbd491c118aa3b356814b1014df"
 
 GV_depend=()
 

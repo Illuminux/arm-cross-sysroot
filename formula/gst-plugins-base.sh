@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.36.tar.bz2"
+GV_sha1="e675401b62a6bf2e5ea966e833afd005a585e978"
 
 GV_depend=(
 	"gstreamer"

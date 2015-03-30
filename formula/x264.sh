@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="ftp://ftp.videolan.org/pub/x264/snapshots/x264-snapshot-20141114-2245-stable.tar.bz2"
+GV_sha1="b6d05c5c788629d18378d9e0942b6605f2460eef"
 
 GV_depend=()
 

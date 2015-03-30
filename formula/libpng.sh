@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://download.sourceforge.net/libpng/libpng-1.6.16.tar.xz"
+GV_sha1="22f3cc22d26727af05d7c9a970a7d050b6761bd7"
 
 GV_depend=(
 	"zlib"

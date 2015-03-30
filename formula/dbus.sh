@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.0.tar.gz"
+GV_sha1="d14ab33e92e29fa732cdff69214913832181e737"
 
 GV_depend=(
 	"expat"

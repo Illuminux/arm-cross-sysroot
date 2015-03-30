@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.2.7.tar.bz2"
+GV_sha1="b6ed421edf577816f6e641e1846dc0bff337676c"
 
 GV_depend=()
 

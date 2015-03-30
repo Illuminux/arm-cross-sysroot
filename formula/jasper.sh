@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip"
+GV_sha1="9c5735f773922e580bf98c7c7dfda9bbed4c5191"
 
 GV_depend=()
 

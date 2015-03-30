@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://libssh2.org/download/libssh2-1.4.2.tar.gz"
+GV_sha1="7fc084254dabe14a9bc90fa3d569faa7ee943e19"
 
 GV_depend=(
 	"openssl"

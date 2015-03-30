@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://cairographics.org/releases/cairo-1.12.2.tar.xz"
+GV_sha1="bc2ee50690575f16dab33af42a2e6cdc6451e3f9"
 
 GV_depend=(
 	"libpng"

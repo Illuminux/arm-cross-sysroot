@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://zlib.net/zlib-1.2.8.tar.gz"
+GV_sha1="a4d316c404ff54ca545ea71a27af7dbc29817088"
 
 GV_depend=()
 

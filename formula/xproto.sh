@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/xproto-7.0.23.tar.bz2"
+GV_sha1="5d7f00d1dbe6cf8e725841ef663f0ee2491ba5b2"
 
 GV_depend=(
 	"util-macros"

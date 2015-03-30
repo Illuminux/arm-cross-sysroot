@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://sqlite.org/2014/sqlite-autoconf-3080700.tar.gz"
+GV_sha1="8b773b006db46f3ffcbabe065e927823d13bf5c0"
 
 GV_depend=(
 	"readline"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="ftp.gnu.org:/pub/gnu/readline/readline-6.0.tar.gz"
+GV_sha1="1e511b091514ef631c539552316787c75ace5262"
 
 GV_depend=(
 	"ncurses"

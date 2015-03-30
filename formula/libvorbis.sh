@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.2.tar.bz2"
+GV_sha1="4c44da8215d1fc56676fccc1af8dd6b422d9e676"
 
 GV_depend=(
 	"ogg"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXv-1.0.7.tar.bz2"
+GV_sha1="49c87e0ccb999966b7b1b4e72cb927f05e0835bd"
 
 GV_depend=(
 	"libXext"

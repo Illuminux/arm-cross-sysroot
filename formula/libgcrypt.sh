@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GV_url="ftp://ftp.gnupg.org/gcrypt//libgcrypt/libgcrypt-1.5.0.tar.bz2"
+GV_sha1="3e776d44375dc1a710560b98ae8437d5da6e32cf"
 
 GV_depend=(
 	"libgpg-error"
