@@ -76,6 +76,15 @@ FU_file_extract_tar(){
 	
 	echo -n "Extract ${GV_tar_name}... "
 	
+	if ! [ $GV_sha1 = $(openssl sha1 "${UV_download_dir}/${GV_tar_name}" | awk '{print $2}') ]; then
+		
+		echo "faild"
+		echo 
+		echo "*** Error in $GV_name: ${GV_tar_name} is not a valid archive! ***"
+		echo 
+		exit 1
+	fi
+	
 	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
 		rm -rf "${GV_source_dir}/${GV_dir_name}"
 	fi
