@@ -5,7 +5,7 @@
 ##
 FU_tools_is_error() {
 	
-	if [ "$1" == "0" ]; then
+	if [ $PIPESTATUS -eq 0 ]; then
 		echo "donne"
 	else
 		
