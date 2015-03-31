@@ -33,7 +33,7 @@ if [ $? == 1 ]; then
 	
 	cd "${GV_source_dir}/${GV_dir_name}/v2_0"
 	echo -n "Make ${GV_name}... "
-	if [ "$GV_make_show" == true ]; then
+	if [ "$GV_debug" == true ]; then
 		make -j4 2>&1
 		FU_tools_is_error "$?"		
 	else

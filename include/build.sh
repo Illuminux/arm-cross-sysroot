@@ -6,9 +6,20 @@ FU_build_autogen() {
 	cd "${GV_source_dir}/${GV_dir_name}"
 	
 	if ! [ -f "${GV_source_dir}/${GV_dir_name}/configure" ]; then
+		
 		echo -n "Autogen ${GV_name}... "
-		./autogen.sh >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		
+		if [ "$GV_debug" == true ]; then
+			echo 
+			./autogen.sh 2>&1 | tee $GV_log_file
+			echo -n "Autogen ${GV_name}... "
+			FU_tools_is_error "$?"
+			
+		else
+			./autogen.sh >$GV_log_file 2>&1
+			FU_tools_is_error "$?"
+			
+		fi
 	fi
 	
 	cd $GV_base_dir
@@ -22,11 +33,18 @@ FU_build_configure() {
 	echo -n "Configure ${GV_name}... "
 	if [ "$GV_conf_help" == true ]; then
 		./configure --help
-		exit
-	elif [ "$GV_conf_show" == true ]; then
-		echo "" >$GV_log_file 2>&1
-		./configure --prefix="${UV_sysroot_dir}/${GV_host}" ${GV_args[@]} 2>&1
+		exit 0
+		## Add exit function
+	fi
+		
+	if [ "$GV_debug" == true ]; then
+		echo 
+		./configure \
+			--prefix="${UV_sysroot_dir}/${GV_host}" \
+			${GV_args[@]} 2>&1 | tee $GV_log_file
+		echo -n "Configure ${GV_name}... "
 		FU_tools_is_error "$?"
+		
 	else
 		./configure --prefix="${UV_sysroot_dir}/${GV_host}" ${GV_args[@]} >$GV_log_file 2>&1
 		FU_tools_is_error "$?"
@@ -47,12 +65,17 @@ FU_build_make() {
 	cd "${GV_source_dir}/${GV_dir_name}"
 
 	echo -n "Make ${GV_name}... "
-	if [ "$GV_make_show" == true ]; then
-		make $LV_make_args 2>&1
+	
+	if [ "$GV_debug" == true ]; then
+		echo
+		make $LV_make_args 2>&1 | tee $GV_log_file
+		echo -n "Make ${GV_name}... "
 		FU_tools_is_error "$?"		
+		
 	else
-		make $LV_make_args >$GV_log_file 2>&1
+		make $LV_make_args 2>&1
 		FU_tools_is_error "$?"
+		
 	fi
 
 	cd $GV_base_dir
@@ -72,10 +95,22 @@ FU_build_install() {
 	cd "${GV_source_dir}/${GV_dir_name}"
 	
 	echo -n "Install ${GV_name}... "
-	make $LV_make_args >$GV_log_file 2>&1
-	FU_tools_is_error "$?"
+	
+	if [ "$GV_debug" == true ]; then
+		echo
+		make $LV_make_args 2>&1 | tee $GV_log_file
+		echo -n "Install ${GV_name}... "
+		FU_tools_is_error "$?"
+		
+	else
+		make $LV_make_args >$GV_log_file 2>&1
+		FU_tools_is_error "$?"
+		
+	fi
 
 	cd $GV_base_dir
+	
+	FU_build_finishinstall
 }
 
 

@@ -8,8 +8,12 @@ FU_tools_is_error() {
 	if [ "$1" == "0" ]; then
 		echo "donne"
 	else
-		echo "faild"
-		cat $GV_log_file
+		
+		if ! [ "$GV_debug" == true ]; then
+			echo "faild"
+			cat $GV_log_file
+		fi
+		
 		echo 
 		echo "*** Error in $GV_name ***"
 		echo 
@@ -119,9 +123,8 @@ FU_tools_print_usage() {
 	echo
 	echo "  Options:"
 	echo "    --list             List all formulas."
-	echo "    --configure-help   Display the configure options for the first new formula."
-	echo "    --configure-show   Display the configure output for the new formula."
-	echo "    --make-show        Display the make output for the new formula."
+	echo "    --debug           Display configure and make output."
+	echo "    --configure-show  Display the configure output for the new formula."
 	echo "    --version			 Script Version"
 	echo "    --help             Display this message"
 	echo
@@ -162,14 +165,12 @@ FU_tools_print_listinfo() {
 
 FU_tools_parse_arguments() {
 	
-	LV_argv=($@)
-	
 	while [ "$1" != "" ]; do
 		
-		LV_param=$(echo $1 | gawk -F= '{print $1}')
-	    LV_value=$(echo $1 | gawk -F= '{print $2}')
+		local param=$(echo $1 | gawk -F= '{print $1}')
+	    local value=$(echo $1 | gawk -F= '{print $2}')
 		
-		case $LV_param in
+		case $param in
 				
 			-h | --help)
 				FU_tools_print_usage
@@ -181,16 +182,12 @@ FU_tools_parse_arguments() {
 				exit 0
 				;;
 				
-			--configure-show)
-				GV_conf_show=true
+			--debug)
+				GV_debug=true
 				;;
 				
 			--configure-help)
 				GV_conf_help=true
-				;;
-		
-			--make-show)
-				GV_make_show=true
 				;;
 				
 			-v | --version)
@@ -199,7 +196,7 @@ FU_tools_parse_arguments() {
 				;;
 				
 			*)
-				echo "ERROR: unknown parameter \"$LV_param\""
+				echo "ERROR: unknown parameter \"$param\""
 				FU_tools_print_usage
 				exit 1
 				;;
@@ -207,9 +204,6 @@ FU_tools_parse_arguments() {
 		
 		shift
 	done
-	
-	unset LV_param
-	unset LV_value
 	
 }
 
@@ -293,3 +287,5 @@ FU_tools_create_sysroot_image(){
 FU_tools_check_depend() {
 	return 0
 }
+
+

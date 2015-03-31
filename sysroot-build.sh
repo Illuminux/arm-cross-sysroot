@@ -153,10 +153,7 @@ else
 	AWK=awk
 fi
 
-echo
-echo "" >> "${UV_sysroot_dir}/buildinfo.txt"
-echo -n "Sysroot successfully build in " >> "${UV_sysroot_dir}/buildinfo.txt"
-echo $GV_total_time | $AWK '{print strftime("%H:%M:%S", $1,1)}' >> "${UV_sysroot_dir}/buildinfo.txt"
-echo -n "Sysroot successfully build in "
-echo $GV_total_time | $AWK '{print strftime("%H:%M:%S", $1,1)}'
-echo
+echo "" | tee -a "${UV_sysroot_dir}/buildinfo.txt"
+echo -n "Sysroot successfully build in " | tee -a "${UV_sysroot_dir}/buildinfo.txt"
+echo $GV_total_time | $AWK '{print strftime("%H:%M:%S", $1,1)}' | tee -a "${UV_sysroot_dir}/buildinfo.txt"
+echo ""

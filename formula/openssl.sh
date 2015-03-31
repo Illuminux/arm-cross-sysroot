@@ -26,7 +26,7 @@ if [ $? == 1 ]; then
 	export CROSS_COMPILE="${GV_host}-"
 	
 	echo -n "Configure ${GV_name}... "
-	if [ "$GV_conf_show" == true ]; then
+	if [ "$GV_debug" == true ]; then
 		./Configure \
 			linux-generic32 \
 			--prefix="${UV_sysroot_dir}" \
