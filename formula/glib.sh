@@ -17,7 +17,6 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"--host=${GV_host}"
-		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
 		"--enable-shared"
@@ -41,13 +40,36 @@ if [ $? == 1 ]; then
 	
 	export LIBS="-lz -lffi"
 	
-	touch "${UV_sysroot_dir}/${GV_host}/bin/gtester-report"
-	
 	FU_build_configure
 	FU_build_make	
 	FU_build_install "install-strip"
 	
-	rm -f "${UV_sysroot_dir}/${GV_host}/bin/gtester-report"
+#	mv -f "${UV_sysroot_dir}/${GV_host}/bin/gtester-report"
+#	arm-linux-gnueabihf-gtester-report
+#	arm-linux-gnueabihf-gtester
+#	arm-linux-gnueabihf-glib-gettextize
+
+	local executables=(
+		"gapplication"
+		"gdbus-codegen"
+		"glib-compile-resources"
+		"glib-genmarshal"
+		"glib-mkenums"
+		"gresource"
+		"gtester"
+		"gdbus"
+		"gio-querymodules"
+		"glib-compile-schemas"
+		"glib-gettextize"
+		"gobject-query"
+		"gsettings"
+	)
+	
+	for executable in ${executables[@]}; do 
+		
+		mv -f "${UV_sysroot_dir}/${GV_host}/bin/$executable" \
+			"${UV_sysroot_dir}/${GV_host}/bin/${GV_host}-$executable"
+	done
 	
 	unset LIBS
 fi
