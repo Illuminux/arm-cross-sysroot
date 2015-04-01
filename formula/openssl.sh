@@ -50,13 +50,15 @@ if [ $? == 1 ]; then
 	# Must be built with j1 otherwise it crashes!!!
 	FU_build_make "-j1"
 	FU_build_install "all install_sw"
+	
+	mkdir -p "${UV_sysroot_dir}/${GV_host}/bin"
 
 	mv -f "${UV_sysroot_dir}/bin/openssl" \
 		"${UV_sysroot_dir}/${GV_host}/bin/${GV_host}-openssl"
 	mv -f "${UV_sysroot_dir}/bin/c_rehash" \
 		"${UV_sysroot_dir}/${GV_host}/bin/${GV_host}-c_rehash"
 	
-	if ! [ "$(ls -A '${UV_sysroot_dir}/bin')" ]; then
+	if ! [ "$(ls -A ${UV_sysroot_dir}/bin)" ]; then
 		rm -rf "${UV_sysroot_dir}/bin"
 	fi
 	
