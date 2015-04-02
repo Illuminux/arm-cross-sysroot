@@ -3,9 +3,7 @@
 GV_url="http://sqlite.org/2014/sqlite-autoconf-3080700.tar.gz"
 GV_sha1="8b773b006db46f3ffcbabe065e927823d13bf5c0"
 
-GV_depend=(
-	"readline"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 GV_version="3.8.7"

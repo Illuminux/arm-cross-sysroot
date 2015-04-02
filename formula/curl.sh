@@ -4,8 +4,12 @@ GV_url="http://curl.haxx.se/download/curl-7.26.0.tar.bz2"
 GV_sha1="c2e62eaace2407d377bf544d1f808aea6dddf64c"
 
 GV_depend=(
+	"zlib"
+	"cryptodev"
 	"openssl"
-	"libssh2"
+	"libgpg-error"
+	"libgcrypt"
+	"libssh"
 )
 
 FU_tools_get_names_from_url

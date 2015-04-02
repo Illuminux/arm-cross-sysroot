@@ -5,6 +5,7 @@ GV_sha1="28c109190345ce5469add8cf3f45c5dd57fe2a85"
 
 GV_depend=(
 	"gmp"
+	"openssl"
 )
 
 FU_tools_get_names_from_url
