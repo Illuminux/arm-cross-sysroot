@@ -14,35 +14,39 @@ if [ $? == 1 ]; then
 	FU_file_get_download
 	FU_file_extract_tar
 	
-	cd "${GV_source_dir}/${GV_dir_name}"
+	GV_args=(
+		"-f"
+		"Makefile-libbz2_so"
+		"CC=${UV_target}-gcc"
+		"AR=${UV_target}-ar"
+		"RANLIB=${UV_target}-ranlib"
+		"PREFIX=${UV_sysroot_dir}/${GV_host}"
+	)
 	
-	echo -n "Make ${GV_name}... "
-	make -f Makefile-libbz2_so \
-			CC="${UV_target}-gcc" \
-			AR="${UV_target}-ar" \
-			RANLIB="${UV_target}-ranlib" >$GV_log_file \
-			PREFIX="${UV_sysroot_dir}/${GV_host}" 2>&1
-	FU_tools_is_error "$?"
-
-	echo -n "Install ${GV_name}... "
-	make install  \
-			CC="${UV_target}-gcc" \
-			AR="${UV_target}-ar" \
-			RANLIB="${UV_target}-ranlib" >$GV_log_file \
-			PREFIX="${UV_sysroot_dir}/${GV_host}" 2>&1
-	FU_tools_is_error "$?"
+	FU_build_make ${GV_args[*]}
 	
+	GV_args=(
+		"install"
+		"CC=${UV_target}-gcc"
+		"AR=${UV_target}-ar"
+		"RANLIB=${UV_target}-ranlib"
+		"PREFIX=${UV_sysroot_dir}/${GV_host}"
+	)
+	
+	FU_build_install ${GV_args[*]}
+	
+	do_cd "${GV_source_dir}/${GV_dir_name}"
 	cp -av libbz2.so* "${UV_sysroot_dir}/lib" >/dev/null
 	
-	cd "${UV_sysroot_dir}/${GV_host}/lib"
+	do_cd "${UV_sysroot_dir}/${GV_host}/lib"
 	mv -f libbz2.* "${UV_sysroot_dir}/lib" >/dev/null
 	
-	cd "${UV_sysroot_dir}/${GV_host}/include"
+	do_cd "${UV_sysroot_dir}/${GV_host}/include"
 	mv -f bzlib.* "${UV_sysroot_dir}/include" >/dev/null
 	
-	cd $GV_base_dir
-	rm -rf "${UV_sysroot_dir}/${GV_host}/lib" >/dev/null
-	rm -rf "${UV_sysroot_dir}/${GV_host}/include" >/dev/null
+	do_cd $GV_base_dir
+	rmdir "${UV_sysroot_dir}/${GV_host}/lib" #>/dev/null
+	rmdir "${UV_sysroot_dir}/${GV_host}/include" #>/dev/null
 
 	FU_build_pkg_file "-lbzip2"
 	
