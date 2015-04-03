@@ -15,7 +15,7 @@ if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 	
-	export LIBS="-lpthread -lz -llzma"
+#	export LIBS="-lpthread -lz -llzma"
 
 	GV_args=(
 		"--host=${GV_host}"
@@ -29,12 +29,14 @@ if [ $? == 1 ]; then
 	
 	FU_file_get_download
 	FU_file_extract_tar
-		
+	
 	FU_build_configure
+	
+	exit
 	FU_build_make
 	FU_build_install "install-strip"
 	
-	unset LIBS
+#	unset LIBS
 	
 fi
 
