@@ -21,8 +21,8 @@ if ! [ -d "${GV_prefix}/include/crypto" ]; then
 	FU_file_extract_tar
 	
 	echo -n "Install ${GV_name}... "
-	mkdir -p "${GV_prefix}/include"
-	cp -r "${GV_source_dir}/${GV_dir_name}/crypto" "${GV_prefix}/include/"
+	do_mkdir "${GV_prefix}/include"
+	do_cpdir "${GV_source_dir}/${GV_dir_name}/crypto" "${GV_prefix}/include/"
 	FU_tools_is_error "$?"
 	
 	cd $GV_base_dir
