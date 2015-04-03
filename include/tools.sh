@@ -1,7 +1,8 @@
 #!/bin/bash
 
 ##
-## Print error message and abort script
+## Test if is an error.
+## If is error print error message and abort script
 ##
 FU_tools_is_error() {
 	
@@ -12,6 +13,8 @@ FU_tools_is_error() {
 		if ! [ "$GV_debug" == true ]; then
 			echo "faild"
 			cat $GV_log_file
+		else
+			echo "PIPESTATUS: ${PIPESTATUS}"
 		fi
 		
 		echo 
@@ -19,6 +22,30 @@ FU_tools_is_error() {
 		echo 
 		exit 1
 	fi
+}
+
+
+##
+## Print error message and abort script
+##
+FU_tools_error() {
+
+	echo "faild"
+	cat $GV_log_file
+
+	echo 
+	echo "*** Error in $GV_name ***"
+	echo 
+	exit 1
+}
+
+
+##
+## Exit script
+##
+FU_tools_exit() {
+
+	exit 0
 }
 
 
