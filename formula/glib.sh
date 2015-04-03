@@ -38,18 +38,11 @@ if [ $? == 1 ]; then
 	FU_file_get_download
 	FU_file_extract_tar
 	
-	export LIBS="-lz -lffi"
-	
 	FU_build_configure
 	FU_build_make	
 	FU_build_install "install-strip"
-	
-#	mv -f "${UV_sysroot_dir}/${GV_host}/bin/gtester-report"
-#	arm-linux-gnueabihf-gtester-report
-#	arm-linux-gnueabihf-gtester
-#	arm-linux-gnueabihf-glib-gettextize
 
-	local executables=(
+	executables=(
 		"gapplication"
 		"gdbus-codegen"
 		"glib-compile-resources"
@@ -70,8 +63,6 @@ if [ $? == 1 ]; then
 		mv -f "${UV_sysroot_dir}/${GV_host}/bin/$executable" \
 			"${UV_sysroot_dir}/${GV_host}/bin/${GV_host}-$executable"
 	done
-	
-	unset LIBS
 fi
 
 export CFLAGS="${CFLAGS} -I${GV_prefix}/include/glib-2.0 -I${GV_prefix}/lib/glib-2.0/include"

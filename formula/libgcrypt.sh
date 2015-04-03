@@ -13,8 +13,6 @@ FU_tools_installed "${LV_formula%;*}.pc"
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
-		
-	export LIBS="-lgpg-error"
 	
 	GV_args=(
 		"--host=${GV_host}"
@@ -32,7 +30,5 @@ if [ $? == 1 ]; then
 	FU_build_make
 	FU_build_install "install-strip"
 	FU_build_pkg_file "-lgcrypt -lcrypto"
-	
-	unset LIBS
 	
 fi

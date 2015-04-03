@@ -31,8 +31,8 @@ if [ $? == 1 ]; then
 	FU_build_make
 	FU_build_install "install-strip"
 	
-	cd "${UV_sysroot_dir}/include/"
+	do_cd "${UV_sysroot_dir}/include/"
 	ln -s sqlite3.h sqlite.h
-	cd $GV_base_dir
+	do_cd $GV_base_dir
 	
 fi

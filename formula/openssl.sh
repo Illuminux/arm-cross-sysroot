@@ -15,7 +15,15 @@ if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 
-	GV_args=()
+	GV_args=(
+		"linux-generic32"
+		"--prefix='${UV_sysroot_dir}'"
+		"--openssldir='${UV_sysroot_dir}/${GV_host}/ssl'"
+		"zlib-dynamic"
+		"shared"
+		"no-sse2"
+		"-DHAVE_CRYPTODEV"
+	)
 	
 	FU_file_get_download
 	FU_file_extract_tar
@@ -27,23 +35,9 @@ if [ $? == 1 ]; then
 	
 	echo -n "Configure ${GV_name}... "
 	if [ "$GV_debug" == true ]; then
-		./Configure \
-			linux-generic32 \
-			--prefix="${UV_sysroot_dir}" \
-			--openssldir="${UV_sysroot_dir}/${GV_host}/ssl" \
-			zlib-dynamic \
-			shared \
-			no-sse2 \
-			-DHAVE_CRYPTODEV 2>&1
+		./Configure ${GV_args[*]} 2>&1
 	else
-		./Configure \
-			linux-generic32 \
-			--prefix="${UV_sysroot_dir}" \
-			--openssldir="${UV_sysroot_dir}/${GV_host}/ssl" \
-			zlib-dynamic \
-			shared \
-			no-sse2 \
-			-DHAVE_CRYPTODEV >$GV_log_file 2>&1
+		./Configure ${GV_args[*]} >$GV_log_file 2>&1
 	fi
 	FU_tools_is_error "$?"
 
@@ -51,7 +45,7 @@ if [ $? == 1 ]; then
 	FU_build_make "-j1"
 	FU_build_install "all install_sw"
 	
-	mkdir -p "${UV_sysroot_dir}/${GV_host}/bin"
+	do_mkdir "${UV_sysroot_dir}/${GV_host}/bin"
 
 	mv -f "${UV_sysroot_dir}/bin/openssl" \
 		"${UV_sysroot_dir}/${GV_host}/bin/${GV_host}-openssl"

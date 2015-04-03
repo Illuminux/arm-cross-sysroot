@@ -7,7 +7,7 @@ GV_depend=(
 	"zlib"
 	"libffi"
 	"expat"
-	"glib"
+	"glib-2.0"
 )
 
 FU_tools_get_names_from_url
@@ -17,7 +17,7 @@ if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 
-	export LIBS="-lpthread -lgio-2.0 -lgobject-2.0 -lffi -lgmodule-2.0 -ldl -lglib-2.0 -lz -lresolv -lrt -lm"
+	LIBS="-lpthread -ldl -lresolv"
 	
 	GV_args=(
 		"--host=${GV_host}"
@@ -37,8 +37,6 @@ if [ $? == 1 ]; then
 	FU_build_configure	
 	FU_build_make
 	FU_build_install "install-strip"
-	
-	unset LIBS
 	
 fi
 
