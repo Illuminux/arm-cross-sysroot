@@ -1,47 +1,57 @@
 #!/bin/bash
 
+##
+## Download the pakcahe archive 
+##
 FU_file_get_download(){
 	
+	# If download dir dows not exist	
 	if ! [ -d "$UV_download_dir" ]; then
 		echo -n "Create Download dir... "
-		mkdir -p $UV_download_dir >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		do_mkdir $UV_download_dir
 		echo "done"
 	fi
 	
 	echo -n "Download ${GV_tar_name}... "
 	
+	# If package archive has not loaded
 	if ! [ -f "${UV_download_dir}/${GV_tar_name}" ]; then
 		echo 
-		LV_status=$(curl -Lo "${UV_download_dir}/${GV_tar_name}" -# --write-out %{http_code} $GV_url)
+		local status=$(curl \
+			-Lo "${UV_download_dir}/${GV_tar_name}" \
+			-# --write-out %{http_code} $GV_url)
 		
-		if [ $LV_status -ge 400 ]; then 
+		# If sever is not reachable
+		if [ $status -ge 400 ]; then 
 			rm -f ${UV_download_dir}/${GV_tar_name}
-			echo 
-			echo "*** Error in $GV_name ***"
-			echo "HTTP Status ${LV_status}"
-			echo "  Can not download: ${GV_url}"
-			echo 
-			exit 1
+
+			echo "HTTP Status ${status}: " >$GV_log_file
+			echo "  Can not download: ${GV_url}" >>$GV_log_file
+			FU_tools_error
 		fi
+	
+	# If package archive has loaded
 	else
 		echo "alredy loaded"
 	fi
-	
-	unset LV_status
 }
 
+
+##
+## Clone the package from git 
+##
 FU_file_git_clone(){
 
+	# If download dir does not exist	
 	if ! [ -d "$UV_download_dir" ]; then
 		echo -n "  Create Download dir... "
-		mkdir -p $UV_download_dir >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		do_mkdir $UV_download_dir
 		echo "done"
 	fi
 	
-	cd $UV_download_dir
+	do_cd $UV_download_dir
 	
+	# Clone the package
 	echo -n "Download ${GV_name}... "
 	if ! [ -d "${UV_download_dir}/${GV_dir_name}" ]; then
 		git clone $GV_url 2>&1
@@ -50,39 +60,42 @@ FU_file_git_clone(){
 		echo "alredy loaded"
 	fi
 	
+	# Create a source dir for the package
 	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "  Create source dir... "
-		mkdir -p $GV_source_dir >$GV_log_file 2>&1
+		do_mkdir $GV_source_dir >$GV_log_file 2>&1
 		FU_tools_is_error "$?"
 	fi
 	
+	# Copy file to source dir
 	echo -n "Copy ${GV_name}... "
 	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
 		rm -rf "${GV_source_dir}/${GV_dir_name}"
 	fi
-	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}" >$GV_log_file 2>&1
-	FU_tools_is_error "$?"
+	do_cpdir "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}"
 	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
 }
 
+
+##
+## Extract package archive
+## 
 FU_file_extract_tar(){
 	
+	# If download dir does not exist	
 	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "  Create source dir... "
-		mkdir -p $GV_source_dir >$GV_log_file 2>&1
-		mkdir -p "${GV_source_dir}/bin"
-		FU_tools_is_error "$?"
+		do_mkdir $GV_source_dir
+		echo "done"
 	fi
 	
 	echo -n "Extract ${GV_tar_name}... "
 	
+	# Test package archive cecksum 
 	if ! [ $GV_sha1 = $(openssl sha1 "${UV_download_dir}/${GV_tar_name}" | awk '{print $2}') ]; then
 		
-		echo "faild"
-		echo 
-		echo "*** Error in $GV_name: ${GV_tar_name} is not a valid archive! ***"
-		echo 
-		exit 1
+		echo "$GV_name: ${GV_tar_name} is not a valid archive!" >$GV_log_file
+		FU_tools_error
 	fi
 	
 	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
@@ -91,6 +104,7 @@ FU_file_extract_tar(){
 	
 	cd $GV_source_dir
 	
+	# Extract package archive
 	if [ "${GV_extension}" = "zip" ]; then
 		unzip -o ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
 	else 
@@ -98,7 +112,7 @@ FU_file_extract_tar(){
 	fi
 
 	FU_tools_is_error "$?"
-	cd $GV_base_dir
+	do_cd $GV_base_dir
 	
 	GV_build_start=`date +%s`
 }
