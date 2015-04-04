@@ -58,11 +58,41 @@ FU_system_require_darwin() {
 FU_system_require_linux() {
 	
 	# required software for Linux
-	exit
+	LV_requires=(
+		"gettext"
+		"gawk"
+		"grep"
+		"sed"
+		"curl"
+		"pkg-config"
+		"libtool"
+		"intltool"
+		"glib"
+		"intltool"
+	)
+	
+	# Serach if the required packages are installed.
+	# If a packet is not found it will not be installed automatically.
+	for require in "${LV_requires[@]}"
+	do
+		echo -n "Checking for '$require'... "
+		if [ $(dpkg --list | grep -c $require) = 0 ]; then
+			echo "no"
+			echo 
+			echo "Pleas install the $require by typing the following command and run the script again:"
+			echo "  sudo apt-get install $require"
+			echo 
+			exit 1
+		else 
+			echo "yes"
+		fi
+	done
 }
 
 
 FU_system_require() {
+
+	echo ${UV_toolchain_dir}
 	
 	# Check if cross compiler is avalible
 	if ! [ -f "${UV_toolchain_dir}/bin/${UV_target}-gcc" ]; then

@@ -14,3 +14,4 @@ config.cfg
 /.qmake.vars
 /.device.vars
 /sha1-List.txt
+/share/
