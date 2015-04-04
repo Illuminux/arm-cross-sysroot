@@ -11,11 +11,10 @@ FU_tools_installed "xv.pc"
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
-	
-#	export LIBS="-lpthread -ldl -lm"
 
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
@@ -29,7 +28,5 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install
-	
-#	unset LIBS
 	
 fi

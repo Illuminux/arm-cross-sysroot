@@ -14,6 +14,7 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
@@ -29,7 +30,7 @@ if [ $? == 1 ]; then
 	FU_build_make
 	FU_build_install "install-strip"
 	
-	cp -rf "${UV_sysroot_dir}/${GV_host}/include/wavpack" \
+	cp -rf "${GV_prefix}/include/wavpack" \
 		"${UV_sysroot_dir}/include/"
 
 fi

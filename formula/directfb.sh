@@ -3,7 +3,21 @@
 GV_url="http://directfb.org/downloads/Core/DirectFB-1.2/DirectFB-1.2.10.tar.gz"
 GV_sha1="3fa31289d730d348bdc46b21a83ce0679120b451"
 
-GV_depend=()
+GV_depend=(
+	"zlib"
+	"tslib"
+	"freetype"
+	"libpng"
+	"jpeg"
+	"libX11"
+	"libXext"
+	"xproto"
+	"xextproto"
+	"inputproto"
+	"xcb-proto"
+	"videoproto"
+	"kbproto"
+)
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -14,6 +28,7 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"

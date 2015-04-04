@@ -14,6 +14,7 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
@@ -26,7 +27,7 @@ if [ $? == 1 ]; then
 	FU_build_make "install"
 	FU_build_install
 	
-	mv -f "${UV_sysroot_dir}/${GV_host}/share/pkgconfig/xorg-macros.pc" \
+	mv -f "${GV_prefix}/share/pkgconfig/xorg-macros.pc" \
 		"${UV_sysroot_dir}/lib/pkgconfig/"
 	
 fi

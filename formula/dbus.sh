@@ -3,7 +3,10 @@
 GV_url="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.0.tar.gz"
 GV_sha1="d14ab33e92e29fa732cdff69214913832181e737"
 
-GV_depend=()
+GV_depend=(
+	"expat"
+	"glib"
+)
 
 FU_tools_get_names_from_url
 FU_tools_installed "dbus-1.pc"
@@ -16,6 +19,7 @@ if [ $? == 1 ]; then
 	
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"

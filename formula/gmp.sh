@@ -14,6 +14,7 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
@@ -34,11 +35,11 @@ if [ $? == 1 ]; then
 	FU_build_make
 	FU_build_install "install-strip"
 	
-	cd "${UV_sysroot_dir}/${GV_host}/include"
+	cd "${GV_prefix}/include"
 	mv -f *mp.* "${UV_sysroot_dir}/include" >/dev/null
 	
 	cd $GV_base_dir
-	rm -rf "${UV_sysroot_dir}/${GV_host}/include" >/dev/null
+	rm -rf "${GV_prefix}/include" >/dev/null
 	
 	FU_build_pkg_file "-lgmp"
 	

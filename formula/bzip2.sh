@@ -20,7 +20,7 @@ if [ $? == 1 ]; then
 		"CC=${UV_target}-gcc"
 		"AR=${UV_target}-ar"
 		"RANLIB=${UV_target}-ranlib"
-		"PREFIX=${UV_sysroot_dir}/${GV_host}"
+		"PREFIX=${GV_prefix}"
 	)
 	
 	FU_build_make ${GV_args[*]}
@@ -30,7 +30,7 @@ if [ $? == 1 ]; then
 		"CC=${UV_target}-gcc"
 		"AR=${UV_target}-ar"
 		"RANLIB=${UV_target}-ranlib"
-		"PREFIX=${UV_sysroot_dir}/${GV_host}"
+		"PREFIX=${GV_prefix}"
 	)
 	
 	FU_build_install ${GV_args[*]}
@@ -38,15 +38,15 @@ if [ $? == 1 ]; then
 	do_cd "${GV_source_dir}/${GV_dir_name}"
 	cp -av libbz2.so* "${UV_sysroot_dir}/lib" >/dev/null
 	
-	do_cd "${UV_sysroot_dir}/${GV_host}/lib"
+	do_cd "${GV_prefix}/lib"
 	mv -f libbz2.* "${UV_sysroot_dir}/lib" >/dev/null
 	
-	do_cd "${UV_sysroot_dir}/${GV_host}/include"
+	do_cd "${GV_prefix}/include"
 	mv -f bzlib.* "${UV_sysroot_dir}/include" >/dev/null
 	
 	do_cd $GV_base_dir
-	rmdir "${UV_sysroot_dir}/${GV_host}/lib" #>/dev/null
-	rmdir "${UV_sysroot_dir}/${GV_host}/include" #>/dev/null
+	rmdir "${GV_prefix}/lib" #>/dev/null
+	rmdir "${GV_prefix}/include" #>/dev/null
 
 	FU_build_pkg_file "-lbz2"
 	

@@ -66,7 +66,7 @@ if [ $? == 1 ]; then
 	FU_build_finishinstall
 	
 cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
-prefix=${GV_prefix}
+prefix=${UV_sysroot_dir}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}

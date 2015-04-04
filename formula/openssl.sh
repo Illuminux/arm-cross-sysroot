@@ -15,7 +15,7 @@ if [ $? == 1 ]; then
 	GV_args=(
 		"linux-generic32"
 		"--prefix=${UV_sysroot_dir}"
-		"--openssldir=${UV_sysroot_dir}/${GV_host}/ssl"
+		"--openssldir=${GV_prefix}/ssl"
 		"zlib-dynamic"
 		"shared"
 		"no-sse2"
@@ -42,12 +42,12 @@ if [ $? == 1 ]; then
 	FU_build_make "-j1"
 	FU_build_install "install_sw"
 	
-	do_mkdir "${UV_sysroot_dir}/${GV_host}/bin"
+	do_mkdir "${GV_prefix}/bin"
 
 	mv -f "${UV_sysroot_dir}/bin/openssl" \
-		"${UV_sysroot_dir}/${GV_host}/bin/${GV_host}-openssl"
+		"${GV_prefix}/bin/${GV_host}-openssl"
 	mv -f "${UV_sysroot_dir}/bin/c_rehash" \
-		"${UV_sysroot_dir}/${GV_host}/bin/${GV_host}-c_rehash"
+		"${GV_prefix}/bin/${GV_host}-c_rehash"
 	
 	if ! [ "$(ls -A ${UV_sysroot_dir}/bin)" ]; then
 		rm -rf "${UV_sysroot_dir}/bin"

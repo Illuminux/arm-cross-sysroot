@@ -16,6 +16,7 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
@@ -36,7 +37,7 @@ if [ $? == 1 ]; then
 	unset LIBS
 
 cat > "${UV_sysroot_dir}/lib/pkgconfig/gstreamer-plugins-good-0.10.pc" << EOF
-prefix=${GV_prefix}
+prefix=${UV_sysroot_dir}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib/gstreamer-0.10
 sharedlibdir=\${libdir}

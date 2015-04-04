@@ -16,6 +16,7 @@ if [ $? == 1 ]; then
 	export CC="${UV_target}-gcc"
 
 	GV_args=(
+		"--prefix=${GV_prefix}" 
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
 		"--static"

@@ -3,7 +3,10 @@
 GV_url="http://ftp.gnome.org/pub/gnome/sources/glib/2.40/glib-2.40.0.tar.xz"
 GV_sha1="44e1442ed4d1bf3fa89138965deb35afc1335a65"
 
-GV_depend=()
+GV_depend=(
+	"zlib"
+	"libffi"
+)
 
 FU_tools_get_names_from_url
 FU_tools_installed "glib-2.0.pc"
@@ -14,6 +17,7 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
 		"--enable-shared"
@@ -57,11 +61,11 @@ if [ $? == 1 ]; then
 	
 	for executable in ${executables[@]}; do 
 		
-		mv -f "${UV_sysroot_dir}/${GV_host}/bin/$executable" \
-			"${UV_sysroot_dir}/${GV_host}/bin/${GV_host}-$executable"
+		mv -f "${GV_prefix}/bin/$executable" \
+			"${GV_prefix}/bin/${GV_host}-$executable"
 	done
 fi
 
-export CFLAGS="${CFLAGS} -I${GV_prefix}/include/glib-2.0 -I${GV_prefix}/lib/glib-2.0/include"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/glib-2.0 -I${UV_sysroot_dir}/lib/glib-2.0/include"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CFLAGS

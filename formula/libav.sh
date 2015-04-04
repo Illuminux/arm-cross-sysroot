@@ -13,15 +13,11 @@ if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 	
-#	FU_build_expor_libs
-	
 	TMP_LDFLAGS=$LDFLAGS	
 	export LDFLAGS="${LDFLAGS} -lcairo -lpixman-1 -lfontconfig -lxml2 -llzma -ldirectfb -lfusion -ldirect -lpng16 -lxcb-shm -lX11-xcb -lxcb-render -lX11 -lxcb -lXau -ldl -lfreetype -lpthread -lmp3lame -lz -lm"
 
-
-
-	
 	GV_args=(
+		"--prefix=${GV_prefix}" 
 		"--cross-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--shlibdir=${UV_sysroot_dir}/lib"

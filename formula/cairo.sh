@@ -3,7 +3,12 @@
 GV_url="http://cairographics.org/releases/cairo-1.12.2.tar.xz"
 GV_sha1="bc2ee50690575f16dab33af42a2e6cdc6451e3f9"
 
-GV_depend=()
+GV_depend=(
+	"glib"
+	"freetype"
+	"fontconfig"
+	"libX11"
+)
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -14,6 +19,7 @@ if [ $? == 1 ]; then
 	
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"

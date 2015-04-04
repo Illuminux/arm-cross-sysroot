@@ -3,7 +3,11 @@
 GV_url="http://curl.haxx.se/download/curl-7.26.0.tar.bz2"
 GV_sha1="c2e62eaace2407d377bf544d1f808aea6dddf64c"
 
-GV_depend=()
+GV_depend=(
+	"zlib"
+	"openssl"
+	"libssh"
+)
 
 FU_tools_get_names_from_url
 FU_tools_installed "libcurl.pc"
@@ -16,6 +20,7 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"

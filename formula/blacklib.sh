@@ -51,7 +51,7 @@ if [ $? == 1 ]; then
 	unset CXX
 	
 cat > "${UV_sysroot_dir}/lib/pkgconfig/blacklib.pc" << EOF
-prefix=${GV_prefix}
+prefix=${UV_sysroot_dir}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}

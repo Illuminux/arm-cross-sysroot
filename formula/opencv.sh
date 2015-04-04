@@ -14,9 +14,6 @@ FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
 	
-	#FU_file_get_download
-	#FU_file_extract_tar
-	
 	if [ -d "${GV_source_dir}/${GV_dir_name}/build" ]; then 
 		rm -rf "${GV_source_dir}/${GV_dir_name}/build"
 	fi

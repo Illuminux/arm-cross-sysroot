@@ -21,8 +21,8 @@ if ! [ -f "${UV_sysroot_dir}/include/linux/i2c-dev.h" ]; then
 	FU_file_extract_tar
 	
 	echo -n "Install ${GV_name}... "
-	do_mkdir "${GV_prefix}/include/linux"
-	do_cpdir "${GV_source_dir}/${GV_dir_name}/include/linux" "${GV_prefix}/include/"		
+	do_mkdir "${UV_sysroot_dir}/include/linux"
+	do_cpdir "${GV_source_dir}/${GV_dir_name}/include/linux" "${UV_sysroot_dir}/include/"		
 	FU_tools_is_error "$?"
 	
 	cd $GV_base_dir

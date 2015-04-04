@@ -178,11 +178,15 @@ EOF
 		)
 	fi
 
-	./configure ${GV_args[@]} #>$GV_log_file 2>&1
-	FU_tools_is_error "$?"
+	FU_build_configure	
 	FU_build_make
 	FU_build_install
 
 	cd $GV_base_dir
+	
+	export CFLAGS=$TMP_CFLAGS
+	export CFLAGS=$TMP_CPPFLAGS
+	export CXXFLAGS=$TMP_CXXFLAGS
+	export LDFLAGS=$TMP_LDFLAGS
 	
 fi

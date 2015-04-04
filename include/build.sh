@@ -58,19 +58,16 @@ FU_build_configure() {
 		
 	fi
 	
-#	FU_build_expor_libs
-	
 	# Run configure script in debug mode
 	if [ "$GV_debug" == true ]; then
 		echo 
 		./configure \
-			--prefix="${UV_sysroot_dir}/${GV_host}" \
 			${GV_args[@]} 2>&1 | tee $GV_log_file
 		FU_tools_is_error "$?"
 	
 	# Run configure script and write output to log file
 	else
-		./configure --prefix="${UV_sysroot_dir}/${GV_host}" ${GV_args[@]} >$GV_log_file 2>&1
+		./configure ${GV_args[@]} >$GV_log_file 2>&1
 		FU_tools_is_error "$?"
 	fi
 	
@@ -204,7 +201,7 @@ FU_build_pkg_file() {
 	do_mkdir "${UV_sysroot_dir}/lib/pkgconfig/"
 
 cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
-prefix=${GV_prefix}
+prefix=${UV_sysroot_dir}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 sharedlibdir=\${libdir}
