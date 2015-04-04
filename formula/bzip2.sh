@@ -47,6 +47,25 @@ if [ $? == 1 ]; then
 	do_cd $GV_base_dir
 	rmdir "${GV_prefix}/lib" #>/dev/null
 	rmdir "${GV_prefix}/include" #>/dev/null
+	
+	executables=(
+		"bunzip2"
+		"bzcat"
+		"bzcmp"
+		"bzdiff"
+		"bzegrep"
+		"bzfgrep"
+		"bzgrep"
+		"bzip2"
+		"bzless"
+		"bzmore"
+		"bzip2recover"
+	)
+	
+	for executable in ${executables[@]}; do 
+		mv -f "${GV_prefix}/bin/$executable" \
+			"${GV_prefix}/bin/${GV_host}-$executable"
+	done
 
 	FU_build_pkg_file "-lbz2"
 	
