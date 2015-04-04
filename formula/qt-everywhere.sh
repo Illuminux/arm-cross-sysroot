@@ -3,9 +3,7 @@
 GV_url="http://download.qt-project.org/official_releases/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz"
 GV_sha1="ddf9c20ca8309a116e0466c42984238009525da6"
 
-GV_depend=(
-	"libX11"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 QT_DIR="Qt-${GV_version}-${UV_board}"
@@ -18,7 +16,16 @@ if [ $? == 1 ]; then
 	FU_file_get_download
 	FU_file_extract_tar
 	
-	export PKG_CONFIG_SYSROOT_DIR="${UV_sysroot_dir}/lib/pkgconfig"
+#	export PKG_CONFIG_SYSROOT_DIR="${UV_sysroot_dir}/lib/pkgconfig"
+	TMP_CFLAGS=$CFLAGS
+	TMP_CFLAGS=$CPPFLAGS
+	TMP_CXXFLAGS=$CXXFLAGS
+	TMP_LDFLAGS=$LDFLAGS
+	unset CFLAGS
+	unset CPPFLAGS
+	unset CXXFLAGS
+	unset LDFLAGS
+	
 	
 	# patch for os x
 	if [ $GV_build_os = "Darwin" ]; then 
@@ -106,23 +113,12 @@ QMAKE_OBJCOPY    = ${UV_toolchain_dir}/bin/${UV_target}-objcopy
 QMAKE_STRIP      = ${UV_toolchain_dir}/bin/${UV_target}-strip
 QMAKE_READELF    = ${UV_toolchain_dir}/bin/${UV_target}-readelf
 
-QMAKE_INCDIR    += ${UV_sysroot_dir}/include \\
-                   ${UV_sysroot_dir}/include/dbus-1.0 \\
-                   ${UV_sysroot_dir}/lib/dbus-1.0/include \\
-                   ${UV_sysroot_dir}/include/glib-2.0 \\
-                   ${UV_sysroot_dir}/lib/glib-2.0/include \\
-                   ${UV_sysroot_dir}/include/gstreamer-0.10 \\
-                   ${UV_sysroot_dir}/include/libxml2 \\
-				   ${UV_sysroot_dir}/include/libffi-3.0.13
+QMAKE_INCDIR    += ${UV_sysroot_dir}/include
 
-QMAKE_LIBDIR    += ${UV_sysroot_dir}/lib \\
-				   ${UV_sysroot_dir}/lib/gstreamer-0.10
+QMAKE_LIBDIR    += ${UV_sysroot_dir}/lib
 
-QMAKE_LIBS      += -lz -ldl -lpthread -lgio-2.0 -lgobject-2.0 -lglib-2.0 \\ 
-                   -lgmodule-2.0 -lresolv -lgthread-2.0 -lrt -lfusion \\
-                   -lsqlite3 -lffi -ldbus-1 -lgstreamer-0.10 -ljpeg -lpng16 \\
-                   -ldirectfb -ldirect -lXext -lX11 -lxcb -lXau -lts -llzma \\
-				   -lxml2 -lgcrypt -lgpg-error -lcrypto
+QMAKE_LIBS      += -lpthread -ldl -lresolv -lz -ljpeg -llzma -lts \\
+				   -lffi -lXv -lXext -lX11 -lxcb -lXau -lorc-0.4
 
 load(qt_config)
 EOF
@@ -132,6 +128,7 @@ EOF
 	echo -n "Configure ${GV_name}... "
 	
 	GV_args=(
+		"-v"
 		"-prefix ${UV_sysroot_dir}/Qt"
 		"-headerdir ${UV_sysroot_dir}/include"
 		"-libdir ${UV_sysroot_dir}/lib"
@@ -145,10 +142,8 @@ EOF
 		"-host-little-endian"
 		"-no-3dnow"
 		"-no-cups"
-		"-no-freetype"
 		"-no-largefile"
 		"-no-mmx"
-		"-no-phonon"
 		"-no-phonon-backend"
 		"-no-qt3support"
 		"-no-sql-ibase"
@@ -183,7 +178,7 @@ EOF
 		)
 	fi
 
-	./configure -v ${GV_args[@]} >$GV_log_file 2>&1
+	./configure ${GV_args[@]} #>$GV_log_file 2>&1
 	FU_tools_is_error "$?"
 	FU_build_make
 	FU_build_install

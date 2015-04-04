@@ -13,6 +13,8 @@ FU_tools_installed "QJson.pc"
 
 if [ $? == 1 ]; then
 	
+	FU_tools_check_depend
+	
 	GV_args=(
 		"-DCMAKE_SYSTEM_NAME='Linux'"
 		"-DCMAKE_SYSTEM_VERSION=1"

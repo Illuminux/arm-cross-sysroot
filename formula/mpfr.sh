@@ -3,9 +3,7 @@
 GV_url="http://www.mpfr.org/mpfr-current/mpfr-3.1.2.tar.bz2"
 GV_sha1="46d5a11a59a4e31f74f73dd70c5d57a59de2d0b4"
 
-GV_depend=(
-	"gmp"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"

@@ -3,10 +3,7 @@
 GV_url="http://www.openssl.org/source/openssl-1.0.1j.tar.gz"
 GV_sha1="cff86857507624f0ad42d922bb6f77c4f1c2b819"
 
-GV_depend=(
-	"zlib"
-	"cryptodev"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "openssl.pc"
@@ -17,8 +14,8 @@ if [ $? == 1 ]; then
 
 	GV_args=(
 		"linux-generic32"
-		"--prefix='${UV_sysroot_dir}'"
-		"--openssldir='${UV_sysroot_dir}/${GV_host}/ssl'"
+		"--prefix=${UV_sysroot_dir}"
+		"--openssldir=${UV_sysroot_dir}/${GV_host}/ssl"
 		"zlib-dynamic"
 		"shared"
 		"no-sse2"
@@ -43,7 +40,7 @@ if [ $? == 1 ]; then
 
 	# Must be built with j1 otherwise it crashes!!!
 	FU_build_make "-j1"
-	FU_build_install "all install_sw"
+	FU_build_install "install_sw"
 	
 	do_mkdir "${UV_sysroot_dir}/${GV_host}/bin"
 

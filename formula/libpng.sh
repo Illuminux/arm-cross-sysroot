@@ -3,9 +3,7 @@
 GV_url="http://download.sourceforge.net/libpng/libpng-1.6.16.tar.xz"
 GV_sha1="31855a8438ae795d249574b0da15b34eb0922e13"
 
-GV_depend=(
-	"zlib"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "libpng16.pc"

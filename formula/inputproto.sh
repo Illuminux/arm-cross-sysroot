@@ -3,10 +3,7 @@
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/inputproto-2.2.tar.bz2"
 GV_sha1="500e0a6dac3523887c0b82753fe5e9d4bb982137"
 
-GV_depend=(
-	"util-macros"
-	"xextproto"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -20,6 +17,8 @@ if [ $? == 1 ]; then
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
 	)
 	
 	FU_file_get_download

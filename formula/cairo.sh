@@ -3,11 +3,7 @@
 GV_url="http://cairographics.org/releases/cairo-1.12.2.tar.xz"
 GV_sha1="bc2ee50690575f16dab33af42a2e6cdc6451e3f9"
 
-GV_depend=(
-	"libpng"
-	"glib"
-	"pixman"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -32,6 +28,8 @@ if [ $? == 1 ]; then
 	
 	TMP_CPPFLAGS=$CPPFLAGS
 	TMP_CFLAGS=$CFLAGS
+	
+#	export LIBS="-lpthread -lm"
 		
 	if [ "${UV_board}" == "beaglebone" ]; then 
 		
@@ -62,6 +60,11 @@ if [ $? == 1 ]; then
 	FU_build_make
 	FU_build_install "install-strip"
 	
+	cd "${UV_sysroot_dir}/lib"
+	ln -s libcairo.so.2.11200.2 libcairo.so.2
+	ln -s libcairo.so.2.11200.2 libcairo.so
+	cd $GV_base_dir
+	
 #	cd "${GV_source_dir}/${GV_dir_name}"
 #	echo -n "Patch ${GV_name}... "		
 #	patch -p1 < "${GV_base_dir}/patches/cairo.patch" >$GV_log_file 2>&1
@@ -70,5 +73,6 @@ if [ $? == 1 ]; then
 	
 	export CPPFLAGS=$TMP_CPPFLAGS
 	export CFLAGS=$TMP_CFLAGS
+#	unset LIBS
 	
 fi

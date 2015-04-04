@@ -3,9 +3,7 @@
 GV_url="http://liblqr.wdfiles.com/local--files/en:download-page/liblqr-1-0.4.2.tar.bz2"
 GV_sha1="69639f7dc56a084f59a3198f3a8d72e4a73ff927"
 
-GV_depend=(
-	"glib"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "lqr-1.pc"

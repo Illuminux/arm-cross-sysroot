@@ -1,5 +1,36 @@
 #!/bin/bash
 
+
+
+FU_system_require_darwin() {
+	
+	# Check for Homebrew
+	if ! hash "brew" 2>/dev/null; then
+		echo "For running this script on Mac OS X you have to install Homebrew."
+		echo "You can download Homebrew from: http://brew.sh"
+		echo
+		FU_tools_exit
+	fi
+	
+	
+	# Serach if the required packages are installed. This packages are all auto 
+	# linked. If a packet is not found it will be installed automatically.
+	
+	for require in "${LV_requires[@]}"
+	do
+		echo -n "Checking for '$require'... "
+		if [ $(brew list | grep -c $require) = 0 ]; then
+			brew install $require
+			echo "no"
+		else 
+			echo "yes"
+		fi
+	done
+	
+	##Todo: link some force
+}
+
+
 FU_system_require() {
 
 	# required software
@@ -13,81 +44,20 @@ FU_system_require() {
 		"automake"
 		"libtool"
 		"bison"
-		"xsltproc"
 		"cmake"
 		"gawk"
+		"glib"
+		"intltool"
 	)
-	
-	if [ $GV_build_os = "Darwin" ]; then 
-		
-		#LV_requires+=("gawk")
-		
-		if ! hash "brew" 2>/dev/null; then
-			echo "For running this script on Mac OS X you have to install Homebrew."
-			echo "You can download Homebrew from: http://brew.sh"
-			echo
-			exit 1
-		fi
-	fi
-	
-	LV_missing_requires=()
-	
-	# Serach for required programs 
-	for VAR_require in "${LV_requires[@]}"
-	do
-		if ! hash $VAR_require 2>/dev/null; then
-			LV_missing_requires+=($VAR_require)
-		fi
-	done 
+
 	
 	# search for required packages
 	if [ $GV_build_os = "Linux" ]; then 
-		
-		# Glib developer package 
-		if ! [ -f "/usr/bin/glib-genmarshal" ]; then 
-			LV_missing_requires+=("libglib2.0-dev")
-		fi
-		
-		# python-xcbgen
-		if ! [ -d "/usr/lib/python2.7/dist-packages/xcbgen" ]; then
-			LV_missing_requires+=("python-xcbgen")
-		fi
-		
-		# Intltool
-		if ! [ -f "/usr/bin/intltoolize" ]; then
-			LV_missing_requires+=("intltool")
-		fi
+		exit
 		
 	elif [ $GV_build_os = "Darwin" ]; then
 		
-		# Glib
-		if ! [ -d "/usr/local/Cellar/glib" ]; then
-			LV_missing_requires+=("glib")
-		fi
-	
-		# Intltool - the binary is called "intltoolize"
-		if ! [ -d "/usr/local/Cellar/intltool" ]; then
-			LV_missing_requires+=("intltool")
-		fi
-	fi
-	
-	
-	if [ ${#LV_missing_requires[@]} -ne 0 ]; then
-		
-		echo "Some required applications are not installed!"
-		echo "You can install them as follows:"
-		
-		if [ $GV_build_os = "Darwin" ]; then 
-			echo "  $ brew install ${LV_missing_requires[@]}"
-			echo
-			echo "Some packages are not linked. In order to link, type:"
-			echo "  $ brew link [GV_name] --force"
-		else
-			echo "  $ sudo apt-get install ${LV_missing_requires[@]}"
-		fi
-		
-		echo
-		exit 1
+		FU_system_require_darwin
 	fi
 	
 	# Check if cross compiler is avalible
@@ -101,4 +71,9 @@ FU_system_require() {
 	
 	unset LV_requires 
 	unset LV_missing_requires
+}
+
+FU_system_require_linux() {
+	
+	exit
 }

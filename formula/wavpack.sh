@@ -32,6 +32,4 @@ if [ $? == 1 ]; then
 	cp -rf "${UV_sysroot_dir}/${GV_host}/include/wavpack" \
 		"${UV_sysroot_dir}/include/"
 
-#	$SED -i 's/exec_prefix/prefix/g' "${PKG_CONFIG_PATH}/${LV_formula%;*}.pc"
-
 fi

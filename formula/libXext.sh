@@ -3,9 +3,7 @@
 GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXext-1.3.1.tar.bz2"
 GV_sha1="764ac472ae19a0faade193717a9e0938d3430aaa"
 
-GV_depend=(
-	"libX11"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "xext.pc"

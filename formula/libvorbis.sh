@@ -3,9 +3,7 @@
 GV_url="http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.2.tar.bz2"
 GV_sha1="4c44da8215d1fc56676fccc1af8dd6b422d9e676"
 
-GV_depend=(
-	"ogg"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "vorbis.pc"
@@ -13,8 +11,6 @@ FU_tools_installed "vorbis.pc"
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
-	
-	export LIBS="-logg -lm"
 
 	GV_args=(
 		"--host=${GV_host}"
@@ -34,6 +30,5 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install "install-strip"
-	
-	unset LIBS
+
 fi

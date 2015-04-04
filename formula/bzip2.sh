@@ -48,7 +48,7 @@ if [ $? == 1 ]; then
 	rmdir "${UV_sysroot_dir}/${GV_host}/lib" #>/dev/null
 	rmdir "${UV_sysroot_dir}/${GV_host}/include" #>/dev/null
 
-	FU_build_pkg_file "-lbzip2"
+	FU_build_pkg_file "-lbz2"
 	
 	FU_build_finishinstall 
 

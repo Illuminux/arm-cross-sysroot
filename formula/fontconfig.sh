@@ -3,11 +3,7 @@
 GV_url="http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.9.91.tar.bz2"
 GV_sha1="9f4dff0a6e50ade2b919f33795eae8438a285595"
 
-GV_depend=(
-	"zlib"
-	"freetype"
-	"expat"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"

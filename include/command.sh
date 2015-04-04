@@ -8,9 +8,12 @@ do_cd() {
 
 
 do_mkdir() {
-
-	mkdir -p $1 2>&1 \
-		|| FU_tools_error
+	
+	local dir=$1
+	
+	if ! [ -d $dir ]; then
+		mkdir -p $dir 2>&1 || FU_tools_error
+	fi
 }
 
 

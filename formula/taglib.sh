@@ -3,9 +3,7 @@
 GV_url="http://ktown.kde.org/~wheeler/files/src/taglib-1.7.2.tar.gz"
 GV_sha1="e657384ccf3284db2daba32dccece74534286012"
 
-GV_depend=(
-	"zlib"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -37,12 +35,7 @@ if [ $? == 1 ]; then
 	FU_file_get_download
 	FU_file_extract_tar
 	
-	cd "${GV_source_dir}/${GV_dir_name}"
-	
-	echo -n "Configure ${GV_name}... "
-	cmake ${GV_args[@]}	>$GV_log_file 2>&1
-	FU_tools_is_error "$?"
-	
+	FU_build_configure_cmake
 	FU_build_make
 	FU_build_install
 	

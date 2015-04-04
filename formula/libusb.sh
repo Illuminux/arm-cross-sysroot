@@ -12,7 +12,7 @@ if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 	
-	export LIBS="-lpthread -lrt"
+#	export LIBS="-lpthread -lrt"
 
 	GV_args=(
 		"--host=${GV_host}"
@@ -30,6 +30,6 @@ if [ $? == 1 ]; then
 	FU_build_make
 	FU_build_install "install-strip"
 	
-	unset LIBS
+# 	unset LIBS
 	
 fi

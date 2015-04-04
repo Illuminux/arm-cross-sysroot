@@ -3,10 +3,7 @@
 GV_url="http://ftp.gnome.org/pub/gnome/sources/glib/2.40/glib-2.40.0.tar.xz"
 GV_sha1="44e1442ed4d1bf3fa89138965deb35afc1335a65"
 
-GV_depend=(
-	"zlib"
-	"libffi"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "glib-2.0.pc"

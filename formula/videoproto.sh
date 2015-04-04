@@ -3,10 +3,7 @@
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/videoproto-2.3.2.tar.bz2"
 GV_sha1="aa60e3b93c6a78ad03f1c502b910e7c45faaedbc"
 
-GV_depend=(
-	"util-macros"
-	"xextproto"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -20,6 +17,8 @@ if [ $? == 1 ]; then
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
 	)
 	
 	FU_file_get_download

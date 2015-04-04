@@ -3,11 +3,7 @@
 GV_url="http://directfb.org/downloads/Core/DirectFB-1.2/DirectFB-1.2.10.tar.gz"
 GV_sha1="3fa31289d730d348bdc46b21a83ce0679120b451"
 
-GV_depend=(
-	"freetype"
-	"libjpeg"
-	"libpng"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -15,10 +11,6 @@ FU_tools_installed "${LV_formula%;*}.pc"
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
-	
-	TMP_LDFLAGS=$LDFLAGS
-	export LDFLAGS="${LDFLAGS} -L${UV_sysroot_dir}/lib/ts"
-	export LIBS="-lz -lm"
 
 	GV_args=(
 		"--host=${GV_host}"
@@ -51,10 +43,6 @@ if [ $? == 1 ]; then
 	FU_build_make
 	FU_build_install
 	
-	unset LIBS
-	
-	export LDFLAGS="${TMP_LDFLAGS}"
-
 fi
 
 export LDFLAGS="${LDFLAGS} -L${UV_sysroot_dir}/lib/directfb-1.2-9"

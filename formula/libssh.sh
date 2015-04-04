@@ -3,20 +3,14 @@
 GV_url="http://libssh2.org/download/libssh2-1.4.2.tar.gz"
 GV_sha1="7fc084254dabe14a9bc90fa3d569faa7ee943e19"
 
-GV_depend=(
-	"zlib"
-	"cryptodev"
-	"openssl"
-	"libgpg-error"
-	"libgcrypt"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "libssh2.pc"
 
 if [ $? == 1 ]; then
 	
-	FU_tools_check_depend	
+	FU_tools_check_depend
 
 	GV_args=(
 		"--host=${GV_host}"

@@ -3,10 +3,7 @@
 GV_url="http://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.gz"
 GV_sha1="0b91be522746a29351a5ee592fd8160940059303"
 
-GV_depend=(
-	"ogg"
-	"vorbis"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -14,8 +11,6 @@ FU_tools_installed "${LV_formula%;*}.pc"
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
-	
-	export LIBS="-logg -lvorbis -lm"
 
 	GV_args=(
 		"--host=${GV_host}"
@@ -27,7 +22,6 @@ if [ $? == 1 ]; then
 		"--disable-examples"
 		"--disable-oggtest"
 		"--disable-vorbistest"
-		"--disable-sdltes"
 		"--enable-telemetry"
 	)
 	
@@ -37,8 +31,6 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install "install-strip"
-	
-	unset LIBS
 	
 fi
 

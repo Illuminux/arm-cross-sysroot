@@ -13,7 +13,13 @@ if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 	
-	export LDFLAGS="${LDFLAGS} -lpthread -lm -ldl -ltheora -lcairo -lpixman-1 -lpng16 -lfontconfig -lfreetype -ldirectfb -lfusion -ldirect -lxcb-shm -lX11-xcb -lxcb-render -lX11 -lxcb -lXau -lxml2 -llzma -lgcrypt -lgpg-error -lcrypto -lz -lvorbis -logg"
+#	FU_build_expor_libs
+	
+	TMP_LDFLAGS=$LDFLAGS	
+	export LDFLAGS="${LDFLAGS} -lcairo -lpixman-1 -lfontconfig -lxml2 -llzma -ldirectfb -lfusion -ldirect -lpng16 -lxcb-shm -lX11-xcb -lxcb-render -lX11 -lxcb -lXau -ldl -lfreetype -lpthread -lmp3lame -lz -lm"
+
+
+
 	
 	GV_args=(
 		"--cross-prefix=${UV_target}-"
@@ -40,6 +46,7 @@ if [ $? == 1 ]; then
 		"--enable-libx264"
 		"--enable-nonfree"
 		"--enable-openssl"
+		"--enable-libmp3lame"
 	)
 	
 	if [ $GV_build_os = "Darwin" ]; then 
@@ -60,10 +67,10 @@ if [ $? == 1 ]; then
 	FU_file_get_download
 	FU_file_extract_tar
 		
-	FU_build_configure	
+	FU_build_configure
 	FU_build_make
 	FU_build_install
 	
-	unset LIBS
+	export LDFLAGS=$TMP_LDFLAGS
 
 fi

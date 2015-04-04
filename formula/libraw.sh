@@ -3,13 +3,7 @@
 GV_url="http://www.libraw.org/data/LibRaw-0.16.0.tar.gz"
 GV_sha1="492239aa209b1ddd1f030da4fc2978498c32a29b"
 
-GV_depend=(
-	"zlib"
-	"libzma"
-	"jpeg"
-	"jasper"
-	"lcms2"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "${LV_formula%;*}.pc"
@@ -17,8 +11,6 @@ FU_tools_installed "${LV_formula%;*}.pc"
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
-	
-	export LIBS="-lpthread -llcms2 -ljpeg -llzma -lz -lm"
 
 	GV_args=(
 		"--host=${GV_host}"
@@ -27,9 +19,6 @@ if [ $? == 1 ]; then
 		"--includedir=${UV_sysroot_dir}/include"
 		"--enable-shared"
 		"--disable-static"
-		"--enable-lcms"
-		"--enable-jpeg"
-		"--enable-jasper"
 	)
 	
 	FU_file_get_download
@@ -38,7 +27,5 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install "install-strip"
-	
-	unset LIBS
 	
 fi

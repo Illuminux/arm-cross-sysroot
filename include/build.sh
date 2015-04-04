@@ -31,6 +31,17 @@ FU_build_autogen() {
 }
 
 
+FU_build_expor_libs() {
+
+	LIBS+=" "
+	for depend in "${GV_depend[@]}"; do 
+		LIBS+=$(pkg-config "${UV_sysroot_dir}/lib/pkgconfig/${depend}.pc" --libs-only-l)
+	done
+	export LIBS=$LIBS
+
+}
+
+
 ##
 ## Run configure script or print help 
 ##
@@ -47,11 +58,7 @@ FU_build_configure() {
 		
 	fi
 	
-	LIBS+=" "
-	for depend in "${GV_depend[@]}"; do 
-		LIBS+=$(pkg-config "${UV_sysroot_dir}/lib/pkgconfig/${depend}.pc" --libs-only-l)
-	done
-	export LIBS=$LIBS
+#	FU_build_expor_libs
 	
 	# Run configure script in debug mode
 	if [ "$GV_debug" == true ]; then
@@ -69,6 +76,34 @@ FU_build_configure() {
 	
 	# Go back to base dir
 	do_cd $GV_base_dir
+}
+
+##
+## Run configure script or print help 
+##
+FU_build_configure_cmake() {
+	
+	# Go into source dir of the package 
+	do_cd "${GV_source_dir}/${GV_dir_name}"
+	
+	# Print configure
+	echo -n "Configure ${GV_name}... "
+	
+	# Run configure script in debug mode
+	if [ "$GV_debug" == true ]; then
+		echo	
+		cmake ${GV_args[@]} 2>&1 | tee $GV_log_file
+		FU_tools_is_error "$?"
+		
+	# Run configure script and write output to log file
+	else
+		cmake ${GV_args[@]}	>$GV_log_file 2>&1
+		FU_tools_is_error "$?"
+	fi
+	
+	# Go back to base dir
+	do_cd $GV_base_dir
+	
 }
 
 

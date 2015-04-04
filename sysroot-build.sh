@@ -64,6 +64,7 @@ fi
 source "${GV_base_dir}/config.cfg"
 source "${GV_base_dir}/include/settings.cfg"
 source "${GV_base_dir}/include/system.sh"
+source "${GV_base_dir}/include/command.sh"
 source "${GV_base_dir}/include/tools.sh"
 source "${GV_base_dir}/include/files.sh"
 source "${GV_base_dir}/include/build.sh"
@@ -129,6 +130,9 @@ cd $GV_base_dir
 for LV_formula in "${GV_build_formulas[@]}"; do 
 	
 	source "${GV_base_dir}/formula/${LV_formula}.sh"
+	
+#	rm -rf "${UV_sysroot_dir}"
+#	mkdir -p "${UV_sysroot_dir}"
 done
 
 

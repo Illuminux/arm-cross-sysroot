@@ -3,14 +3,7 @@
 GV_url="http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.36.tar.gz"
 GV_sha1="83c4f08796030c0a6fa946e20ecc594c7f4c2142"
 
-GV_depend=(
-	"zlib"
-	"liblzma"
-	"libffi"
-	"glib"
-	"libxml2"
-	"gsl"
-)
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "gstreamer-0.10.pc"
@@ -18,8 +11,8 @@ FU_tools_installed "gstreamer-0.10.pc"
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
-	
-	export LIBS="-lpthread -lgio-2.0 -lgobject-2.0 -lffi -lgmodule-2.0 -ldl -lresolv -lz -lglib-2.0 -llzma -lxml2 -lm"
+
+	export LIBS="-lz -llzma -lpthread -lm"
 
 	GV_args=(
 		"--host=${GV_host}"
