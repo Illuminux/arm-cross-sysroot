@@ -69,6 +69,7 @@ FU_system_require_linux() {
 		"intltool"
 		"glib"
 		"intltool"
+		"libxml2-dev"
 	)
 	
 	# Serach if the required packages are installed.
