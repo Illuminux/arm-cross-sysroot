@@ -244,6 +244,9 @@ FU_tools_create_source_image(){
 	# Create image if not exists 
 	echo -n "Create Case-Sensitive Disk Image for Sources... "
 	
+	# Go into base dir
+	do_cd $GV_base_dir
+	
 	if [ ! -f "${GV_src_img_name}" ]; then
 		
 		echo 
