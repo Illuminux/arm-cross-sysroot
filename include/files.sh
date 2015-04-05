@@ -106,12 +106,29 @@ FU_file_extract_tar(){
 	
 	# Extract package archive
 	if [ "${GV_extension}" = "zip" ]; then
-		unzip -o ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
+		
+		if [ "$GV_debug" == true ]; then
+			unzip -o ${UV_download_dir}/${GV_tar_name} 2>&1 | tee $GV_log_file
+			FU_tools_is_error "$?"
+		else
+			unzip -o ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
+			FU_tools_is_error "$?"
+		fi
 	else 
-		tar xvf ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
+		
+		if [ "$GV_debug" == true ]; then
+			tar xvf ${UV_download_dir}/${GV_tar_name} 2>&1 | tee $GV_log_file
+			FU_tools_is_error "$?"
+		else
+			tar xvf ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
+			FU_tools_is_error "$?"
+		fi
 	fi
+	
+	# Write bild.log into package log
+	printf "\n\nExtract %s:\n\n" ${GV_name} >> "${GV_log_dir}/${GV_name}.log"
+	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 
-	FU_tools_is_error "$?"
 	do_cd $GV_base_dir
 	
 	GV_build_start=`date +%s`

@@ -27,6 +27,7 @@ FU_build_autogen() {
 	fi
 	
 	# Write bild.log into package log
+	printf "\n\nAutogen %s:\n\n" ${GV_name} >> "${GV_log_dir}/${GV_name}.log"
 	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 	
 	# Go back to base dir
@@ -75,6 +76,7 @@ FU_build_configure() {
 	fi
 	
 	# Write bild.log into package log
+	printf "\n\nConfigure %s:\n\n" ${GV_name} >> "${GV_log_dir}/${GV_name}.log"
 	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 	
 	# Go back to base dir
@@ -105,6 +107,7 @@ FU_build_configure_cmake() {
 	fi
 	
 	# Write bild.log into package log
+	printf "\n\nConfigure %s:\n\n" ${GV_name} >> "${GV_log_dir}/${GV_name}.log"
 	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 	
 	# Go back to base dir
@@ -144,6 +147,7 @@ FU_build_make() {
 	fi
 	
 	# Write bild.log into package log
+	printf "\n\nMake %s:\n\n" ${GV_name} >> "${GV_log_dir}/${GV_name}.log"
 	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 	
 	# Go back to base dir
@@ -182,6 +186,7 @@ FU_build_install() {
 	fi
 	
 	# Write bild.log into package log
+	printf "\n\nInstall %s:\n\n" ${GV_name} >> "${GV_log_dir}/${GV_name}.log"
 	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 	
 	# Go back to base dir
