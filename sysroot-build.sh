@@ -26,7 +26,7 @@
 ##
 ## Working directory of the Script
 ##
-GV_base_dir=$(pwd)
+GV_base_dir=$(cd "${0%/*}" && pwd -P)
 
 ## Build start time
 GV_total_start=$(date +%s)
@@ -34,13 +34,17 @@ GV_total_start=$(date +%s)
 ## Build platform
 GV_build_os=$(uname -s)
 
+## Make some aliases for gnu commands
 if [ $GV_build_os = "Darwin" ]; then 
 	LIBTOOL=glibtool
 	SED=gsed
+	AWK=gawk
 else
 	LIBTOOL=libtool
 	SED=sed
+	AWK=awk
 fi
+
 
 ##
 ## check if config.cfg exists or exit
@@ -151,11 +155,6 @@ fi
 GV_total_end=`date +%s`
 GV_total_time=`expr $GV_total_end - $GV_total_start`
 
-if [ $GV_build_os = "Darwin" ]; then 
-	AWK=gawk
-else
-	AWK=awk
-fi
 
 echo "" | tee -a "${UV_sysroot_dir}/buildinfo.txt"
 echo -n "Sysroot successfully build in " | tee -a "${UV_sysroot_dir}/buildinfo.txt"
