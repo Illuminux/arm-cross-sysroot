@@ -6,7 +6,9 @@
 ##
 FU_tools_is_error() {
 	
-	if [ $PIPESTATUS -eq 0 ]; then
+	local pipestatus=$PIPESTATUS
+	
+	if [ $pipestatus -eq 0 ]; then
 		echo "donne"
 	else
 		
@@ -14,7 +16,7 @@ FU_tools_is_error() {
 			echo "faild"
 			cat $GV_log_file
 		else
-			echo "PIPESTATUS: ${PIPESTATUS}"
+			echo "PIPESTATUS: ${pipestatus}"
 		fi
 		
 		echo 
