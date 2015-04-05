@@ -72,7 +72,8 @@ FU_file_git_clone(){
 	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
 		rm -rf "${GV_source_dir}/${GV_dir_name}"
 	fi
-	do_cpdir "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}"
+	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}"
+	FU_tools_is_error "$?"
 	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
 }
 
