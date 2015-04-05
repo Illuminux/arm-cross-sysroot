@@ -92,8 +92,6 @@ FU_system_require_linux() {
 
 
 FU_system_require() {
-
-	echo ${UV_toolchain_dir}
 	
 	# Check if cross compiler is avalible
 	if ! [ -f "${UV_toolchain_dir}/bin/${UV_target}-gcc" ]; then
@@ -109,7 +107,6 @@ FU_system_require() {
 		FU_system_require_linux
 		
 	elif [ $GV_build_os = "Darwin" ]; then
-		
 		FU_system_require_darwin
 	fi
 	
