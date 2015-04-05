@@ -82,7 +82,6 @@ FU_tools_installed() {
 		FU_tools_pkg_version "${UV_sysroot_dir}/lib/pkgconfig/$1"
 		if [ $? == 1 ]; then
 			echo " updating"
-			return 1
 		else
 			echo " already installed (${GV_version})"
 			return 0
@@ -91,7 +90,6 @@ FU_tools_installed() {
 		FU_tools_pkg_version "${UV_sysroot_dir}/usr/lib/pkgconfig/$1"
 		if [ $? == 1 ]; then
 			echo " updating"
-			return 1
 		else
 			echo " already installed (${GV_version})"
 			return 0
@@ -100,15 +98,18 @@ FU_tools_installed() {
 		FU_tools_pkg_version "${UV_sysroot_dir}/usr/local/lib/pkgconfig/$1"
 		if [ $? == 1 ]; then
 			echo " updating"
-			return 1
 		else
 			echo " already installed (${GV_version})"
 			return 0
 		fi
 	else
 		echo
-		return 1
 	fi
+	
+	touch -f "${GV_log_dir}/${GV_name}.log"
+	rm -f "${GV_log_dir}/${GV_name}.tar.gz"
+	
+	return 1
 }
 
 

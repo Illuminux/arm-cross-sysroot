@@ -26,6 +26,9 @@ FU_build_autogen() {
 		fi
 	fi
 	
+	# Write bild.log into package log
+	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
+	
 	# Go back to base dir
 	do_cd $GV_base_dir
 }
@@ -71,7 +74,9 @@ FU_build_configure() {
 		FU_tools_is_error "$?"
 	fi
 	
-	cat $GV_log_file > "${GV_log_dir}/${GV_name}.log"
+	# Write bild.log into package log
+	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
+	
 	# Go back to base dir
 	do_cd $GV_base_dir
 }
@@ -99,7 +104,8 @@ FU_build_configure_cmake() {
 		FU_tools_is_error "$?"
 	fi
 	
-	cat $GV_log_file > "${GV_log_dir}/${GV_name}.log"
+	# Write bild.log into package log
+	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 	
 	# Go back to base dir
 	do_cd $GV_base_dir
@@ -137,6 +143,7 @@ FU_build_make() {
 		
 	fi
 	
+	# Write bild.log into package log
 	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 	
 	# Go back to base dir
@@ -174,6 +181,7 @@ FU_build_install() {
 		
 	fi
 	
+	# Write bild.log into package log
 	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 	
 	# Go back to base dir
@@ -187,10 +195,20 @@ FU_build_install() {
 ##
 FU_build_finishinstall() {
 
+	# calculate the build time
 	local end_time=`date +%s`
 	local build_time=`expr $end_time - $GV_build_start`
 	
+	# remove the build log file
 	rm -f $GV_log_file	
+	
+	# compress the package log file
+	do_cd $GV_log_dir
+	tar -zcf "${GV_name}.tar.gz" "${GV_name}.log"
+	rm "${GV_log_dir}/${GV_name}.log" 
+	do_cd $GV_base_dir
+	
+	# prompt output
 	echo -n " - ${GV_name} (${GV_version})" >> "${UV_sysroot_dir}/buildinfo.txt"
 	echo    " - [$build_time sec]" >> "${UV_sysroot_dir}/buildinfo.txt"
 	
