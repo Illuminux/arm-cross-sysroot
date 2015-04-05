@@ -181,7 +181,8 @@ EOF
 	FU_build_configure
 	FU_build_make
 	FU_build_install
-
+	FU_build_finishinstall
+	
 	cd $GV_base_dir
 
 	export CFLAGS=$TMP_CFLAGS

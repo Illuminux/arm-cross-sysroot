@@ -35,6 +35,7 @@ if [ $? == 1 ]; then
 	FU_build_configure_cmake	
 	FU_build_make	
 	FU_build_install
+	FU_build_finishinstall
 	
 	unset CC
 	unset CXX

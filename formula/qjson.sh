@@ -47,5 +47,4 @@ if [ $? == 1 ]; then
 	FU_tools_is_error "$?"
 
 	FU_build_finishinstall
-	
 fi

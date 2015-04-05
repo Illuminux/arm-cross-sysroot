@@ -16,14 +16,10 @@ FU_system_require_darwin() {
 		"intltool"
 		"glib"
 		"intltool"
-#		"git"
-#		"curl"
-#		"autogen"
-#		"autoconf"
-#		"automake"
-#		"libtool"
-#		"bison"
-#		"cmake"
+		"autogen"
+		"autoconf"
+		"automake"
+		"cmake"
 	)
 	
 	# Check for Homebrew
@@ -69,6 +65,10 @@ FU_system_require_linux() {
 		"intltool"
 		"glib"
 		"intltool"
+		"autogen"
+		"autoconf"
+		"automake"
+		"cmake"
 		"libxml2-dev"
 	)
 	

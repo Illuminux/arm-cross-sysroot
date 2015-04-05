@@ -62,4 +62,6 @@ Description: GPIO Interface library for the Beaglebone Black
 Version: ${GV_version}
 
 EOF
+
+	FU_build_finishinstall
 fi

@@ -34,4 +34,5 @@ if [ $? == 1 ]; then
 	ln -s "${UV_sysroot_dir}/lib/libffi-${GV_version}/include/ffitarget.h" \
 		"${UV_sysroot_dir}/include/"
 
+	FU_build_finishinstall
 fi

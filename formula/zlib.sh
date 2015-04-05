@@ -26,11 +26,11 @@ if [ $? == 1 ]; then
 	FU_file_get_download
 	FU_file_extract_tar
 	
-	FU_build_configure	
+	FU_build_configure
 	FU_build_make
 	FU_build_install
+	FU_build_finishinstall
 
 	unset CHOST
 	unset CC
-
 fi

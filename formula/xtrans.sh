@@ -34,4 +34,5 @@ if [ $? == 1 ]; then
 	mv -f "${GV_prefix}/share/pkgconfig/xtrans.pc" \
 		"${UV_sysroot_dir}/lib/pkgconfig/"
 
+	FU_build_finishinstall
 fi

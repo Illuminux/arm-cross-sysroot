@@ -33,7 +33,6 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install "install-strip"
-	
 	FU_build_pkg_file "-ljpeg"
-
+	FU_build_finishinstall
 fi

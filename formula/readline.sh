@@ -30,5 +30,5 @@ if [ $? == 1 ]; then
 	FU_build_make
 	FU_build_install
 	FU_build_pkg_file "-lreadline"
-
+	FU_build_finishinstall
 fi

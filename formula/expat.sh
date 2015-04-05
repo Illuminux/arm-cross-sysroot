@@ -26,5 +26,5 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install "installlib"
-	
+	FU_build_finishinstall	
 fi

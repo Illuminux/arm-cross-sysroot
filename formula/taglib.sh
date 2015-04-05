@@ -42,6 +42,8 @@ if [ $? == 1 ]; then
 	mv "${UV_sysroot_dir}/bin/taglib-config" \
 		"${GV_prefix}/bin/${GV_host}-taglib-config"
 	
+	FU_build_finishinstall
+	
 	unset CC
 	unset CXX
 	unset AR

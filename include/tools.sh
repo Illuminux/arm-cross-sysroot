@@ -130,17 +130,12 @@ FU_tools_must_have_sudo() {
 }
 
 
+# test access rights for building the sysroot
 FU_tools_access_rights() {
-	
-	# test access rights for building the sysroot
-	if ! [ -d ${UV_sysroot_dir} ]; then
-		mkdir -p ${UV_sysroot_dir} >/dev/null 2>&1 \
-			|| FU_tools_must_have_sudo
-	else
-		touch "${UV_sysroot_dir}/access_test" >/dev/null 2>&1 \
-			&& rm -f "${UV_sysroot_dir}/access_test" \
-			|| FU_tools_must_have_sudo
-	fi
+
+	# Create sysroot dir and test access rights
+	mkdir -p ${UV_sysroot_dir} >/dev/null 2>&1 \
+		|| FU_tools_must_have_sudo
 }
 
 
@@ -249,13 +244,12 @@ FU_tools_create_source_image(){
 	
 	if [ ! -f "${GV_src_img_name}" ]; then
 		
-		echo 
-		
 		hdiutil create "${GV_src_img_name}" \
 			-type SPARSE \
 			-fs JHFS+X \
 			-size $GV_src_img_size \
-			-volname src || error_hdiutil
+			-volname src  >$GV_log_file 2>&1
+		FU_tools_is_error "$?"
 	else
 		
 		echo "already exists"
@@ -267,49 +261,13 @@ FU_tools_create_source_image(){
 	
 	if [ ! -d "${GV_source_dir}" ]; then 
 		
-		hdiutil attach "${GV_src_img_name}" -mountroot $GV_base_dir >/dev/null 2>&1 || error_hdiutil
+		hdiutil attach "${GV_src_img_name}" \
+			-mountroot $GV_base_dir >$GV_log_file 2>&1
+		FU_tools_is_error "$?"
 		echo "mounted to ${GV_source_dir}"
 	else
 		
 		echo "already mounted to ${GV_source_dir}"
-	fi
-}
-
-
-##
-## Mac OS X only:
-## Create an case senitive disk image and mount it for building the sources
-## 
-FU_tools_create_sysroot_image(){
-	
-	# Create image if not exists 
-	echo -n "Create Case-Sensitive Disk Image for Sysroot... "
-	
-	if [ ! -f "${GV_sys_img_name}" ]; then
-		
-		echo 
-		
-		hdiutil create "${GV_sys_img_name}" \
-			-type SPARSE \
-			-fs JHFS+X \
-			-size $GV_sys_img_size \
-			-volname sysroot || error_hdiutil
-	else
-		
-		echo "already exists"
-	fi
-	
-	
-	# Mount image
-	echo -n "Mounting Sysroot Image... "
-	
-	if [ ! -d "${UV_sysroot_dir}" ]; then 
-		
-		hdiutil attach "${GV_sys_img_name}" -mountroot "$GV_base_dir/.." >/dev/null 2>&1 || error_hdiutil
-		echo "mounted to ${UV_sysroot_dir}"
-	else
-		
-		echo "already mounted to ${UV_sysroot_dir}"
 	fi
 }
 

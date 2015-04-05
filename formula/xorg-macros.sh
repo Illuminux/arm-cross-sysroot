@@ -29,5 +29,6 @@ if [ $? == 1 ]; then
 	
 	mv -f "${GV_prefix}/share/pkgconfig/xorg-macros.pc" \
 		"${UV_sysroot_dir}/lib/pkgconfig/"
-	
+
+	FU_build_finishinstall
 fi

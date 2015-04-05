@@ -34,8 +34,6 @@ if [ $? == 1 ]; then
 	
 	TMP_CPPFLAGS=$CPPFLAGS
 	TMP_CFLAGS=$CFLAGS
-	
-#	export LIBS="-lpthread -lm"
 		
 	if [ "${UV_board}" == "beaglebone" ]; then 
 		
@@ -71,14 +69,8 @@ if [ $? == 1 ]; then
 	ln -s libcairo.so.2.11200.2 libcairo.so
 	cd $GV_base_dir
 	
-#	cd "${GV_source_dir}/${GV_dir_name}"
-#	echo -n "Patch ${GV_name}... "		
-#	patch -p1 < "${GV_base_dir}/patches/cairo.patch" >$GV_log_file 2>&1
-#	FU_tools_is_error "$?"
-#	cd $GV_base_dir
-	
 	export CPPFLAGS=$TMP_CPPFLAGS
 	export CFLAGS=$TMP_CFLAGS
-#	unset LIBS
 	
+	FU_build_finishinstall
 fi

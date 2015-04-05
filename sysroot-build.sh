@@ -47,6 +47,18 @@ fi
 
 
 ##
+## Make sure that we are still in working directory 
+##
+cd $GV_base_dir
+
+
+##
+## Create log dir
+##
+mkdir -p "${GV_base_dir}/log"
+
+
+##
 ## check if config.cfg exists or exit
 ##
 if ! [ -f "${GV_base_dir}/config.cfg" ]; then
@@ -89,17 +101,23 @@ echo
 ##
 FU_system_require
 
+
+##
+## test access rights for building the sysroot
+##
+FU_tools_access_rights
+
+
 ##
 ## Mac OS X needs an case sensitiv diskimage
 ## !!! libX11 can only build on a case sensitiv filesystem !!!
 ##
 if [ $GV_build_os = "Darwin" ]; then 
 	FU_tools_create_source_image
-	FU_tools_access_rights
 else
-	# test access rights for building the sysroot
-	FU_tools_access_rights
+	do_mkdir "${GV_base_dir}/src"
 fi
+
 
 ##
 ## Build and Version information
@@ -123,20 +141,11 @@ EOF
 
 
 ##
-## Make sure that we are still in working directory 
-##
-cd $GV_base_dir
-
-
-##
 ## Execute all formulas. The scripts have to be processed in this sequence!
 ##
 for LV_formula in "${GV_build_formulas[@]}"; do 
 	
 	source "${GV_base_dir}/formula/${LV_formula}.sh"
-	
-#	rm -rf "${UV_sysroot_dir}"
-#	mkdir -p "${UV_sysroot_dir}"
 done
 
 
@@ -148,7 +157,7 @@ if [ $GV_build_os = "Darwin" ]; then
 	rm -rf "${GV_base_dir}/sources.sparseimage"
 	echo "done"
 else
-	rm -rf "${BASE_DIR}/src"
+	rm -rf "${GV_base_dir}/src"
 fi
 
 

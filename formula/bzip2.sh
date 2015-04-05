@@ -68,5 +68,5 @@ if [ $? == 1 ]; then
 	done
 
 	FU_build_pkg_file "-lbz2"
-
+	FU_build_finishinstall
 fi

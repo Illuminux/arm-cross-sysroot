@@ -32,5 +32,6 @@ if [ $? == 1 ]; then
 	FU_build_install "install-strip"
 	
 	$LIBTOOL --finish "${UV_sysroot_dir}/lib/ts/"
-	
+
+	FU_build_finishinstall
 fi

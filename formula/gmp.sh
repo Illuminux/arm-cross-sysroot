@@ -42,5 +42,5 @@ if [ $? == 1 ]; then
 	rm -rf "${GV_prefix}/include" >/dev/null
 	
 	FU_build_pkg_file "-lgmp"
-	
+	FU_build_finishinstall
 fi

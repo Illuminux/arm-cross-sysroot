@@ -33,4 +33,5 @@ if [ $? == 1 ]; then
 	cp -rf "${GV_prefix}/include/wavpack" \
 		"${UV_sysroot_dir}/include/"
 
+	FU_build_finishinstall
 fi

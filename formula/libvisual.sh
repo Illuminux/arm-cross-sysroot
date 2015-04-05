@@ -30,7 +30,7 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install "install-strip"
-	
+	FU_build_finishinstall
 fi
 
 export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/libvisual-0.4"

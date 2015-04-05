@@ -35,5 +35,5 @@ if [ $? == 1 ]; then
 	do_cd "${UV_sysroot_dir}/include/"
 	ln -s sqlite3.h sqlite.h
 	do_cd $GV_base_dir
-	
+	FU_build_finishinstall
 fi

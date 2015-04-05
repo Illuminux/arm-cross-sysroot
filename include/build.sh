@@ -71,6 +71,7 @@ FU_build_configure() {
 		FU_tools_is_error "$?"
 	fi
 	
+	cat $GV_log_file > "${GV_log_dir}/${GV_name}.log"
 	# Go back to base dir
 	do_cd $GV_base_dir
 }
@@ -97,6 +98,8 @@ FU_build_configure_cmake() {
 		cmake ${GV_args[@]}	>$GV_log_file 2>&1
 		FU_tools_is_error "$?"
 	fi
+	
+	cat $GV_log_file > "${GV_log_dir}/${GV_name}.log"
 	
 	# Go back to base dir
 	do_cd $GV_base_dir
@@ -134,6 +137,8 @@ FU_build_make() {
 		
 	fi
 	
+	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
+	
 	# Go back to base dir
 	do_cd $GV_base_dir
 }
@@ -169,11 +174,11 @@ FU_build_install() {
 		
 	fi
 	
+	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
+	
 	# Go back to base dir
 	do_cd $GV_base_dir
 	
-	# Finish the installation 
-	FU_build_finishinstall
 }
 
 

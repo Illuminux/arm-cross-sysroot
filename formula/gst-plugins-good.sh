@@ -33,8 +33,6 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install "install-strip"
-	
-	unset LIBS
 
 cat > "${UV_sysroot_dir}/lib/pkgconfig/gstreamer-plugins-good-0.10.pc" << EOF
 prefix=${UV_sysroot_dir}
@@ -51,4 +49,5 @@ Requires:
 Libs: -L\${libdir} -L\${sharedlibdir}
 Cflags: -I\${includedir}
 EOF
+	FU_build_finishinstall
 fi

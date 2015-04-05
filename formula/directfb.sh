@@ -57,7 +57,7 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install
-	
+	FU_build_finishinstall
 fi
 
 export LDFLAGS="${LDFLAGS} -L${UV_sysroot_dir}/lib/directfb-1.2-9"

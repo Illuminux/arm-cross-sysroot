@@ -64,6 +64,8 @@ if [ $? == 1 ]; then
 		mv -f "${GV_prefix}/bin/$executable" \
 			"${GV_prefix}/bin/${GV_host}-$executable"
 	done
+	
+	FU_build_finishinstall
 fi
 
 export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/glib-2.0 -I${UV_sysroot_dir}/lib/glib-2.0/include"
