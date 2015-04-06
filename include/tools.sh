@@ -142,28 +142,44 @@ FU_tools_access_rights() {
 }
 
 
+##
+## Print usage/help if command line argument is -h or --help
+##
 FU_tools_print_usage() {
 
 	echo "Usage: ${0} [Option]"
 	echo
 	echo "  Options:"
-	echo "    --list             List all formulas."
-	echo "    --debug           Display configure and make output."
-	echo "    --configure-show  Display the configure output for the new formula."
-	echo "    --version			 Script Version"
-	echo "    --help             Display this message"
+	echo "    --available   List all available formulas."
+	echo "    --list        List all instaled formulas."
+	echo "    --debug       Display configure and make output."
+	echo "    --confighelp  Display the configure help for the new formula."
+	echo "    --version     Script Version"
+	echo "    --help        Display this message"
 	echo
 	exit 0
 }
 
-FU_tools_print_list() {
+FU_tools_print_available() {
+	
+	local term_chars=$(tput cols) 
+	local max_len=19
+	local term_chars=$((term_chars-$max_len))
+	local term_out=""
 
 	echo 
 	echo "Available formulas:"
-	
-	for LV_formula in "${GV_build_formulas[@]}"; do 
-		LV_name=${LV_formula%;*}
-		echo "${LV_name}"
+
+	for LV_formula in "${GV_build_formulas[@]}"
+	do 
+		term_out=$((term_out+$max_len))
+		
+		if [ $term_out -gt $term_chars ]; then
+			echo 
+			term_out=0
+		fi
+		
+		printf "%-20s" "$LV_formula"
 	done
 	
 	echo
@@ -188,12 +204,18 @@ FU_tools_print_listinfo() {
 }
 
 
+##
+## Parse the command line arguments
+##
 FU_tools_parse_arguments() {
 	
 	while [ "$1" != "" ]; do
 		
+		# Get the ext command line argument
 		local param=$(echo $1 | gawk -F= '{print $1}')
-	    local value=$(echo $1 | gawk -F= '{print $2}')
+		
+		# Get the value - not needed at the moment
+	    #local value=$(echo $1 | gawk -F= '{print $2}')
 		
 		case $param in
 				
@@ -207,11 +229,16 @@ FU_tools_parse_arguments() {
 				exit 0
 				;;
 				
+			-a | --available)
+				FU_tools_print_available
+				exit 0
+				;;
+				
 			--debug)
 				GV_debug=true
 				;;
 				
-			--configure-help)
+			--confighelp)
 				GV_conf_help=true
 				;;
 				

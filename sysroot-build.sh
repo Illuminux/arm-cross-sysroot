@@ -142,7 +142,7 @@ EOF
 
 
 ##
-## Execute all formulas. The scripts have to be processed in this sequence!
+## Execute all formulas.
 ##
 for LV_formula in "${GV_build_formulas[@]}"; do 
 	
