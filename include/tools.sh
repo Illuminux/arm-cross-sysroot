@@ -127,9 +127,12 @@ FU_tools_pkg_version() {
 
 FU_tools_must_have_sudo() {
 
-	 echo "Cannot write into directory \"${UV_sysroot_dir}\"."
-	 echo "You can run the script by typing \"sudo $0\"."
-	 exit 1
+	echo
+	echo "*** Error ***"
+	echo "Cannot write into directory '${UV_sysroot_dir}'."
+	echo "Do nou run the script with 'sudo'!"
+	echo
+	exit 1
 }
 
 
