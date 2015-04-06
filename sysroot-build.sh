@@ -147,20 +147,10 @@ for LV_formula in "${GV_build_formulas[@]}"; do
 done
 
 
-echo "Cleanup build directory."
-
-if [ $GV_build_os = "Darwin" ]; then 
-	echo -n "Unmount source image... " 
-	hdiutil detach $GV_source_dir >/dev/null 2>&1 || exit 1
-	rm -rf "${GV_base_dir}/sources.sparseimage"
-	echo "done"
-else
-	rm -rf "${GV_base_dir}/src"
-fi
-
-
-GV_total_end=`date +%s`
-GV_total_time=`expr $GV_total_end - $GV_total_start`
+##
+## cleanup build dir
+##
+FU_tools_cleanup_build
 
 
 echo "" | tee -a "${UV_sysroot_dir}/buildinfo.txt"

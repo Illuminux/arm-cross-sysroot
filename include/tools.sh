@@ -21,7 +21,10 @@ FU_tools_is_error() {
 		
 		echo 
 		echo "*** Error in $GV_name ***"
-		echo 
+		echo
+		
+		FU_tools_cleanup_build 
+		
 		exit 1
 	fi
 }
@@ -38,6 +41,9 @@ FU_tools_error() {
 	echo 
 	echo "*** Error in $GV_name ***"
 	echo 
+	
+	FU_tools_cleanup_build
+	
 	exit 1
 }
 
@@ -47,6 +53,7 @@ FU_tools_error() {
 ##
 FU_tools_exit() {
 
+	FU_tools_cleanup_build
 	exit 0
 }
 
@@ -312,6 +319,33 @@ FU_tools_create_source_image(){
 	else
 		
 		echo "already mounted to ${GV_source_dir}"
+	fi
+}
+
+
+##
+## cleanup build dir
+##
+FU_tools_cleanup_build() {
+
+	printf "\nCleanup build directory:\n"
+	
+	if [ -d "${GV_source_dir}" ]; then
+		
+		if [ $GV_build_os = "Darwin" ]; then 
+		
+			echo -n "Unmount source image... " 
+			hdiutil detach $GV_source_dir >/dev/null
+			echo "done"
+		
+			echo -n "Renove source image... " 
+			rm -rf "${GV_base_dir}/sources.sparseimage"
+			echo "done"
+		else
+			echo -n "Renove source directory... " 
+			rm -rf "${GV_base_dir}/src"
+			echo "done"
+		fi
 	fi
 }
 
