@@ -93,7 +93,7 @@ source "${GV_base_dir}/include/build.sh"
 FU_tools_parse_arguments $@
 
 
-echo "Start to build an advanced sysroot for ${UV_board}."
+echo "Building an advanced sysroot for ${UV_board}."
 echo
 
 
@@ -126,19 +126,16 @@ fi
 if ! [ -f "${UV_sysroot_dir}/buildinfo.txt" ]; then
 	touch "${UV_sysroot_dir}/buildinfo.txt"
 else
-	echo >> "${UV_sysroot_dir}/buildinfo.txt"
-	echo "*** Rebuild ***" >> "${UV_sysroot_dir}/buildinfo.txt"
-	echo >> "${UV_sysroot_dir}/buildinfo.txt"
+	printf "\n\n%s\n\n" "*** Rebuild ***" >> "${UV_sysroot_dir}/buildinfo.txt"
 fi
-cat >> "${UV_sysroot_dir}/buildinfo.txt" << EOF
-Script Version: $GV_version
-Script Date:	$GV_build_date
-Build Date:		$(date)
-Build User:		$(whoami)
-Build Machine:	$(uname -v)
 
-Packages:
-EOF
+printf "%s\n%s\n%s\n%s\n%s\n\n%s\n" \
+	"Script Version: ${GV_version}" \
+	"Script Date:    ${GV_build_date}" \
+	"Build Date:     $(date)" \
+	"Build User:     $(whoami)" \
+	"Build Machine:  $(uname -v)" \
+	"Packages:" >> "${UV_sysroot_dir}/buildinfo.txt"
 
 
 ##

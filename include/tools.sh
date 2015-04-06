@@ -136,7 +136,9 @@ FU_tools_must_have_sudo() {
 }
 
 
-# test access rights for building the sysroot
+##
+## Test access rights for building the sysroot
+##
 FU_tools_access_rights() {
 
 	# Create sysroot dir and test access rights
@@ -297,7 +299,6 @@ FU_tools_create_source_image(){
 		
 		echo "already exists"
 	fi
-	
 	
 	# Mount image
 	echo -n "Mounting Source Image... "
