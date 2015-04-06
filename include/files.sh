@@ -75,6 +75,8 @@ FU_file_git_clone(){
 	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}"
 	FU_tools_is_error "$?"
 	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
+	
+	GV_build_start=`date +%s`
 }
 
 

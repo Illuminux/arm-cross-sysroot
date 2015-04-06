@@ -33,21 +33,10 @@ if [ $? == 1 ]; then
 	FU_build_configure
 	FU_build_make
 	FU_build_install "install-strip"
-
-cat > "${UV_sysroot_dir}/lib/pkgconfig/gstreamer-plugins-good-0.10.pc" << EOF
-prefix=${UV_sysroot_dir}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib/gstreamer-0.10
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include/gstreamer-0.10
-
-Name: ${GV_name}
-Description: Streaming media framework, Good plugins libraries
-Version: ${GV_version}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir}
-Cflags: -I\${includedir}
-EOF
+	
+	PKG_libs=""
+	PKG_includedir="/gstreamer-0.10"
+	
+	FU_build_pkg_file
 	FU_build_finishinstall
 fi

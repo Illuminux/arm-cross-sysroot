@@ -132,6 +132,9 @@ FU_tools_pkg_version() {
 }
 
 
+##
+## Exit script if user has no access rights
+##
 FU_tools_must_have_sudo() {
 
 	echo
@@ -139,7 +142,7 @@ FU_tools_must_have_sudo() {
 	echo "Cannot write into directory '${UV_sysroot_dir}'."
 	echo "Do nou run the script with 'sudo'!"
 	echo
-	exit 1
+	FU_tools_cleanup_build
 }
 
 
@@ -199,28 +202,13 @@ FU_tools_print_available() {
 	exit 0
 }
 
-FU_tools_print_listinfo() {
-
-	echo 
-	echo "Available formulas:"
-	
-	for LV_formula in "${GV_build_formulas[@]}"; do 
-		LV_name=${LV_formula%;*}
-		LV_info=${LV_formula##*;}
-		echo "${LV_name}:"
-		echo $LV_info
-		echo
-	done
-	
-	echo
-	exit 0
-}
-
 
 ##
 ## Parse the command line arguments
 ##
 FU_tools_parse_arguments() {
+	
+	local build=false
 	
 	if [ $# -eq 0 ]; then
 		FU_tools_print_usage
@@ -243,7 +231,7 @@ FU_tools_parse_arguments() {
 				;;
 				
 			-b | --build)
-				return 0
+				build=true
 				;;
 				
 			-l | --list)
@@ -261,6 +249,7 @@ FU_tools_parse_arguments() {
 				;;
 				
 			--conf-help)
+				build=true
 				GV_conf_help=true
 				;;
 				
@@ -278,6 +267,10 @@ FU_tools_parse_arguments() {
 		
 		shift
 	done
+	
+	if [ "$build" == false ]; then 
+		exit 0
+	fi
 	
 }
 
@@ -327,6 +320,9 @@ FU_tools_create_source_image(){
 ## cleanup build dir
 ##
 FU_tools_cleanup_build() {
+	
+	# Go into base dir
+	do_cd $GV_base_dir
 
 	printf "\nCleanup build directory:\n"
 	
@@ -347,6 +343,9 @@ FU_tools_cleanup_build() {
 			echo "done"
 		fi
 	fi
+	
+	# remove lock file
+	rm -f $GV_lock_file
 }
 
 

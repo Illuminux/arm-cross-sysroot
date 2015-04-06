@@ -27,6 +27,32 @@
 ## Working directory of the Script
 ##
 GV_base_dir=$(cd "${0%/*}" && pwd -P)
+GV_script_name=$(basename $0)
+GV_lock_file="/tmp/${GV_script_name%.*}.lock"
+
+
+##
+## Lock the script so that it can not be executed in parallel 
+##
+
+# If a lock-file exists
+if [ -f $GV_lock_file ]; then
+	
+	# get the pid from lock-file
+	lock_pid=$(cat $GV_lock_file)
+	
+	# test if the pid is still running, then abbort, otherwise delete the lock
+	if [ $(ps -axc | awk '{print $1}' | grep $lock_pid) ]; then 
+		echo "*** Error script is already running ***"
+		exit 1
+	else
+		rm -f $GV_lock_file
+	fi
+else
+	# create a new lock file
+	echo $$ > $GV_lock_file
+fi
+
 
 ## Build start time
 GV_total_start=$(date +%s)
@@ -44,6 +70,8 @@ else
 	SED=sed
 	AWK=awk
 fi
+
+#flock -n "/var/run/${GV_script_name}" -c "${GV_base_dir}/${GV_script_name}"
 
 
 ##
@@ -152,6 +180,8 @@ done
 ##
 FU_tools_cleanup_build
 
+GV_total_end=`date +%s`
+GV_total_time=`expr $GV_total_end - $GV_total_start`
 
 echo "" | tee -a "${UV_sysroot_dir}/buildinfo.txt"
 echo -n "Sysroot successfully build in " | tee -a "${UV_sysroot_dir}/buildinfo.txt"

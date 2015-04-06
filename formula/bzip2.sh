@@ -66,7 +66,9 @@ if [ $? == 1 ]; then
 		mv -f "${GV_prefix}/bin/$executable" \
 			"${GV_prefix}/bin/${GV_host}-$executable"
 	done
-
-	FU_build_pkg_file "-lbz2"
+	
+	PKG_libs="-lbz2"
+	
+	FU_build_pkg_file 
 	FU_build_finishinstall
 fi

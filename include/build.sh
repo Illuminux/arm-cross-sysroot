@@ -240,7 +240,10 @@ Description: ${GV_name} Library
 Version: ${GV_version}
 
 Requires:
-Libs: -L\${libdir} -L\${sharedlibdir} $1
+Libs: -L\${libdir} -L\${sharedlibdir} $PKG_libs
 Cflags: -I\${includedir}
 EOF
+
+	unset PKG_libs
+	unset PKG_includedir
 }

@@ -7,9 +7,7 @@ fi
 GV_url="git://git.drogon.net/wiringPi"
 GV_sha1=""
 
-DEPEND=()
-
-GV_args=()
+GV_depend=()
 
 FU_tools_get_names_from_url
 FU_tools_installed "wiringPi.pc"
@@ -17,6 +15,8 @@ FU_tools_installed "wiringPi.pc"
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
+
+	GV_args=()
 	
 	GV_dir_name=${GV_dir_name%.*}
 	GV_name=$GV_dir_name
@@ -63,21 +63,10 @@ if [ $? == 1 ]; then
 	
 	cd $GV_base_dir
 	
+	PKG_libs=""
+	PKG_includedir="/"
+	
+	FU_build_pkg_file	
 	FU_build_finishinstall
 	
-cat > "${UV_sysroot_dir}/lib/pkgconfig/${GV_name}.pc" << EOF
-prefix=${UV_sysroot_dir}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include
-
-Name: ${GV_name}
-Description: GPIO Interface library for the Raspberry Pi
-Version: 
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir} -lpthread
-Cflags: -I\${includedir}
-EOF
 fi

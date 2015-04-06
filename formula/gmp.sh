@@ -41,6 +41,8 @@ if [ $? == 1 ]; then
 	cd $GV_base_dir
 	rm -rf "${GV_prefix}/include" >/dev/null
 	
-	FU_build_pkg_file "-lgmp"
+	PKG_libs="-lgmp"
+	
+	FU_build_pkg_file 
 	FU_build_finishinstall
 fi
