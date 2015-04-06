@@ -55,6 +55,9 @@ FU_system_require_darwin() {
 	fi
 }
 
+##
+## Check required software for Linux
+##
 FU_system_require_linux() {
 	
 	local missing_requires=()
