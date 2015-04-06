@@ -15,7 +15,7 @@ if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 
-	export LIBS="-lpthread -ldl -lresolv"
+	export LIBS="-lpthread -ldl -lrt -lresolv"
 	
 	GV_args=(
 		"--host=${GV_host}"
