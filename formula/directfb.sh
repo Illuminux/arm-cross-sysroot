@@ -52,7 +52,7 @@ if [ $? == 1 ]; then
 	echo -n "Patch ${GV_name}... "
 	patch "${GV_source_dir}/${GV_dir_name}/gfxdrivers/davinci/davinci_c64x.c" \
 		< "${GV_base_dir}/patches/directfb_davinci.patch" >$GV_log_file 2>&1
-	FU_tools_is_error "$?"
+	FU_tools_is_error "patch"
 	
 	FU_build_configure
 	FU_build_make

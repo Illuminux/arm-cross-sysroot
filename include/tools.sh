@@ -7,20 +7,26 @@
 FU_tools_is_error() {
 	
 	local pipestatus=$PIPESTATUS
+	local arg=$1
 	
 	if [ $pipestatus -eq 0 ]; then
 		echo "donne"
 	else
 		
-		if ! [ "$GV_debug" == true ]; then
-			echo "faild"
-			cat $GV_log_file
-		else
-			echo "PIPESTATUS: ${pipestatus}"
-		fi
+		if [ $arg == "configure" ]; then 
+			if [ -f "${GV_source_dir}/${GV_dir_name}/config.log" ]; then 
+				cp -f "${GV_source_dir}/${GV_dir_name}/config.log" \
+					$GV_log_file
+			fi
+		fi		
+				
+		cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
 		
+		echo
 		echo 
 		echo "*** Error in $GV_name ***"
+		echo 
+		echo "See '${GV_base_dir}/log/${GV_name}.log' for more details"
 		echo
 		
 		FU_tools_cleanup_build 
@@ -294,7 +300,7 @@ FU_tools_create_source_image(){
 			-fs JHFS+X \
 			-size $GV_src_img_size \
 			-volname src  >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		FU_tools_is_error "hdiutil"
 	else
 		
 		echo "already exists"
@@ -307,7 +313,7 @@ FU_tools_create_source_image(){
 		
 		hdiutil attach "${GV_src_img_name}" \
 			-mountroot $GV_base_dir >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		FU_tools_is_error "hdiutil"
 		echo "mounted to ${GV_source_dir}"
 	else
 		

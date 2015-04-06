@@ -34,7 +34,7 @@ if [ $? == 1 ]; then
 		echo -n "Patch ${GV_name}... "
 		patch -p1 < "${GV_base_dir}/patches/qt-mac_os_x.patch" >$GV_log_file 2>&1
 
-		FU_tools_is_error "$?"
+		FU_tools_is_error "patch"
 
 		cd $GV_base_dir
 	fi

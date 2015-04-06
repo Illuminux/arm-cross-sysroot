@@ -23,7 +23,7 @@ if ! [ -d "${UV_sysroot_dir}/include/crypto" ]; then
 	echo -n "Install ${GV_name}... "
 	do_mkdir "${UV_sysroot_dir}/include"
 	do_cpdir "${GV_source_dir}/${GV_dir_name}/crypto" "${UV_sysroot_dir}/include/"
-	FU_tools_is_error "$?"
+	FU_tools_is_error "install"
 	
 	cd $GV_base_dir
 	

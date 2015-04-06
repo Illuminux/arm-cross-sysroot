@@ -55,7 +55,7 @@ FU_file_git_clone(){
 	echo -n "Download ${GV_name}... "
 	if ! [ -d "${UV_download_dir}/${GV_dir_name}" ]; then
 		git clone $GV_url 2>&1
-		FU_tools_is_error "$?"
+		FU_tools_is_error "clone"
 	else
 		echo "alredy loaded"
 	fi
@@ -63,8 +63,7 @@ FU_file_git_clone(){
 	# Create a source dir for the package
 	if ! [ -d "$GV_source_dir" ]; then
 		echo -n "  Create source dir... "
-		do_mkdir $GV_source_dir >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		do_mkdir $GV_source_dir >$GV_log_file
 	fi
 	
 	# Copy file to source dir
@@ -72,8 +71,8 @@ FU_file_git_clone(){
 	if [ -d "${GV_source_dir}/${GV_dir_name}" ]; then
 		rm -rf "${GV_source_dir}/${GV_dir_name}"
 	fi
-	cp -rf "${UV_download_dir}/${GV_dir_name}" "${GV_source_dir}/${GV_dir_name}"
-	FU_tools_is_error "$?"
+	do_cpdir -rf "${UV_download_dir}/${GV_dir_name}" \
+		"${GV_source_dir}/${GV_dir_name}"
 	rm -rf "${GV_source_dir}/${GV_dir_name}/.git"
 	
 	GV_build_start=`date +%s`
@@ -112,19 +111,19 @@ FU_file_extract_tar(){
 		
 		if [ "$GV_debug" == true ]; then
 			unzip -o ${UV_download_dir}/${GV_tar_name} 2>&1 | tee $GV_log_file
-			FU_tools_is_error "$?"
+			FU_tools_is_error "extract"
 		else
 			unzip -o ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
-			FU_tools_is_error "$?"
+			FU_tools_is_error "extract"
 		fi
 	else 
 		
 		if [ "$GV_debug" == true ]; then
 			tar xvf ${UV_download_dir}/${GV_tar_name} 2>&1 | tee $GV_log_file
-			FU_tools_is_error "$?"
+			FU_tools_is_error "extract"
 		else
 			tar xvf ${UV_download_dir}/${GV_tar_name} >$GV_log_file 2>&1
-			FU_tools_is_error "$?"
+			FU_tools_is_error "extract"
 		fi
 	fi
 	

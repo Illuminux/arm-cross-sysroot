@@ -59,7 +59,7 @@ if [ $? == 1 ]; then
 	echo -n "Build and Install ${GV_name}... "
 	chmod +x build.sh
 	./build.sh >$GV_log_file 2>&1
-	FU_tools_is_error "$?"
+	FU_tools_is_error "install"
 	
 	cd $GV_base_dir
 	

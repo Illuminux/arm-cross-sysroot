@@ -36,7 +36,7 @@ if [ $? == 1 ]; then
 	else
 		./Configure ${GV_args[*]} >$GV_log_file 2>&1
 	fi
-	FU_tools_is_error "$?"
+	FU_tools_is_error "configure"
 
 	# Must be built with j1 otherwise it crashes!!!
 	FU_build_make "-j1"

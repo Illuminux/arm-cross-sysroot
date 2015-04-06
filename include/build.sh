@@ -17,11 +17,11 @@ FU_build_autogen() {
 		if [ "$GV_debug" == true ]; then
 			echo 
 			./autogen.sh 2>&1 | tee $GV_log_file
-			FU_tools_is_error "$?"
+			FU_tools_is_error "autogen"
 			
 		else
 			./autogen.sh >$GV_log_file 2>&1
-			FU_tools_is_error "$?"
+			FU_tools_is_error "autogen"
 			
 		fi
 	fi
@@ -67,12 +67,12 @@ FU_build_configure() {
 		echo 
 		./configure \
 			${GV_args[@]} 2>&1 | tee $GV_log_file
-		FU_tools_is_error "$?"
+		FU_tools_is_error "configure"
 	
 	# Run configure script and write output to log file
 	else
 		./configure ${GV_args[@]} >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		FU_tools_is_error "configure"
 	fi
 	
 	# Write bild.log into package log
@@ -98,12 +98,12 @@ FU_build_configure_cmake() {
 	if [ "$GV_debug" == true ]; then
 		echo	
 		cmake ${GV_args[@]} 2>&1 | tee $GV_log_file
-		FU_tools_is_error "$?"
+		FU_tools_is_error "cmake"
 		
 	# Run configure script and write output to log file
 	else
 		cmake ${GV_args[@]}	>$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		FU_tools_is_error "cmake"
 	fi
 	
 	# Write bild.log into package log
@@ -137,12 +137,12 @@ FU_build_make() {
 	if [ "$GV_debug" == true ]; then
 		echo
 		make $args 2>&1 | tee $GV_log_file
-		FU_tools_is_error "$?"		
+		FU_tools_is_error "make"		
 	
 	# Run make script and write output to log file
 	else
 		make $args >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		FU_tools_is_error "make"
 		
 	fi
 	
@@ -176,12 +176,12 @@ FU_build_install() {
 	if [ "$GV_debug" == true ]; then
 		echo
 		make $args 2>&1 | tee $GV_log_file
-		FU_tools_is_error "$?"
+		FU_tools_is_error "install"
 		
 	# Run make script and write output to log file
 	else
 		make $args >$GV_log_file 2>&1
-		FU_tools_is_error "$?"
+		FU_tools_is_error "install"
 		
 	fi
 	
