@@ -43,7 +43,7 @@ if [ $? == 1 ]; then
 	elif [ "${UV_board}" == "raspi" ]; then
 		
 		export CFLAGS="${CFLAGS} -O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -pipe -fstack-protector"
-		export CPPFLAGS="${CPPFLAGS} --O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -D_FORTIFY_SOURCE=2"
+		export CPPFLAGS="${CPPFLAGS} -O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -D_FORTIFY_SOURCE=2"
 		
 	elif [ "${UV_board}" == "hardfloat" ]; then
 		
