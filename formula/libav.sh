@@ -14,7 +14,7 @@ if [ $? == 1 ]; then
 	FU_tools_check_depend
 	
 	TMP_LDFLAGS=$LDFLAGS	
-	export LDFLAGS="${LDFLAGS} -lcairo -lpixman-1 -lfontconfig -lxml2 -llzma -ldirectfb -lfusion -ldirect -lpng16 -lxcb-shm -lX11-xcb -lxcb-render -lX11 -lxcb -lXau -ldl -lfreetype -lpthread -lmp3lame -lz -lm"
+	export LDFLAGS="${LDFLAGS} -lcairo -lpixman-1 -lfontconfig -lxml2 -llzma -ldirectfb -lfusion -ldirect -lpng16 -lxcb-shm -lX11-xcb -lxcb-render -lX11 -lxcb -lXau -ldl -lfreetype -lpthread -lmp3lame -lz -lm -lrt"
 
 	GV_args=(
 		"--prefix=${GV_prefix}" 
