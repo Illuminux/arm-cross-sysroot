@@ -150,12 +150,13 @@ FU_tools_print_usage() {
 	echo "Usage: ${0} [Option]"
 	echo
 	echo "  Options:"
-	echo "    --available   List all available formulas."
-	echo "    --list        List all instaled formulas."
-	echo "    --debug       Display configure and make output."
-	echo "    --confighelp  Display the configure help for the new formula."
-	echo "    --version     Script Version"
-	echo "    --help        Display this message"
+	echo "    -b | --build      Start building the sysroot."
+	echo "    -a | --available  List all available formulas."
+	echo "    -l | --list       List all instaled formulas."
+	echo "    -l | --debug      Display configure and make output."
+	echo "    --conf-help       Display the configure help for the new formula."
+	echo "    -v | --version    Script Version"
+	echo "    -h | --help       Display this message"
 	echo
 	exit 0
 }
@@ -209,6 +210,11 @@ FU_tools_print_listinfo() {
 ##
 FU_tools_parse_arguments() {
 	
+	if [ $# -eq 0 ]; then
+		FU_tools_print_usage
+		exit 0
+	fi
+	
 	while [ "$1" != "" ]; do
 		
 		# Get the ext command line argument
@@ -224,6 +230,10 @@ FU_tools_parse_arguments() {
 				exit 0
 				;;
 				
+			-b | --build)
+				return 0
+				;;
+				
 			-l | --list)
 				FU_tools_print_list
 				exit 0
@@ -234,11 +244,11 @@ FU_tools_parse_arguments() {
 				exit 0
 				;;
 				
-			--debug)
+			-d | --debug)
 				GV_debug=true
 				;;
 				
-			--confighelp)
+			--conf-help)
 				GV_conf_help=true
 				;;
 				
