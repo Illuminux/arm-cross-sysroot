@@ -12,7 +12,7 @@ if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 
-	export LIBS="-lz -llzma -lpthread -lm"
+	export LIBS="-lz -llzma -lpthread -lrt -lm"
 
 	GV_args=(
 		"--host=${GV_host}"
