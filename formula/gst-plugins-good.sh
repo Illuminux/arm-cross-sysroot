@@ -6,7 +6,7 @@ GV_sha1="b45fc01b133fc23617fa501dd9307a90f467b396"
 GV_depend=()
 
 FU_tools_get_names_from_url
-FU_tools_installed "gstreamer-plugins-good-0.10.pc"
+FU_tools_installed "gst-plugins-good.pc"
 
 if [ $? == 1 ]; then
 	
