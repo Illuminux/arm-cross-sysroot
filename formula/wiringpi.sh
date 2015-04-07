@@ -58,13 +58,18 @@ if [ $? == 1 ]; then
 	
 	echo -n "Build and Install ${GV_name}... "
 	chmod +x build.sh
-	./build.sh >$GV_log_file 2>&1
-	FU_tools_is_error "install"
+	if [ "$GV_debug" == true ]; then
+		./build.sh 2>&1  | tee $GV_log_file
+		FU_tools_is_error "install"
+	else
+		./build.sh >$GV_log_file 2>&1
+		FU_tools_is_error "install"
+	fi
 	
 	cd $GV_base_dir
 	
-	PKG_libs=""
-	PKG_includedir="/"
+	PKG_libs="-lwiringPi"
+	PKG_includedir=""
 	
 	FU_build_pkg_file	
 	FU_build_finishinstall
