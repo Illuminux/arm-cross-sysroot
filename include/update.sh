@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+$SED -i 's/BASE_DIR/GV_base_dir/g' "${GV_base_dir}/config.cfg"
+
 ##
 ## Updaet old config.cfg
 ##

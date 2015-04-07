@@ -105,8 +105,8 @@ fi
 ##
 ## Includ library and configuration files 
 ##
-source "${GV_base_dir}/config.cfg"
 source "${GV_base_dir}/include/update.sh"
+source "${GV_base_dir}/config.cfg"
 source "${GV_base_dir}/include/settings.cfg"
 source "${GV_base_dir}/include/system.sh"
 source "${GV_base_dir}/include/command.sh"
