@@ -29,7 +29,7 @@ To build the cross sysroot just run the following command:
 
 #### Host Packages installation:
 
-- `$ sudo apt-get install build-essentials gettext curl glib intltool autogen autoconf automake cmake libxml2-dev
+- `$ sudo apt-get install build-essentials gettext curl glib intltool autogen autoconf automake cmake libxml2-dev`
 
 #### GCC ARM Cross ToolChain:
 
@@ -41,10 +41,8 @@ To build the cross sysroot just run the following command:
 
 #### Host Packages installation:
 
-- Xcode Command Line Tools:<br>
-`$ xcode-select --install`
-- Homebrew:<br>
-`$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)`
+- Xcode Command Line Tools:<br>`$ xcode-select --install`
+- Homebrew:<br>`$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)`
 - Homebrew packages:<br>The required packages will be installed automatically during the script will be executed.
 
 #### GCC ARM Cross ToolChain:
