@@ -116,7 +116,7 @@ QMAKE_INCDIR    += ${UV_sysroot_dir}/include \\
 
 QMAKE_LIBDIR    += ${UV_sysroot_dir}/lib
 
-QMAKE_LIBS      += -lpthread -ldl -lresolv -lz -ljpeg -llzma -lts \\
+QMAKE_LIBS      += -lpthread -lrt -ldl -lresolv -lz -ljpeg -llzma -lts \\
                    -lffi -lXv -lXext -lX11 -lxcb -lXau -lorc-0.4 \\
                    -lglib-2.0 -ldbus-1
 
@@ -124,8 +124,6 @@ load(qt_config)
 EOF
 
 	cd "${GV_source_dir}/${GV_dir_name}"
-
-	echo -n "Configure ${GV_name}... "
 
 	GV_args=(
 		"-v"
