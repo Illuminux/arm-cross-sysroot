@@ -1,24 +1,32 @@
 #!/bin/bash
 
-URL="http://xorg.freedesktop.org/releases/individual/proto/inputproto-2.2.tar.bz2"
+GV_url="http://xorg.freedesktop.org/releases/individual/proto/inputproto-2.2.tar.bz2"
+GV_sha1="500e0a6dac3523887c0b82753fe5e9d4bb982137"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall
 fi

@@ -1,26 +1,34 @@
 #!/bin/bash
 
-URL="ftp://ftp.gnu.org/gnu/gsl/gsl-1.15.tar.gz"
+GV_url="ftp://ftp.gnu.org/gnu/gsl/gsl-1.15.tar.gz"
+GV_sha1="d914f84b39a5274b0a589d9b83a66f44cd17ca8e"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	
+	FU_tools_check_depend
+
+	export LIBS="-lm"
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall
 fi

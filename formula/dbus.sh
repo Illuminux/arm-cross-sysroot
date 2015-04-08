@@ -1,42 +1,45 @@
 #!/bin/bash
 
-URL="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.0.tar.gz"
+GV_url="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.0.tar.gz"
+GV_sha1="d14ab33e92e29fa732cdff69214913832181e737"
 
-DEPEND=(
+GV_depend=(
 	"expat"
 	"glib"
 )
 
-ARGS=(		
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--host=${HOST}"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-	"--without-x"
-)
-
-
-get_names_from_url
-installed "${NAME}-1.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "dbus-1.pc"
 
 if [ $? == 1 ]; then
 	
-	TMP_LIBS=$LIBS
-	export LIBS="${LIBS} -lpthread -lgio-2.0 -lgobject-2.0 -lffi -lgmodule-2.0 -ldl -lglib-2.0 -lz -lresolv -lrt"
+	FU_tools_check_depend
+
+	export LIBS="-lpthread -ldl -lrt -lresolv"
 	
-	get_download
-	extract_tar
-	build
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-xml-docs"
+		"--disable-doxygen-docs"
+		"--without-x"
+	)
 	
-	unset LIBS
-	export LIBS=$TMP_LIBS
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall	
 fi
 
-export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/dbus-1.0 -I${SYSROOT_DIR}/lib/dbus-1.0/include"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/dbus-1.0 -I${UV_sysroot_dir}/lib/dbus-1.0/include"
 export CPPFLAGS=$CFLAGS
-export CXXFLAGS=$CPPFLAGS
+export CXXFLAGS=$CFLAGS
+

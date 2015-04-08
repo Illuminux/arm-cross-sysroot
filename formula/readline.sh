@@ -1,51 +1,37 @@
 #!/bin/bash
 
-URL="ftp.gnu.org:/pub/gnu/readline/readline-6.0.tar.gz"
+GV_url="ftp.gnu.org:/pub/gnu/readline/readline-6.0.tar.gz"
+GV_sha1="1e511b091514ef631c539552316787c75ace5262"
 
-DEPEND=(
-	"ncurses"
-)
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-	"--with-curses"
-)
-
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
 	
-	TMP_LIBS=$LIBS
-	export LIBS="${LIBS} -lncurses"
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--with-curses"
+	)
 	
-	get_download
-	extract_tar
-	build
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install
 	
-	unset LIBS
-	export LIBS=$TMP_LIBS
-
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include
-
-Name: ${NAME}
-Description: GNU Readline Library
-Version: ${VERSION}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir} -lreadline
-Cflags: -I\${includedir}
-EOF
+	PKG_libs="-lreadline"
+	
+	FU_build_pkg_file 
+	FU_build_finishinstall
 fi

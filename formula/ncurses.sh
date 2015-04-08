@@ -1,49 +1,46 @@
 #!/bin/bash
 
-URL="http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz"
+GV_url="http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz"
+GV_sha1="3e042e5f2c7223bffdaac9646a533b8c758b65b5"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datadir=${BASE_DIR}/tmp/share"
-	"--mandir=${BASE_DIR}/tmp/share"
-	"--infodir=${BASE_DIR}/tmp/info"
-	"--with-shared "
-	"--enable-pc-files"
-	"--disable-big-core"
-	"--disable-big-strings"
-	"--disable-largefile"
-)
 
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+GV_version="5.9.20110404"
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
 	
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include
+	FU_tools_check_depend
 
-Name: ${NAME}
-Description: Text-based user interfaces library
-Version: ${VERSION}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir} -lncurses
-Cflags: -I\${includedir}
-EOF
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--with-shared"
+		"--with-normal"
+		"--with-debug"
+		"--enable-pc-files"
+		"--enable-ext-mouse"
+		"--disable-big-core"
+		"--disable-big-strings"
+		"--disable-largefile"
+		"--without-manpages"
+		"--without-progs"
+		"--without-tests"
+		"ac_cv_path_PKG_CONFIG=${PKG_CONFIG_PATH}"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install
+	FU_build_finishinstall
 fi

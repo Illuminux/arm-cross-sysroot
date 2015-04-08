@@ -1,43 +1,37 @@
 #!/bin/bash
 
-URL="ftp://ftp.gnupg.org/GnuPG/libgpg-error//libgpg-error-1.10.tar.bz2"
+GV_url="ftp://ftp.gnupg.org/GnuPG/libgpg-error//libgpg-error-1.10.tar.bz2"
+GV_sha1="95b324359627fbcb762487ab6091afbe59823b29"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--disable-nls"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	
+	FU_tools_check_depend
 
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include
-
-Name: ${NAME}
-Description: libgpg-errors library
-Version: ${VERSION}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir}
-Cflags: -I\${includedir}
-EOF
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-nls"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install "install-strip"
+	
+	PKG_libs="-lgpg-error"
+	
+	FU_build_pkg_file
+	FU_build_finishinstall
 fi

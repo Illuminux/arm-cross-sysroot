@@ -1,32 +1,42 @@
 #!/bin/bash
 
-URL="http://download.savannah.gnu.org/releases/freetype/freetype-2.4.9.tar.bz2"
+GV_url="http://download.savannah.gnu.org/releases/freetype/freetype-2.4.9.tar.bz2"
+GV_sha1="5cb80ab9d369c4e81a2221bcf45adcea2c996b9b"
 
-DEPEND=(
+GV_depend=(
 	"zlib"
 )
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--without-bzip2"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "freetype2.pc"
+FU_tools_get_names_from_url
+GV_version="14.1.8"
+FU_tools_installed "freetype2.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure
+	
+	rm -f "${GV_source_dir}/${GV_dir_name}config.mk"
+	
+	FU_build_make
+	FU_build_install
+	FU_build_finishinstall
 fi
 
-export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/freetype2"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/freetype2"
 export CPPFLAGS=$CFLAGS
-export CXXFLAGS=$CPPFLAGS
+export CXXFLAGS=$CFLAGS

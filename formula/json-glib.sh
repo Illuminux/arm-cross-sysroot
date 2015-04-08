@@ -1,37 +1,33 @@
 #!/bin/bash
 
-URL="ftp://ftp.gnome.org/pub/gnome/sources/json-glib//0.14/json-glib-0.14.2.tar.xz"
+GV_url="ftp://ftp.gnome.org/pub/gnome/sources/json-glib//0.14/json-glib-0.14.2.tar.xz"
+GV_sha1="077c5a7bfabdaefba1f4472100e29add9aa910a4"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--sharedstatedir=${BASE_DIR}/tmp/com"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-	"--disable-glibtest"
-	"--disable-gtk-doc"
-	"--disable-nls"
-)
-
-get_names_from_url
-installed "json-glib-1.0.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "json-glib-1.0.pc"
 
 if [ $? == 1 ]; then
 	
-	if [ -f "${SYSROOT_DIR}/bin/glib-genmarshal" ]; then 
-		mv "${SYSROOT_DIR}/bin/glib-genmarshal" "${SYSROOT_DIR}/bin/glib-genmarshal_bak"
-	fi
+	FU_tools_check_depend
 	
-	get_download
-	extract_tar
-	build
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--disable-glibtest"
+		"--disable-gtk-doc"
+		"--disable-nls"
+	)
 
-	if [ -f "${SYSROOT_DIR}/bin/glib-genmarshal_bak" ]; then 
-		mv "${SYSROOT_DIR}/bin/glib-genmarshal_bak" "${SYSROOT_DIR}/bin/glib-genmarshal"
-	fi
-
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall
 fi

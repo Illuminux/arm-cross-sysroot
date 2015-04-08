@@ -1,101 +1,135 @@
 #!/bin/bash
 
-system_require() {
+##
+## Check required software for Mac OS X
+##
+FU_system_require_darwin() {
 
-	# required software
-
-	REQUIRES=(
-		"git"
+	# required software for Mac
+	local requires=(
 		"gettext"
+		"gawk"
+		"grep"
+		"gnu-sed"
 		"curl"
+		"pkg-config"
+		"libtool"
+		"intltool"
+		"glib"
+		"intltool"
 		"autogen"
 		"autoconf"
 		"automake"
-		"libtool"
-		"bison"
-		"xsltproc"
 		"cmake"
-		"gawk"
 	)
 	
-	if [ $(uname -s) = "Darwin" ]; then 
-		
-		#REQUIRES+=("gawk")
-		
-		if ! hash "brew" 2>/dev/null; then
-			echo "For running this script on Mac OS X you have to install Homebrew."
-			echo "You can download Homebrew from: http://brew.sh"
-			echo
-			exit 1
-		fi
-	fi
-	
-	MISSING_REQUIRES=()
-	
-	# Serach for required programs 
-	for REQUIRE in "${REQUIRES[@]}"
-	do
-		if ! hash $REQUIRE 2>/dev/null; then
-			MISSING_REQUIRES+=($REQUIRE)
-		fi
-	done 
-	
-	# search for required packages
-	if [ $(uname -s) = "Linux" ]; then 
-		
-		# Glib developer package 
-		if ! [ -f "/usr/bin/glib-genmarshal" ]; then 
-			MISSING_REQUIRES+=("libglib2.0-dev")
-		fi
-		
-		# python-xcbgen
-		if ! [ -d "/usr/lib/python2.7/dist-packages/xcbgen" ]; then
-			MISSING_REQUIRES+=("python-xcbgen")
-		fi
-		
-		# Intltool
-		if ! [ -f "/usr/bin/intltoolize" ]; then
-			MISSING_REQUIRES+=("intltool")
-		fi
-		
-	elif [ $(uname -s) = "Darwin" ]; then
-		
-		# Glib
-		if ! [ -d "/usr/local/Cellar/glib" ]; then
-			MISSING_REQUIRES+=("glib")
-		fi
-	
-		# Intltool - the binary is called "intltoolize"
-		if ! [ -d "/usr/local/Cellar/intltool" ]; then
-			MISSING_REQUIRES+=("intltool")
-		fi
-	fi
-	
-	
-	if [ ${#MISSING_REQUIRES[@]} -ne 0 ]; then
-		
-		echo "Some required applications are not installed!"
-		echo "You can install them as follows:"
-		
-		if [ $(uname -s) = "Darwin" ]; then 
-			echo "  $ brew install ${MISSING_REQUIRES[@]}"
-			echo
-			echo "Some packages are not linked. In order to link, type:"
-			echo "  $ brew link [NAME] --force"
-		else
-			echo "  $ sudo apt-get install ${MISSING_REQUIRES[@]}"
-		fi
-		
+	# Check for Homebrew package manager 
+	echo -n "Checking for 'brew'... "
+	if ! hash "brew" 2>/dev/null; then
+		echo "faild"
+		echo
+		echo "  To execute this script on Mac OS X you have to install Homebrew."
+		echo "  You can download Homebrew from: http://brew.sh"
 		echo
 		exit 1
 	fi
 	
-	# Check if cross compiler is avalible
-	if ! [ -f "${TOOLCHAIN_DIR}/bin/${TARGET}-gcc" ]; then
-		
-		echo "Error: Cross compiler not found!"
-		echo "Please check your configuration file."
+	
+	# Serach if the required packages are installed. This packages are all auto 
+	# linked. If a packet is not found it will be installed automatically.
+	
+	for require in "${requires[@]}"
+	do
+		echo -n "Checking for '$require'... "
+		if [ $(brew list | grep -c $require) = 0 ]; then
+			echo
+			brew install $require
+		else 
+			echo "yes"
+		fi
+	done
+	
+	# link gettext force
+	if ! hash gettext 2>/dev/null; then
+		brew link gettext --force
+	fi
+}
+
+##
+## Check required software for Linux
+##
+FU_system_require_linux() {
+	
+	local missing_requires=()
+	
+	# required software for Linux
+	local requires=(
+		"gettext"
+		"gawk"
+		"grep"
+		"sed"
+		"curl"
+		"pkg-config"
+		"libtool"
+		"intltool"
+		"glib"
+		"intltool"
+		"autogen"
+		"autoconf"
+		"automake"
+		"cmake"
+		"libxml2-dev"
+	)
+	
+	# Serach if the required packages are installed.
+	# If a packet is not found it will not be installed automatically becuase 
+	# we need root access for that.
+	for require in "${requires[@]}"
+	do
+		echo -n "Checking for '$require'... "
+		if [ $(dpkg --list | grep -c $require) = 0 ]; then
+			echo "no"
+			missing_requires+=($require)
+		else 
+			echo "yes"
+		fi
+	done
+	
+	# Display the missing packages
+	if [ ${#missing_requires[@]} -gt 0 ]; then 
+		echo 
+		echo "*** Some required packages were not found! ***"
+		echo "Pleas install the required packages by running the following command and run the script again:"
+		echo
+		echo "  sudo apt-get install ${missing_requires[*]}"
 		echo 
 		exit 1
+	fi
+}
+
+##
+## Check cross compiler and required software
+##
+FU_system_require() {
+	
+	# Check if cross compiler is avalible
+	echo -n "Checking for '${UV_target}-gcc'... "
+	if ! [ -f "${UV_toolchain_dir}/bin/${UV_target}-gcc" ]; then
+		echo "faild"
+		echo 
+		echo "*** Error cross compiler not found!       ***"
+		echo "*** Please check your configuration file. ***"
+		echo 
+		exit 1
+	else
+		echo "yes"
+	fi
+	
+	# search for required packages
+	if [ $GV_build_os = "Linux" ]; then 
+		FU_system_require_linux
+		
+	elif [ $GV_build_os = "Darwin" ]; then
+		FU_system_require_darwin
 	fi
 }

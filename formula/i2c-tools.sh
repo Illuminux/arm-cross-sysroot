@@ -1,67 +1,33 @@
 #!/bin/bash
 
-URL="http://dl.lm-sensors.org/i2c-tools/releases/i2c-tools-3.1.1.tar.bz2"
+GV_url="http://dl.lm-sensors.org/i2c-tools/releases/i2c-tools-3.1.1.tar.bz2"
+GV_sha1="05e4e3b34ebc921812e14527936c0fae65729204"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
+FU_tools_get_names_from_url
 
-get_names_from_url
-installed "${NAME}.pc"
+echo -n "Build $GV_name:"
 
-if [ $? == 1 ]; then
+if ! [ -f "${UV_sysroot_dir}/include/linux/i2c-dev.h" ]; then
+	
+	FU_tools_check_depend
+
+	GV_args=()
+	
+	echo
 		
-	get_download
-	extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	echo -n "Install ${GV_name}... "
+	do_mkdir "${UV_sysroot_dir}/include/linux"
+	do_cpdir "${GV_source_dir}/${GV_dir_name}/include/linux" "${UV_sysroot_dir}/include/"		
+	FU_tools_is_error "install"
 	
-	echo -n "Make ${NAME}... "
-	make -j4 \
-		CC="${TARGET}-gcc" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" \
-		prefix="${PREFIX}" >$LOG_FILE 2>&1
-	is_error "$?"
+	cd $GV_base_dir
 	
-	echo -n "Install ${NAME}... "
-	make install \
-		CC="${TARGET}-gcc" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" \
-		prefix="${PREFIX}" >$LOG_FILE 2>&1
-	is_error "$?"
-	
-	cd $BASE_DIR
-	
-	rm -rf "${SYSROOT_DIR}/sbin"
-	rm -rf "${SYSROOT_DIR}/share"
-	
-	build_finishinstall
-
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include/linux
-
-Name: ${NAME}
-Description: I2C Tools libraries
-Version: ${VERSION}
-
-Requires:
-Libs: -L\${libdir}
-Cflags: -I\${includedir}
-EOF
+	FU_build_finishinstall
+else
+	echo " already installed"
 fi

@@ -1,33 +1,38 @@
 #!/bin/bash
 
-URL="http://switch.dl.sourceforge.net/project/libvisual/libvisual/libvisual-0.4.0/libvisual-0.4.0.tar.gz"
+GV_url="http://switch.dl.sourceforge.net/project/libvisual/libvisual/libvisual-0.4.0/libvisual-0.4.0.tar.gz"
+GV_sha1="bd21d621f1d54134c26138e19eaae46c5aeaec00"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--disable-nls"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datadir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "libvisual-0.4.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "libvisual-0.4.pc"
 
 if [ $? == 1 ]; then
 	
-	get_download
-	extract_tar
-	build
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-nls"
+		"--enable-debug"
+	)
 	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall
 fi
 
-export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/libvisual-0.4"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/libvisual-0.4"
 export CPPFLAGS=$CFLAGS
-export CXXFLAGS=$CPPFLAGS
+export CXXFLAGS=$CFLAGS

@@ -1,55 +1,45 @@
 #!/bin/bash
 
-URL="http://www.kernel.org/pub/linux/bluetooth/bluez-5.18.tar.xz"
+GV_url="http://www.kernel.org/pub/linux/bluetooth/bluez-5.18.tar.xz"
+GV_sha1="5d5121b7c4afba5b4b55c1e1db2ef5d77a362a43"
 
-DEPEND=()
-
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--enable-threads"
-	"--enable-library"
-	"--disable-udev"
-	"--disable-cups"
-	"--disable-obex"
-	"--disable-systemd"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+GV_depend=(
+	"glib"
+	"dbus"
+	"readline"
+	"libusb"
 )
 
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
 	
-	TMP_LIBS=$LIBS
-	export LIBS="${LIBS} -lpthread -lc -lrt -ldl -lresolv -lncurses"
+	FU_tools_check_depend
 	
-	get_download
-	extract_tar
-	build
+	export LIBS="-lrt -lpthread -lresolv -lncurses -lreadline"
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--enable-threads"
+		"--enable-library"
+		"--disable-udev"
+		"--disable-cups"
+		"--disable-obex"
+		"--disable-systemd"
+	)
 	
-	unset LIBS
-	export LIBS=$TMP_LIBS
-			
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include
-
-Name: ${NAME}
-Description: Bluetooth library
-Version: ${VERSION}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir} -lbluetooth
-Cflags: -I\${includedir}
-EOF
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall
 fi

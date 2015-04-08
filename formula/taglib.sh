@@ -1,53 +1,51 @@
 #!/bin/bash
 
-URL="http://ktown.kde.org/~wheeler/files/src/taglib-1.7.2.tar.gz"
+GV_url="http://ktown.kde.org/~wheeler/files/src/taglib-1.7.2.tar.gz"
+GV_sha1="e657384ccf3284db2daba32dccece74534286012"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
 	
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	FU_tools_check_depend
 	
-	echo -n "  Make ${NAME}... "
-	cmake \
-		-DCMAKE_C_COMPILER="${TOOLCHAIN_BIN_DIR}/${TARGET}-gcc" \
-		-DCMAKE_CXX_COMPILER="${TOOLCHAIN_BIN_DIR}/${TARGET}-g++" \
-		-DCMAKE_FIND_ROOT_PATH="${TOOLCHAIN_BIN_DIR}/.." \
-		-DCMAKE_CROSSCOMPILING=True \
-		-DCMAKE_INSTALL_PREFIX=$SYSROOT_DIR \
-		-DLLVM_DEFAULT_TARGET_TRIPLE=${TARGET} \
-		-DLLVM_TARGET_ARCH=ARM \
-		-DCMAKE_RELEASE_TYPE=Release >$LOG_FILE 2>&1
+	export CC="${UV_target}-gcc" \
+	export CXX="${UV_target}-g++" \
+	export AR="${UV_target}-ar" \
+	export RANLIB="${UV_target}-ranlib"
 
-	make -j4 \
-		CC="${TARGET}-gcc" \
-		CXX="${TARGET}-g++" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" >>$LOG_FILE 2>&1
-	is_error "$?"
+	GV_args=(
+		"-DCMAKE_SYSTEM_NAME='Linux'"
+		"-DCMAKE_SYSTEM_VERSION=1"
+		"-DCMAKE_SYSTEM_PROCESSOR='arm'"
+		"-DCMAKE_C_COMPILER='$UV_target-gcc'"
+		"-DCMAKE_CXX_COMPILER='$UV_target-g++'"
+		"-DCMAKE_CROSSCOMPILING=True"
+		"-DCMAKE_INSTALL_PREFIX='$UV_sysroot_dir'"
+		"-DCMAKE_LIBRARY_PATH='${UV_sysroot_dir}/lib'"
+		"-DCMAKE_INCLUDE_PATH='${UV_sysroot_dir}/include'"
+		"-DZLIB_INCLUDE_DIR='${UV_sysroot_dir}/include'"
+		"-DZLIB_LIBRARY='${UV_sysroot_dir}/lib/libz.so'"
+		"-DCMAKE_RELEASE_TYPE='Release'"
+	)
 	
-	echo -n "  Install ${NAME}... "
-	make install >$LOG_FILE 2>&1
-	is_error "$?"
-
-	cd ${BASE_DIR}
-
-	build_finishinstall
+	FU_file_get_download
+	FU_file_extract_tar
+	
+	FU_build_configure_cmake
+	FU_build_make
+	FU_build_install
+	
+	mv "${UV_sysroot_dir}/bin/taglib-config" \
+		"${GV_prefix}/bin/${GV_host}-taglib-config"
+	
+	FU_build_finishinstall
+	
+	unset CC
+	unset CXX
+	unset AR
+	unset RANLIB
 fi

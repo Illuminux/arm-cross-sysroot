@@ -1,30 +1,39 @@
 #!/bin/bash
 
-URL="http://sqlite.org/2014/sqlite-autoconf-3080700.tar.gz"
+GV_url="http://sqlite.org/2014/sqlite-autoconf-3080700.tar.gz"
+GV_sha1="8b773b006db46f3ffcbabe065e927823d13bf5c0"
 
-DEPEND=(
-	"readline"
-)
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--disable-largefile"
-	"--enable-readline"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "sqlite3.pc"
+FU_tools_get_names_from_url
+GV_version="3.8.7"
+FU_tools_installed "sqlite3.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-largefile"
+		"--enable-readline"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install "install-strip"
+	
+	do_cd "${UV_sysroot_dir}/include/"
+	ln -s sqlite3.h sqlite.h
+	do_cd $GV_base_dir
+	FU_build_finishinstall
 fi

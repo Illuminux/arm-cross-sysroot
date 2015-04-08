@@ -1,29 +1,38 @@
 #!/bin/bash
 
-URL="ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz"
+GV_url="ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz"
+GV_sha1="f5230890dc0be42fb5c58fbf793da253155de106"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-)
-
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
 	
-	ln -s "${SYSROOT_DIR}/lib/${DIR_NAME}/include/ffi.h"       "${SYSROOT_DIR}/include/"
-	ln -s "${SYSROOT_DIR}/lib/${DIR_NAME}/include/ffitarget.h" "${SYSROOT_DIR}/include/"
+	FU_tools_check_depend
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+	
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
+	
+	ln -s "${UV_sysroot_dir}/lib/libffi-${GV_version}/include/ffi.h" \
+		"${UV_sysroot_dir}/include/"
+	ln -s "${UV_sysroot_dir}/lib/libffi-${GV_version}/include/ffitarget.h" \
+		"${UV_sysroot_dir}/include/"
+
+	FU_build_finishinstall
 fi

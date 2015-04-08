@@ -1,115 +1,283 @@
 #!/bin/bash
 
 ##
-## Print error message and abort script
+## Test if is an error.
+## If is error print error message and abort script
 ##
-is_error() {
+FU_tools_is_error() {
 	
-	if [ "$1" == "0" ]; then
+	local pipestatus=$PIPESTATUS
+	local arg=$1
+	
+	if [ $pipestatus -eq 0 ]; then
 		echo "donne"
 	else
-		echo "faild"
-		cat $LOG_FILE
+		
+		if [ $arg == "configure" ]; then 
+			if [ -f "${GV_source_dir}/${GV_dir_name}/config.log" ]; then 
+				cp -f "${GV_source_dir}/${GV_dir_name}/config.log" \
+					$GV_log_file
+			fi
+		fi		
+				
+		cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
+		
+		echo
 		echo 
-		echo "*** Error in $NAME ***"
+		echo "*** Error in $GV_name ***"
 		echo 
+		echo "See '${GV_base_dir}/log/${GV_name}.log' for more details"
+		echo
+		
+		FU_tools_cleanup_build 
+		
 		exit 1
 	fi
 }
 
 
 ##
-## Get the tar name from URL
+## Print error message and abort script
 ##
-get_names_from_url() {
+FU_tools_error() {
 
-	TAR_NAME=${URL##*/}
-	get_names_from_dir_name $TAR_NAME
+	echo "faild"
+	cat $GV_log_file
+
+	echo 
+	echo "*** Error in $GV_name ***"
+	echo 
+	
+	FU_tools_cleanup_build
+	
+	exit 1
+}
+
+
+##
+## Exit script
+##
+FU_tools_exit() {
+
+	FU_tools_cleanup_build
+	exit 0
+}
+
+
+##
+## Get the tar name from GV_url
+##
+FU_tools_get_names_from_url() {
+
+	GV_tar_name=${GV_url##*/}
+	FU_tools_get_names_from_dir_name $GV_tar_name
 }
 
 
 ##
 ## Get name, directory name, version and extension from tar name 
 ##
-get_names_from_dir_name() {
+FU_tools_get_names_from_dir_name() {
 	
-	DIR_NAME=${1%.tar.*}
-	NAME=${DIR_NAME%-*}
-	VERSION=${DIR_NAME##$NAME*-}
-	EXTENSION=${TAR_NAME##*.}
+	GV_dir_name=${1%.tar.*}
+	GV_name=${GV_dir_name%-*}
+	GV_version=${GV_dir_name##$GV_name*-}
+	GV_extension=${GV_tar_name##*.}
 }
 
 
 ##
 ## Test if formula already is installed 
 ##
-installed() {
+FU_tools_installed() {
 	
-	echo -n "Build $NAME:"
+	echo -n "Build ${GV_name}:"
 	
-	if [ -f "$SYSROOT_DIR/lib/pkgconfig/$1" ]; then
-		echo " already installed"
-		return 0
-	elif [ -f "$SYSROOT_DIR/usr/lib/pkgconfig/$1" ]; then
-		echo " already installed"
-		return 0
-	elif [ -f "$SYSROOT_DIR/usr/local/lib/pkgconfig/$1" ]; then
-		echo " already installed"
-		return 0
+	if [ -f "${UV_sysroot_dir}/lib/pkgconfig/$1" ]; then
+		FU_tools_pkg_version "${UV_sysroot_dir}/lib/pkgconfig/$1"
+		if [ $? == 1 ]; then
+			echo " updating"
+		else
+			echo " already installed (${GV_version})"
+			return 0
+		fi
+	elif [ -f "${UV_sysroot_dir}/usr/lib/pkgconfig/$1" ]; then
+		FU_tools_pkg_version "${UV_sysroot_dir}/usr/lib/pkgconfig/$1"
+		if [ $? == 1 ]; then
+			echo " updating"
+		else
+			echo " already installed (${GV_version})"
+			return 0
+		fi
+	elif [ -f "${UV_sysroot_dir}/usr/local/lib/pkgconfig/$1" ]; then
+		FU_tools_pkg_version "${UV_sysroot_dir}/usr/local/lib/pkgconfig/$1"
+		if [ $? == 1 ]; then
+			echo " updating"
+		else
+			echo " already installed (${GV_version})"
+			return 0
+		fi
 	else
 		echo
-		return 1
 	fi
-}
-
-
-must_have_sudo() {
-
-	 echo "Cannot write into directory \"${SYSROOT_DIR}\"."
-	 echo "You can run the script by typing \"sudo $0\"."
-	 exit 1
-}
-
-
-access_rights() {
 	
-	# test access rights for building the sysroot
-	if ! [ -d ${SYSROOT_DIR} ]; then
-		mkdir -p "${SYSROOT_DIR}" >/dev/null 2>&1 \
-			|| must_have_sudo
+	touch -f "${GV_log_dir}/${GV_name}.log"
+	rm -f "${GV_log_dir}/${GV_name}.tar.gz"
+	
+	return 1
+}
+
+
+FU_tools_pkg_version() {
+
+	if ! [ $(pkg-config --modversion ${1}) = "${GV_version}" ]; then
+		return 1
 	else
-		touch "${SYSROOT_DIR}/access_test" >/dev/null 2>&1 \
-			&& rm -f "${SYSROOT_DIR}/access_test" \
-			|| must_have_sudo
+		return 0
 	fi
 }
 
 
-print_usage() {
+##
+## Exit script if user has no access rights
+##
+FU_tools_must_have_sudo() {
 
-	echo "print help"
+	echo
+	echo "*** Error ***"
+	echo "Cannot write into directory '${UV_sysroot_dir}'."
+	echo "Do nou run the script with 'sudo'!"
+	echo
+	FU_tools_cleanup_build
+}
+
+
+##
+## Test access rights for building the sysroot
+##
+FU_tools_access_rights() {
+
+	# Create sysroot dir and test access rights
+	mkdir -p ${UV_sysroot_dir} >/dev/null 2>&1 \
+		|| FU_tools_must_have_sudo
+}
+
+
+##
+## Print usage/help if command line argument is -h or --help
+##
+FU_tools_print_usage() {
+
+	echo "Usage: ${0} [Option]"
+	echo
+	echo "  Options:"
+	echo "    -b | --build      Start building the sysroot."
+	echo "    -a | --available  List all available formulas."
+	echo "    -l | --list       List all instaled formulas."
+	echo "    -l | --debug      Display configure and make output."
+	echo "    --conf-help       Display the configure help for the new formula."
+	echo "    -v | --version    Script Version"
+	echo "    -h | --help       Display this message"
+	echo
+	exit 0
+}
+
+FU_tools_print_available() {
+	
+	local term_chars=$(tput cols) 
+	local max_len=19
+	local term_chars=$((term_chars-$max_len))
+	local term_out=""
+
+	echo 
+	echo "Available formulas:"
+
+	for LV_formula in "${GV_build_formulas[@]}"
+	do 
+		term_out=$((term_out+$max_len))
+		
+		if [ $term_out -gt $term_chars ]; then
+			echo 
+			term_out=0
+		fi
+		
+		printf "%-20s" "$LV_formula"
+	done
+	
+	echo
 	exit 0
 }
 
 
-parse_arguments() {
+##
+## Parse the command line arguments
+##
+FU_tools_parse_arguments() {
 	
-	ARGV=($@)
-
-	for arg in "${ARGV[@]}"
-	do
-		case "$arg" in
-			("--configure-show")
-				ARG_CONF_SHOW=true;;
-			("--configure-help")
-				ARG_CONF_HELP=true;;
-			("--make-show")
-				ARG_MAKE_SHOW=true;;
-			("--help")
-				print_usage;;
+	local build=false
+	
+	if [ $# -eq 0 ]; then
+		FU_tools_print_usage
+		exit 0
+	fi
+	
+	while [ "$1" != "" ]; do
+		
+		# Get the ext command line argument
+		local param=$(echo $1 | gawk -F= '{print $1}')
+		
+		# Get the value - not needed at the moment
+	    #local value=$(echo $1 | gawk -F= '{print $2}')
+		
+		case $param in
+				
+			-h | --help)
+				FU_tools_print_usage
+				exit 0
+				;;
+				
+			-b | --build)
+				build=true
+				;;
+				
+			-l | --list)
+				FU_tools_print_list
+				exit 0
+				;;
+				
+			-a | --available)
+				FU_tools_print_available
+				exit 0
+				;;
+				
+			-d | --debug)
+				GV_debug=true
+				;;
+				
+			--conf-help)
+				build=true
+				GV_conf_help=true
+				;;
+				
+			-v | --version)
+				echo "${GV_version} (Build ${GV_build_date})"
+				exit 0
+				;;
+				
+			*)
+				echo "ERROR: unknown parameter \"$param\""
+				FU_tools_print_usage
+				exit 1
+				;;
 		esac
+		
+		shift
 	done
-
+	
+	if [ "$build" == false ]; then 
+		exit 0
+	fi
+	
 }
 
 
@@ -117,74 +285,78 @@ parse_arguments() {
 ## Mac OS X only:
 ## Create an case senitive disk image and mount it for building the sources
 ## 
-create_source_image(){
+FU_tools_create_source_image(){
 	
 	# Create image if not exists 
 	echo -n "Create Case-Sensitive Disk Image for Sources... "
 	
-	if [ ! -f "${SRC_IMAGE_NAME}" ]; then
+	# Go into base dir
+	do_cd $GV_base_dir
+	
+	if [ ! -f "${GV_src_img_name}" ]; then
 		
-		echo 
-		
-		hdiutil create "${SRC_IMAGE_NAME}" \
+		hdiutil create "${GV_src_img_name}" \
 			-type SPARSE \
 			-fs JHFS+X \
-			-size $SRC_IMAGE_SIZE \
-			-volname src || error_hdiutil
+			-size $GV_src_img_size \
+			-volname src  >$GV_log_file 2>&1
+		FU_tools_is_error "hdiutil"
 	else
 		
 		echo "already exists"
 	fi
 	
-	
 	# Mount image
 	echo -n "Mounting Source Image... "
 	
-	if [ ! -d "${SOURCE_DIR}" ]; then 
+	if [ ! -d "${GV_source_dir}" ]; then 
 		
-		hdiutil attach "${SRC_IMAGE_NAME}" -mountroot $BASE_DIR >/dev/null 2>&1 || error_hdiutil
-		echo "mounted to ${SOURCE_DIR}"
+		hdiutil attach "${GV_src_img_name}" \
+			-mountroot $GV_base_dir >$GV_log_file 2>&1
+		FU_tools_is_error "hdiutil"
+		echo "mounted to ${GV_source_dir}"
 	else
 		
-		echo "already mounted to ${SOURCE_DIR}"
+		echo "already mounted to ${GV_source_dir}"
 	fi
 }
 
 
 ##
-## Mac OS X only:
-## Create an case senitive disk image and mount it for building the sources
-## 
-create_sysroot_image(){
+## cleanup build dir
+##
+FU_tools_cleanup_build() {
 	
-	# Create image if not exists 
-	echo -n "Create Case-Sensitive Disk Image for Sysroot... "
+	# Go into base dir
+	do_cd $GV_base_dir
+
+	printf "\nCleanup build directory:\n"
 	
-	if [ ! -f "${SYS_IMAGE_NAME}" ]; then
+	if [ -d "${GV_source_dir}" ]; then
 		
-		echo 
+		if [ $GV_build_os = "Darwin" ]; then 
 		
-		hdiutil create "${SYS_IMAGE_NAME}" \
-			-type SPARSE \
-			-fs JHFS+X \
-			-size $SYS_IMAGE_SIZE \
-			-volname sysroot || error_hdiutil
-	else
+			echo -n "Unmount source image... " 
+			hdiutil detach $GV_source_dir >/dev/null
+			echo "done"
 		
-		echo "already exists"
+			echo -n "Renove source image... " 
+			rm -rf "${GV_base_dir}/sources.sparseimage"
+			echo "done"
+		else
+			echo -n "Renove source directory... " 
+			rm -rf "${GV_base_dir}/src"
+			echo "done"
+		fi
 	fi
 	
-	
-	# Mount image
-	echo -n "Mounting Sysroot Image... "
-	
-	if [ ! -d "${SYSROOT_DIR}" ]; then 
-		
-		hdiutil attach "${SYS_IMAGE_NAME}" -mountroot "$BASE_DIR/.." >/dev/null 2>&1 || error_hdiutil
-		echo "mounted to ${SYSROOT_DIR}"
-	else
-		
-		echo "already mounted to ${SYSROOT_DIR}"
-	fi
+	# remove lock file
+	rm -f $GV_lock_file
 }
+
+
+FU_tools_check_depend() {
+	return 0
+}
+
 

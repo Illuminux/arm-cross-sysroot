@@ -1,29 +1,33 @@
 #!/bin/bash
 
-URL="http://download.gna.org/cryptodev-linux/cryptodev-linux-1.6.tar.gz"
+GV_url="http://download.gna.org/cryptodev-linux/cryptodev-linux-1.6.tar.gz"
+GV_sha1="2b7610c76fba52ef92352c8e1877299bec316516"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=()
+FU_tools_get_names_from_url
 
-get_names_from_url
+echo -n "Build $GV_name:"
 
-echo -n "Build $NAME:"
+if ! [ -d "${UV_sysroot_dir}/include/crypto" ]; then
+	
+	FU_tools_check_depend
 
-if ! [ -d "${PREFIX}/include/crypto" ]; then
+	GV_args=()
 	
 	echo
 	
-	get_download
-	extract_tar
+	FU_file_get_download
+	FU_file_extract_tar
 	
-	echo -n "Install ${NAME}... "
-	cp -r "${SOURCE_DIR}/${DIR_NAME}/crypto" "${PREFIX}/include/"
-	is_error "$?"
+	echo -n "Install ${GV_name}... "
+	do_mkdir "${UV_sysroot_dir}/include"
+	do_cpdir "${GV_source_dir}/${GV_dir_name}/crypto" "${UV_sysroot_dir}/include/"
+	FU_tools_is_error "install"
 	
-	cd $BASE_DIR
+	cd $GV_base_dir
 	
-	build_finishinstall
+	FU_build_finishinstall
 else
 	echo " already installed"
 fi

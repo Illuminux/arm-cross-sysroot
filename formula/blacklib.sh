@@ -1,87 +1,52 @@
 #!/bin/bash
 
-URL="https://github.com/gumulka/BlackLib.git"
+if ! [ "${UV_board}" == "beaglebone" ]; then
+	return
+fi
 
-DEPEND=()
+GV_url="https://github.com/gumulka/BlackLib.git"
+GV_sha1=""
 
-ARGS=()
+GV_depend=()
 
-get_names_from_url
-installed "blacklib.pc"
+GV_args=()
+
+FU_tools_get_names_from_url
+GV_version="2.0"
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
 	
-	DIR_NAME=${DIR_NAME%.*}
-	NAME=$DIR_NAME
+	FU_tools_check_depend
+
+	GV_args=()
 	
-	if ! [ -d "$DOWNLOAD_DIR" ]; then
-		echo -n "  Create Download dir... "
-		mkdir -p $DOWNLOAD_DIR >$LOG_FILE 2>&1
-		is_error "$?"
-		echo "done"
-	fi
+	export CC=$UV_target-gcc
+	export CXX=$UV_target-g++
+
+	GV_depend=()
+		
+	GV_dir_name=${GV_dir_name%.*}
+	GV_name=$GV_dir_name
 	
-	cd $DOWNLOAD_DIR
+	FU_file_git_clone
 	
-	echo -n "Download ${NAME}... "
-	if ! [ -d "${DOWNLOAD_DIR}/${DIR_NAME}" ]; then
-		git clone $URL 2>&1
-		is_error "$?"
-	else
-		echo "alredy loaded"
-	fi
+	cd "${GV_source_dir}/${GV_dir_name}"
 	
-	if ! [ -d "$SOURCE_DIR" ]; then
-		echo -n "Create source dir... "
-		mkdir -p $SOURCE_DIR >$LOG_FILE 2>&1
-		is_error "$?"
-	fi
+	patch -p1 < "${GV_base_dir}/patches/blacklib.patch" >$GV_log_file 2>&1
 	
-	echo -n "Copy ${NAME}... "
-	if [ -d "${SOURCE_DIR}/${DIR_NAME}" ]; then
-		rm -rf "${SOURCE_DIR}/${DIR_NAME}"
-	fi
-	cp -rf "${DOWNLOAD_DIR}/${DIR_NAME}" "${SOURCE_DIR}/${DIR_NAME}" >$LOG_FILE 2>&1
-	is_error "$?"
-	rm -rf "${SOURCE_DIR}/${DIR_NAME}/.git"
+	GV_dir_name="${GV_dir_name}/v2_0"
+	FU_build_make
+	FU_build_install "install DESTDIR=$UV_sysroot_dir"
 	
-	
-	cd "${SOURCE_DIR}/${DIR_NAME}"
-	
-	patch -p1 < "${BASE_DIR}/patches/blacklib.patch" >$LOG_FILE 2>&1
-	
-	export CC=$TARGET-gcc
-	export CXX=$TARGET-g++
-	
-	cd "${SOURCE_DIR}/${DIR_NAME}/v2_0"
-	echo -n "Make ${NAME}... "
-	if [ "$ARG_MAKE_SHOW" == true ]; then
-		make -j4 2>&1
-		is_error "$?"		
-	else
-		make -j4 >$LOG_FILE 2>&1
-		is_error "$?"
-	fi
-	
-	echo -n "Install ${NAME}... "
-	make install DESTDIR=$SYSROOT_DIR >$LOG_FILE 2>&1
-	is_error "$?"
-	
-	cd $BASE_DIR
+	cd $GV_base_dir
 	
 	unset CC
 	unset CXX
 	
-cat > "${SYSROOT_DIR}/lib/pkgconfig/blacklib.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include/BlackLib
-
-Name: ${NAME}
-Description: GPIO Interface library for the Beaglebone Black
-Version: 2.0
-
-EOF
+	PKG_libs="-lblacklib"
+	PKG_includedir="/BlackLib"
+	
+	FU_build_pkg_file 
+	FU_build_finishinstall
 fi

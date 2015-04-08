@@ -1,52 +1,38 @@
 #!/bin/bash
 
-URL="http://mirror.checkdomain.de/imagemagick/releases/ImageMagick-6.7.7-10.tar.bz2"
+GV_url="http://mirror.checkdomain.de/imagemagick/releases/ImageMagick-6.7.7-10.tar.bz2"
+GV_sha1="acb4f2647a19895abb2af5bd1379b0cca151c58a"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--disable-openmp"
-	"--disable-opencl"
-	"--disable-largefile"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+GV_version="6.7.7"
+FU_tools_installed "ImageMagick.pc"
 
 if [ $? == 1 ]; then
 	
-	TMP_LIBS=$LIBS
-	export LIBS="${LIBS} -lpthread"
+	FU_tools_check_depend
 	
-	get_download
-	extract_tar
-	build
+#	export LIBS="-lpthread -lpng16 -ltiff -lxml2 -lz -lm -ljpeg -llzma -ldl -llcms2"
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-openmp"
+		"--disable-opencl"
+		"--disable-largefile"
+	)
 	
-	unset LIBS
-	export LIBS=$TMP_LIBS
-
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include/ImageMagick
-
-Name: ${NAME}
-Description: ImageMagick library
-Version: ${VERSION}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir} -lMagick++ -lMagickCore -lMagickWand
-Cflags: -I\${includedir}
-EOF
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure	
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall
 fi

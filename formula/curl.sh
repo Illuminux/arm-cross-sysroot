@@ -1,36 +1,39 @@
 #!/bin/bash
 
-URL="http://curl.haxx.se/download/curl-7.26.0.tar.bz2"
+GV_url="http://curl.haxx.se/download/curl-7.26.0.tar.bz2"
+GV_sha1="c2e62eaace2407d377bf544d1f808aea6dddf64c"
 
-DEPEND=()
-
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir==${BASE_DIR}/tmp/sbin"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--with-ssl"
-	"--enable-ipv6"
+GV_depend=(
+	"zlib"
+	"openssl"
+	"libssh"
 )
 
-get_names_from_url
-installed "libcurl.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "libcurl.pc"
 
 if [ $? == 1 ]; then
 	
-	TMP_LIBS=$LIBS
-	export LIBS="${LIBS} -lpthread -ldl"
+	FU_tools_check_depend
 	
-	get_download
-	extract_tar
-	build
+	export LIBS="-lssh2 -lcrypto -lgcrypt -lgpg-error -lz -ldl"
+
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--enable-ipv6"
+	)
 	
-	unset LIBS
-	export LIBS=$TMP_LIBS
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall	
 fi

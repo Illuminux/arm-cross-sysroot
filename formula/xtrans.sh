@@ -1,41 +1,38 @@
 #!/bin/bash
 
-URL="http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.2.7.tar.bz2"
+GV_url="http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.2.7.tar.bz2"
+GV_sha1="b6ed421edf577816f6e641e1846dc0bff337676c"
 
-DEPEND=()
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--program-prefix=${TARGET}-"
-	"--disable-docs"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "${NAME}.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "${LV_formula%;*}.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	
+	FU_tools_check_depend
 
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--disable-docs"
+		"--without-xmlto"
+		"--without-fop"
+		"--without-xsltproc"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install
+	
+	mv -f "${GV_prefix}/share/pkgconfig/xtrans.pc" \
+		"${UV_sysroot_dir}/lib/pkgconfig/"
 
-Name: ${NAME}
-Description: xtrans library
-Version: ${VERSION}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir}
-Cflags: -I\${includedir}
-EOF
+	FU_build_finishinstall
 fi

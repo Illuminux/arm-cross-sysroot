@@ -1,34 +1,35 @@
 #!/bin/bash
 
-URL="http://download.osgeo.org/libtiff/tiff-4.0.2.tar.gz"
+GV_url="http://download.osgeo.org/libtiff/tiff-4.0.2.tar.gz"
+GV_sha1="d84b7b33a6cfb3d15ca386c8c16b05047f8b5352"
 
-DEPEND=(
-	"zlib"
-	"libjpeg"
-	"liblzma"
-)
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--disable-largefile"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "libtiff-4.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "libtiff-4.pc"
 
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
-	build
+	
+	FU_tools_check_depend
+	
+	export LIBS="-lpthread -lrt -llzma"
 
-	cd $BASE_DIR
-	rm -rf "${SYSROOT_DIR}/share"
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-largefile"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall
 fi

@@ -1,57 +1,47 @@
 #!/bin/bash
 
-URL="http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.36.tar.gz"
+GV_url="http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.36.tar.gz"
+GV_sha1="83c4f08796030c0a6fa946e20ecc594c7f4c2142"
 
-DEPEND=(
-	"glib"
-	"libxml2"
-)
+GV_depend=()
 
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--disable-nls"
-	"--disable-examples"
-	"--disable-tests"
-	"--disable-loadsave"
-	"--disable-largefile"
-	"--disable-docbook"
-	"--disable-gtk-doc"
-	"--disable-parse"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
-)
-
-get_names_from_url
-installed "gstreamer-0.10.pc"
+FU_tools_get_names_from_url
+FU_tools_installed "gstreamer-0.10.pc"
 
 if [ $? == 1 ]; then
 	
-	if [ -f "${SYSROOT_DIR}/bin/glib-genmarshal" ]; then 
-		mv "${SYSROOT_DIR}/bin/glib-genmarshal" "${SYSROOT_DIR}/bin/glib-genmarshal_bak"
-	fi
-	
-	TMP_LIBS=$LIBS
-	export LIBS="${LIBS} -lpthread"
-	
-	get_download
-	extract_tar
-	build
+	FU_tools_check_depend
 
-	unset LIBS
-	export LIBS=$TMP_LIBS
+	export LIBS="-lz -llzma -lpthread -lrt -lm"
 
-	if [ -f "${SYSROOT_DIR}/bin/glib-genmarshal_bak" ]; then 
-		mv "${SYSROOT_DIR}/bin/glib-genmarshal_bak" "${SYSROOT_DIR}/bin/glib-genmarshal"
-	fi
+	GV_args=(
+		"--host=${GV_host}"
+		"--prefix=${GV_prefix}" 
+		"--program-prefix=${UV_target}-"
+		"--libdir=${UV_sysroot_dir}/lib"
+		"--includedir=${UV_sysroot_dir}/include"
+		"--enable-shared"
+		"--disable-static"
+		"--disable-nls"
+		"--disable-examples"
+		"--disable-tests"
+		"--enable-profiling"
+		"--disable-largefile"
+		"--disable-docbook"
+		"--disable-gtk-doc"
+		"--disable-parse"
+	)
+	
+	FU_file_get_download
+	FU_file_extract_tar
+		
+	FU_build_configure
+	FU_build_make
+	FU_build_install "install-strip"
+	FU_build_finishinstall
 fi
 
-export CFLAGS="${CFLAGS} -I${SYSROOT_DIR}/include/gstreamer-0.10"
+export CFLAGS="${CFLAGS} -I${UV_sysroot_dir}/include/gstreamer-0.10"
 export CPPFLAGS=$CFLAGS
-export CXXFLAGS=$CPPFLAGS
-export LDFLAGS="${LDFLAGS} -L${SYSROOT_DIR}/lib/gstreamer-0.10"
+export CXXFLAGS=$CFLAGS
+export LDFLAGS="${LDFLAGS} -L${UV_sysroot_dir}/lib/gstreamer-0.10"

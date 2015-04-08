@@ -1,86 +1,45 @@
 #!/bin/bash
 
-URL="https://github.com/flavio/qjson.git"
+GV_url="https://github.com/flavio/qjson"
+GV_sha1=""
 
-DEPEND=()
-
-ARGS=(
-	"--host=${HOST}"
-	"--enable-shared"
-	"--disable-static"
-	"--program-prefix=${TARGET}-"
-	"--sbindir=${BASE_DIR}/tmp/sbin"
-	"--libexecdir=${BASE_DIR}/tmp/libexec"
-	"--sysconfdir=${BASE_DIR}/tmp/etc"
-	"--localstatedir=${BASE_DIR}/tmp/var"
-	"--datarootdir=${BASE_DIR}/tmp/share"
+GV_depend=(
+	"qt"
 )
 
-get_names_from_url
-installed "QJson.pc"
+FU_tools_get_names_from_url
+GV_version="0.8.1"
+FU_tools_installed "QJson.pc"
 
 if [ $? == 1 ]; then
 	
-	DIR_NAME=${DIR_NAME%.*}
-	NAME=$DIR_NAME
+	FU_tools_check_depend
 	
-	if ! [ -d "$DOWNLOAD_DIR" ]; then
-		echo -n "  Create Download dir... "
-		mkdir -p $DOWNLOAD_DIR >$LOG_FILE 2>&1
-		is_error "$?"
-		echo "done"
-	fi
+	GV_dir_name=${GV_dir_name%.*}
+	GV_name=$GV_dir_name
+	GV_build_start=`date +%s`
 	
-	cd $DOWNLOAD_DIR
+	GV_args=(
+		"-DCMAKE_SYSTEM_NAME='Linux'"
+		"-DCMAKE_SYSTEM_VERSION=1"
+		"-DCMAKE_SYSTEM_PROCESSOR='arm'"
+		"-DCMAKE_C_COMPILER='$UV_target-gcc'"
+		"-DCMAKE_CXX_COMPILER='$UV_target-g++'"
+		"-DCMAKE_FIND_ROOT_PATH='${CMAKE_FIND_ROOT_PATH} $UV_toolchain_dir'"
+		"-DCMAKE_INSTALL_PREFIX='$UV_sysroot_dir'"
+		"-DQT_QMAKE_EXECUTABLE='${UV_sysroot_dir}/Qt/bin/qmake'"
+		"${GV_source_dir}/${GV_dir_name}"
+	)
 	
-	echo -n "  Download ${NAME}... "
-	if ! [ -d "${DOWNLOAD_DIR}/${DIR_NAME}" ]; then
-		git clone $URL 2>&1
-		is_error "$?"
-	else
-		echo "alredy loaded"
-	fi
+	FU_file_git_clone
 	
-	if ! [ -d "$SOURCE_DIR" ]; then
-		echo -n "  Create source dir... "
-		mkdir -p $SOURCE_DIR >$LOG_FILE 2>&1
-		is_error "$?"
-	fi
+	# qjson has to be build in a seperate dir 
+	mkdir -p "${GV_source_dir}/${GV_dir_name}/build"
+	GV_dir_name="${GV_dir_name}/build"
 	
-	echo -n "  Copy ${NAME}... "
-	if [ -d "${SOURCE_DIR}/${DIR_NAME}" ]; then
-		rm -rf "${SOURCE_DIR}/${DIR_NAME}"
-	fi
-	cp -rf "${DOWNLOAD_DIR}/${DIR_NAME}" "${SOURCE_DIR}/${DIR_NAME}" >$LOG_FILE 2>&1
-	is_error "$?"
-	rm -rf "${SOURCE_DIR}/${DIR_NAME}/.git"
-	
-	
-	echo -n "  Configure ${NAME}... "
-	mkdir -p "${SOURCE_DIR}/${DIR_NAME}/build"
-	cd "${SOURCE_DIR}/${DIR_NAME}/build"
-	cmake \
-		-DCMAKE_SYSTEM_NAME="Linux" \
-		-DCMAKE_SYSTEM_VERSION=1 \
-		-DCMAKE_SYSTEM_PROCESSOR="arm" \
-		-DCMAKE_C_COMPILER="$TARGET-gcc" \
-		-DCMAKE_CXX_COMPILER="$TARGET-g++" \
-		-DCMAKE_FIND_ROOT_PATH="${CMAKE_FIND_ROOT_PATH} $TOOLCHAIN_DIR" \
-		-DCMAKE_INSTALL_PREFIX="$SYSROOT_DIR" \
-		-DQT_QMAKE_EXECUTABLE="/usr/local/Trolltech/Qt-4.8.6-${BOARD}/bin/qmake" \
-			"${SOURCE_DIR}/${DIR_NAME}" >$LOG_FILE 2>&1
-	is_error "$?"
-	
-	
-	echo -n "  Make ${NAME}... "
-	make -j4 $LOG_FILE 2>&1
-	is_error "$?"
-	
-	echo -n "  Install ${NAME}... "
-	make install >$LOG_FILE 2>&1
-	is_error "$?"
-	
-	cd $BASE_DIR
-	
-	build_finishinstall
+	FU_build_configure_cmake
+	FU_build_make
+	FU_build_install
+
+	FU_build_finishinstall
 fi

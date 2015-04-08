@@ -1,17 +1,17 @@
 
-# The variable BASE_DIR is the directory in which the main script is located.
+# The variable GV_base_dir is the directory in which the main script is located.
 
 # Directory in which the sysroot should be installed
-SYSROOT_DIR="${BASE_DIR}/../sysroot"
+UV_sysroot_dir="${GV_base_dir}/../sysroot"
 
 # Directory in which the downloads are to be loaded
-DOWNLOAD_DIR="${BASE_DIR}/../../cross-sysroot-downloads"
+UV_download_dir="${GV_base_dir}/../../cross-sysroot-downloads"
 
 # Directory where the toolchain is located (exclude bin directory)
-TOOLCHAIN_DIR="/usr/local/linaro/arm-linux-gnueabihf"
+UV_toolchain_dir="/usr/local/linaro/arm-linux-gnueabihf"
 
 # Target architecture
-TARGET="arm-linux-gnueabihf"
+UV_target="arm-linux-gnueabihf"
 
 # Target Board
 # softfloat:  Default soft float boarde
@@ -19,4 +19,4 @@ TARGET="arm-linux-gnueabihf"
 # raspi:      Raspberry PI
 # beaglebone: BeagleBone / Beglebone black
 #
-BOARD="beaglebone"
+UV_board="beaglebone"

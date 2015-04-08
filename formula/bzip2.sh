@@ -1,59 +1,74 @@
 #!/bin/bash
 
-URL="http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz"
+GV_url="http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz"
+GV_sha1="3f89f861209ce81a6bab1fd1998c0ef311712002"
 
-ARGS=()
+GV_depend=()
 
-get_names_from_url
-installed "${NAME}.pc"
-
+FU_tools_get_names_from_url
+FU_tools_installed "${LV_formula%;*}.pc"
 if [ $? == 1 ]; then
-	get_download
-	extract_tar
 	
-	cd "${SOURCE_DIR}/${DIR_NAME}"
+	FU_tools_check_depend
+		
+	FU_file_get_download
+	FU_file_extract_tar
 	
-	echo -n "Make ${NAME}... "
-
-	make -f Makefile-libbz2_so \
-		CC="${TARGET}-gcc" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" >$LOG_FILE 2>&1
-	is_error "$?"
-
-	echo -n "Install ${NAME}... "
-
-	cp -av libbz2.so* "${SYSROOT_DIR}/lib" >/dev/null
-
-	make install \
-		CC="${TARGET}-gcc" \
-		AR="${TARGET}-ar" \
-		RANLIB="${TARGET}-ranlib" \
-		PREFIX="${SYSROOT_DIR}" >$LOG_FILE 2>&1
-	is_error "$?"
+	GV_args=(
+		"-f"
+		"Makefile-libbz2_so"
+		"CC=${UV_target}-gcc"
+		"AR=${UV_target}-ar"
+		"RANLIB=${UV_target}-ranlib"
+		"PREFIX=${GV_prefix}"
+	)
 	
-	cd $BASE_DIR
-	rm -rf "${SYSROOT_DIR}/man"
-	mv "${SYSROOT_DIR}/bin/bunzip2" "${SYSROOT_DIR}/bin/${TARGET}-bunzip2"
-	mv "${SYSROOT_DIR}/bin/bzcat" "${SYSROOT_DIR}/bin/${TARGET}-bzcat"
-	mv "${SYSROOT_DIR}/bin/bzip2" "${SYSROOT_DIR}/bin/${TARGET}-bzip2"
-	mv "${SYSROOT_DIR}/bin/bzip2recover" "${SYSROOT_DIR}/bin/${TARGET}-bzip2recover"
+	FU_build_make ${GV_args[*]}
 	
-	build_finishinstall
-
-cat > "${SYSROOT_DIR}/lib/pkgconfig/${NAME}.pc" << EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-sharedlibdir=\${libdir}
-includedir=\${prefix}/include
-
-Name: ${NAME}
-Description: bz2 compression library
-Version: ${VERSION}
-
-Requires:
-Libs: -L\${libdir} -L\${sharedlibdir} -lbz2
-Cflags: -I\${includedir}
-EOF
+	GV_args=(
+		"install"
+		"CC=${UV_target}-gcc"
+		"AR=${UV_target}-ar"
+		"RANLIB=${UV_target}-ranlib"
+		"PREFIX=${GV_prefix}"
+	)
+	
+	FU_build_install ${GV_args[*]}
+	
+	do_cd "${GV_source_dir}/${GV_dir_name}"
+	cp -av libbz2.so* "${UV_sysroot_dir}/lib" >/dev/null
+	
+	do_cd "${GV_prefix}/lib"
+	mv -f libbz2.* "${UV_sysroot_dir}/lib" >/dev/null
+	
+	do_cd "${GV_prefix}/include"
+	mv -f bzlib.* "${UV_sysroot_dir}/include" >/dev/null
+	
+	do_cd $GV_base_dir
+	rmdir "${GV_prefix}/lib" #>/dev/null
+	rmdir "${GV_prefix}/include" #>/dev/null
+	
+	executables=(
+		"bunzip2"
+		"bzcat"
+		"bzcmp"
+		"bzdiff"
+		"bzegrep"
+		"bzfgrep"
+		"bzgrep"
+		"bzip2"
+		"bzless"
+		"bzmore"
+		"bzip2recover"
+	)
+	
+	for executable in ${executables[@]}; do 
+		mv -f "${GV_prefix}/bin/$executable" \
+			"${GV_prefix}/bin/${GV_host}-$executable"
+	done
+	
+	PKG_libs="-lbz2"
+	
+	FU_build_pkg_file 
+	FU_build_finishinstall
 fi
