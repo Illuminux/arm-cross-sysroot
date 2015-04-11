@@ -62,6 +62,17 @@ GV_build_os=$(uname -s)
 
 ## Make some aliases for gnu commands
 if [ $GV_build_os = "Darwin" ]; then 
+	
+	if ! hash "gsed" 2>/dev/null; then
+		echo "Please run 'brew install gnu-sed'"
+		exit
+	fi
+	
+	if ! hash "gawk" 2>/dev/null; then
+		echo "Please install 'brew install gawk'"
+		exit
+	fi
+	
 	LIBTOOL=glibtool
 	SED=gsed
 	AWK=gawk
