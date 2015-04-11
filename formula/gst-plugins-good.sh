@@ -10,7 +10,7 @@ FU_tools_installed "gst-plugins-good.pc"
 
 if [ $? == 1 ]; then
 	
-#	FU_tools_check_depend
+	FU_tools_check_depend
 	
 	export LIBS="-ldl -lrt -lpthread -lm"
 
@@ -21,7 +21,7 @@ if [ $? == 1 ]; then
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
 		"--enable-shared"
-		"--enable-static"
+		"--disable-static"
 		"--disable-nls"
 		"--disable-examples"
 		"--disable-gtk-doc"
