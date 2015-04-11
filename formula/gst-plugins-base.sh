@@ -27,6 +27,7 @@ if [ $? == 1 ]; then
 		"--disable-largefile"
 		"--disable-gtk-doc"
 		"--disable-app"
+		"--disable-pango"
 	)
 	
 	FU_file_get_download
