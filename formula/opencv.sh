@@ -1,19 +1,40 @@
 #!/bin/bash
 
-GV_url="http://sourceforge.net/projects/opencvlibrary/files/latest/download/opencv-2.4.10"
+GV_url="http://sourceforge.net/projects/opencvlibrary/files/latest/download/opencv-2.4.10.zip"
 GV_sha1="0b185f5e332d5feef91722a6ed68c36a6d33909e"
 
-DEPEND=(
+GV_depend=(
 	"cryptodev"
 )
 
-GV_args=()
-
 FU_tools_get_names_from_url
-FU_tools_installed "${LV_formula%;*}.pc"
+GV_version=${GV_version%.zip}
+FU_tools_installed "opencv.pc"
 
 if [ $? == 1 ]; then
 	
+	FU_tools_check_depend
+
+	GV_args=()
+	
+	FU_file_get_download
+	FU_file_extract_tar
+	
+	GV_dir_name="opencv-2.4.10"
+	GV_name=${GV_dir_name%-*}
+	GV_version=${GV_dir_name##$GV_name*-}
+	GV_extension="zip"
+	
+	$SED -i 's/4.6/'$($UV_target-gcc -dumpversion)'/g' \
+		"${GV_source_dir}/${GV_dir_name}/platforms/linux/arm-gnueabi.toolchain.cmake"
+	
+	$SED -i 's/-${GCC_COMPILER_VERSION}//g' \
+		"${GV_source_dir}/${GV_dir_name}/platforms/linux/arm-gnueabi.toolchain.cmake"
+	
+	replace="${UV_toolchain_dir//\//\\/}"
+	$SED -i "s/\/usr\/arm-linux-gnueabi\${FLOAT_ABI_SUFFIX}/${replace}/g" \
+		"${GV_source_dir}/${GV_dir_name}/platforms/linux/arm-gnueabi.toolchain.cmake"
+
 	if [ -d "${GV_source_dir}/${GV_dir_name}/build" ]; then 
 		rm -rf "${GV_source_dir}/${GV_dir_name}/build"
 	fi
@@ -22,52 +43,47 @@ if [ $? == 1 ]; then
 	
 	cd "${GV_source_dir}/${GV_dir_name}/build"
 	
-	
 	if [ "${UV_board}" == "beaglebone" ]; then 
-		LV_ENABLE_NEON="ON"
+		softfp="OFF"
+		hardfp="ON"
+		enable_neon="ON"
+		
+	elif [ "${UV_board}" == "raspi" ]; then 
+		softfp="OFF"
+		hardfp="ON"
+		enable_neon="OFF"
+		$SED -i 's/-mthumb//g' \
+			"${GV_source_dir}/${GV_dir_name}/platforms/linux/arm-gnueabi.toolchain.cmake"
+		
+	elif [ "${UV_board}" == "hardfloat" ]; then 
+		softfp="OFF"
+		hardfp="ON"
+		enable_neon="OFF"
+		
 	else
-		LV_ENABLE_NEON="OFF"
+		softfp="ON"
+		hardfp="OFF"
+		enable_neon="OFF"
 	fi
 	
-	echo -n "Configure ${GV_name}... "
-	cmake \
-		-DCMAKE_SYSTEM_NAME="Linux" \
-		-DCMAKE_SYSTEM_VERSION=1 \
-		-DCMAKE_SYSTEM_PROCESSOR="arm" \
-		-DCMAKE_C_COMPILER="${UV_target}-gcc" \
-		-DCMAKE_CXX_COMPILER="${UV_target}-g++" \
-		-DCMAKE_EXE_LINKER_FLAGS="-Wl,-z,nocopyreloc" \
-		-DCMAKE_CXX_FLAGS="$CXXFLAGS -mthumb -fdata-sections -Wa,--noexecstack -fsigned-char -Wno-psabi" \
-		-DCMAKE_C_FLAGS="$CFLAGS -mthumb -fdata-sections -Wa,--noexecstack -fsigned-char -Wno-psabi" \
-		-DCMAKE_SHARED_LINKER_FLAGS="-Wl,--fix-cortex-a8 -Wl,--no-undefined -Wl,--gc-sections -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now" \
-		-DCMAKE_MODULE_LINKER_FLAGS="-Wl,--fix-cortex-a8 -Wl,--no-undefined -Wl,--gc-sections -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now" \
-		-DCMAKE_EXE_LINKER_FLAGS="-Wl,--fix-cortex-a8 -Wl,--no-undefined -Wl,--gc-sections -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now" \
-		-DCMAKE_SYSTEM_LIBRARY_PATH="${UV_sysroot_dir}/lib" \
-		-DCMAKE_LIBRARY_PATH="${UV_sysroot_dir}/lib" \
-		-DCMAKE_SYSTEM_INCLUDE_PATH="${UV_sysroot_dir}/include" \
-		-DCMAKE_INCLUDE_PATH="${UV_sysroot_dir}/include" \
-	    -DZLIB_LIBRARY="${UV_sysroot_dir}/lib/libz.so" \
-	    -DPNG_LIBRARY="${UV_sysroot_dir}/lib/libpng12.so" \
-		-DJPEG_LIBRARY="${UV_sysroot_dir}/lib/libjpeg.so" \
-		-DTIFF_LIBRARY="${UV_sysroot_dir}/lib/libtiff.so" \
-		-DWITH_QT=ON \
-		-DWITH_OpenEXR=OFF \
-		-DENABLE_NEON=$LV_ENABLE_NEON \
-		-DCMAKE_FIND_ROOT_PATH="${CMAKE_FIND_ROOT_PATH} $UV_toolchain_dir" \
-		-DCMAKE_CROSSCOMPILING=True \
-		-DCMAKE_INSTALL_PREFIX="$UV_sysroot_dir" \
-		-DZLIB_INCLUDE_DIR="${UV_sysroot_dir}/include" \
-	    -DZLIB_LIBRARY="${UV_sysroot_dir}/lib/libz.so" \
-		-DCMAKE_RELEASE_TYPE=Release \
+	GV_args=(
+		"-DSOFTFP=${softfp}"
+		"-DCMAKE_TOOLCHAIN_FILE='${GV_source_dir}/${GV_dir_name}/platforms/linux/arm-gnueabi.toolchain.cmake'"
+		"-DCMAKE_SYSTEM_LIBRARY_PATH:PATH='${UV_sysroot_dir}/lib'"
+		"-DCMAKE_SYSTEM_INCLUDE_PATH:PATH='${UV_sysroot_dir}/include'"
+		"-DCMAKE_LIBRARY_PATH:PATH='${UV_sysroot_dir}/lib'"
+		"-DCMAKE_INCLUDE_PATH:PATH='${UV_sysroot_dir}/include'"
+		"-DZLIB_LIBRARY='${UV_sysroot_dir}/lib/libz.so'"
+		"-DZLIB_INCLUDE_DIR='${UV_sysroot_dir}/include'"
+		"-DCMAKE_INSTALL_PREFIX='$UV_sysroot_dir'"
+		"-DENABLE_VFPV3=${hardfp}"
+		"-DENABLE_NEON=${enable_neon}"
 		"${GV_source_dir}/${GV_dir_name}"
+	)
 	
-	make -j4 \
-		CC="${UV_target}-gcc" \
-		CXX="${UV_target}-g++" \
-		AR="${UV_target}-ar" \
-		RANLIB="${UV_target}-ranlib"
-	
-	FU_build_finishinstall
-fi
 
-unset LV_pkg_name
+	FU_build_configure_cmake
+	FU_build_make
+	FU_build_install
+	
+fi
