@@ -30,3 +30,21 @@ if [ -z "$UV_board" ]; then
 	UV_board=$BOARD
 	$SED -i 's/BOARD/UV_board/g' "${GV_base_dir}/config.cfg"
 fi
+
+if [ -z "$UV_qt_5" ]; then 
+	
+	echo "" >> "${GV_base_dir}/config.cfg"
+	echo "#" >> "${GV_base_dir}/config.cfg"
+	echo "# QT-Setup" >> "${GV_base_dir}/config.cfg"
+	echo "#" >> "${GV_base_dir}/config.cfg"
+	echo "" >> "${GV_base_dir}/config.cfg"
+	echo "# QT install directory for host enviroment" >> "${GV_base_dir}/config.cfg"
+	echo "UV_qt_dir=\"\${UV_sysroot_dir}/Qt\"" >> "${GV_base_dir}/config.cfg"
+	echo "" >> "${GV_base_dir}/config.cfg"
+	echo "# QT Version - set to "true" to install Version 5.4.1 otherwize Version 4.8.6" >> "${GV_base_dir}/config.cfg"
+	echo "# will be installed." >> "${GV_base_dir}/config.cfg"
+	echo "UV_qt_5=false" >> "${GV_base_dir}/config.cfg"
+	
+	UV_qt_dir="${UV_sysroot_dir}/Qt"
+	UV_qt_5=false
+fi

@@ -20,3 +20,14 @@ UV_target="arm-linux-gnueabihf"
 # beaglebone: BeagleBone / Beglebone black
 #
 UV_board="beaglebone"
+
+# 
+# QT-Setup
+#
+
+# QT install directory for host enviroment 
+UV_qt_dir="${UV_sysroot_dir}/Qt"
+
+# QT Version - set to "true" to install Version 5.4.1 otherwize Version 4.8.6
+# will be installed.
+UV_qt_5=true

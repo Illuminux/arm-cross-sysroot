@@ -109,7 +109,9 @@ To build the cross sysroot just run the following command:
 	- sqlite - Database management system libraries
 
 - **Framework and System Libraries:**
-	- Qt - Qt 4.8.6 development files and development programs for host
+	- Qt - development files and development programs for host. Selectable in config.cfg:
+		- Qt 4.8.6 
+		- Qt 5.4.1 (experimental)
 	- glib - GLib development library
 	- dbus - Simple interprocess messaging system
 	- libffi - Foreign function interface library
