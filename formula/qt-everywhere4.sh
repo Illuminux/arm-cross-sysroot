@@ -63,6 +63,8 @@ EOF
 			>> "${GV_source_dir}/${GV_dir_name}/mkspecs/${LV_mkspecs_dir}/qmake.conf"
 		echo "QMAKE_CXXFLAGS_RELEASE = -O3 -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=hard" \
 			>> "${GV_source_dir}/${GV_dir_name}/mkspecs/${LV_mkspecs_dir}/qmake.conf"
+		
+		LV_qt_dir="${UV_qt_dir}/Qt4.8.6-armhf"
 
 	elif [ "${UV_board}" == "raspi" ]; then
 
@@ -70,6 +72,8 @@ EOF
 			>> "${GV_source_dir}/${GV_dir_name}/mkspecs/${LV_mkspecs_dir}/qmake.conf"
 		echo "QMAKE_CXXFLAGS_RELEASE = -O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard" \
 			>> "${GV_source_dir}/${GV_dir_name}/mkspecs/${LV_mkspecs_dir}/qmake.conf"
+		
+		LV_qt_dir="${UV_qt_dir}/Qt4.8.6-raspi"
 
 	elif [ "${UV_board}" == "hardfloat" ]; then
 
@@ -77,6 +81,8 @@ EOF
 			>> "${GV_source_dir}/${GV_dir_name}/mkspecs/${LV_mkspecs_dir}/qmake.conf"
 		echo "QMAKE_CXXFLAGS_RELEASE = -O3 -mfloat-abi=hard" \
 			>> "${GV_source_dir}/${GV_dir_name}/mkspecs/${LV_mkspecs_dir}/qmake.conf"
+		
+		LV_qt_dir="${UV_qt_dir}/Qt4.8.6-armhf"
 
 	else
 
@@ -84,6 +90,8 @@ EOF
 			>> "${GV_source_dir}/${GV_dir_name}/mkspecs/${LV_mkspecs_dir}/qmake.conf"
 		echo "QMAKE_CXXFLAGS_RELEASE=" \
 			>> "${GV_source_dir}/${GV_dir_name}/mkspecs/${LV_mkspecs_dir}/qmake.conf"
+		
+		LV_qt_dir="${UV_qt_dir}/Qt4.8.6-arm"
 
 	fi
 
@@ -127,9 +135,7 @@ EOF
 
 	GV_args=(
 		"-v"
-		"-prefix ${UV_qt_dir}"
-		"-headerdir ${UV_sysroot_dir}/include"
-		"-libdir ${UV_sysroot_dir}/lib"
+		"-prefix ${LV_qt_dir}"
 		"-opensource"
 		"-confirm-license"
 		"-embedded arm"
@@ -175,16 +181,36 @@ EOF
 			"-no-pch"
 		)
 	fi
-
+	
 	FU_build_configure
 	FU_build_make
 	FU_build_install
 	FU_build_finishinstall
 	
+	# link pkg config files
+	ln -s $LV_qt_dir/lib/pkgconfig/* $PKG_CONFIG_PATH/
+	
+	# link header files 
+	ln -s $LV_qt_dir/include/* /$UV_sysroot_dir/include/
+	
+	# link libraries 
+	ln -s $LV_qt_dir/lib/libQtCore.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtNetwork.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtTest.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtDBus.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtScript.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtXml.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtDeclarative.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtScriptTools.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libphonon.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtGui.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtSql.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtMultimedia.so /$UV_sysroot_dir/lib/
+	ln -s $LV_qt_dir/lib/libQtSvg.so /$UV_sysroot_dir/lib/
+	
 	cd $GV_base_dir
 
 	export CFLAGS=$TMP_CFLAGS
-	export CFLAGS=$TMP_CPPFLAGS
 	export CXXFLAGS=$TMP_CXXFLAGS
 	export LDFLAGS=$TMP_LDFLAGS
 
