@@ -45,6 +45,6 @@ if [ -z "$UV_qt_5" ]; then
 	echo "# will be installed." >> "${GV_base_dir}/config.cfg"
 	echo "UV_qt_5=false" >> "${GV_base_dir}/config.cfg"
 	
-	UV_qt_dir="${UV_sysroot_dir}/Qt"
+	UV_qt_dir="/usr/local"
 	UV_qt_5=false
 fi
