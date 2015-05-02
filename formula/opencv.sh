@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GV_url="http://sourceforge.net/projects/opencvlibrary/files/latest/download/opencv-2.4.10.zip"
+GV_url="http://cznic.dl.sourceforge.net/project/opencvlibrary/opencv-unix/2.4.10/opencv-2.4.10.zip"
 GV_sha1="0b185f5e332d5feef91722a6ed68c36a6d33909e"
 
 GV_depend=(
@@ -73,8 +73,6 @@ if [ $? == 1 ]; then
 		"-DCMAKE_SYSTEM_INCLUDE_PATH:PATH='${UV_sysroot_dir}/include'"
 		"-DCMAKE_LIBRARY_PATH:PATH='${UV_sysroot_dir}/lib'"
 		"-DCMAKE_INCLUDE_PATH:PATH='${UV_sysroot_dir}/include'"
-		"-DZLIB_LIBRARY='${UV_sysroot_dir}/lib/libz.so'"
-		"-DZLIB_INCLUDE_DIR='${UV_sysroot_dir}/include'"
 		"-DCMAKE_INSTALL_PREFIX='$UV_sysroot_dir'"
 		"-DENABLE_VFPV3=${hardfp}"
 		"-DENABLE_NEON=${enable_neon}"
