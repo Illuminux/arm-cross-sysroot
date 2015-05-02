@@ -13,7 +13,7 @@ GV_args=()
 
 FU_tools_get_names_from_url
 GV_version="2.0"
-FU_tools_installed "${LV_formula%;*}.pc"
+FU_tools_installed "BlackLib.pc"
 
 if [ $? == 1 ]; then
 	
