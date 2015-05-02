@@ -79,6 +79,7 @@ FU_system_require_linux() {
 		"automake"
 		"cmake"
 		"libxml2-dev"
+		"xsltproc"
 	)
 	
 	# Serach if the required packages are installed.
