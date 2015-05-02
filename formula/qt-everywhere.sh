@@ -19,8 +19,9 @@ else
 	
 		if [ $? == 1 ]; then
 			echo "*** failure: QT5 is already installed! A downgrade is not possible!"
-		else
-			source "${GV_base_dir}/formula/qt-everywhere4.sh"
 		fi
+		
+	else
+		source "${GV_base_dir}/formula/qt-everywhere4.sh"
 	fi
 fi
