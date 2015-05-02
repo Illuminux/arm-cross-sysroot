@@ -23,7 +23,6 @@ if [ $? == 1 ]; then
 		"--enable-xkb"
 		"--disable-static"
 		"--disable-build-docs"
-		"--without-python"
 	)
 	
 	FU_file_get_download
