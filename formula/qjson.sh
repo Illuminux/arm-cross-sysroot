@@ -9,6 +9,12 @@ GV_depend=(
 
 FU_tools_get_names_from_url
 GV_version="0.8.1"
+
+if [ -f "${PKG_CONFIG_PATH}/Qt5Core.pc" ]; then 
+	echo "Build ${GV_name}... build in Qt5"
+	return
+fi
+
 FU_tools_installed "QJson.pc"
 
 if [ $? == 1 ]; then
@@ -19,6 +25,20 @@ if [ $? == 1 ]; then
 	GV_name=$GV_dir_name
 	GV_build_start=`date +%s`
 	
+	if [ "${UV_board}" == "beaglebone" ]; then 
+		LV_qt_dir="${UV_qt_dir}/Qt4.8.6-armhf"
+
+	elif [ "${UV_board}" == "raspi" ]; then
+		LV_qt_dir="${UV_qt_dir}/Qt4.8.6-raspi"
+
+	elif [ "${UV_board}" == "hardfloat" ]; then
+		LV_qt_dir="${UV_qt_dir}/Qt4.8.6-armhf"
+
+	else	
+		LV_qt_dir="${UV_qt_dir}/Qt4.8.6-arm"
+
+	fi
+	
 	GV_args=(
 		"-DCMAKE_SYSTEM_NAME='Linux'"
 		"-DCMAKE_SYSTEM_VERSION=1"
@@ -27,7 +47,7 @@ if [ $? == 1 ]; then
 		"-DCMAKE_CXX_COMPILER='$UV_target-g++'"
 		"-DCMAKE_FIND_ROOT_PATH='${CMAKE_FIND_ROOT_PATH} $UV_toolchain_dir'"
 		"-DCMAKE_INSTALL_PREFIX='$UV_sysroot_dir'"
-		"-DQT_QMAKE_EXECUTABLE='${UV_sysroot_dir}/Qt/bin/qmake'"
+		"-DQT_QMAKE_EXECUTABLE='${LV_qt_dir}/bin/qmake'"
 		"${GV_source_dir}/${GV_dir_name}"
 	)
 	

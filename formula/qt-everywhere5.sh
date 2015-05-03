@@ -30,6 +30,8 @@ if [ $? == 1 ]; then
 	if [ "${UV_board}" == "softfloat" ]; then
 		device="linux-arm-gnueabi-g++"
 		
+		LV_qt_dir="${UV_qt_dir}/Qt5.4.1-arm"
+		
 	else
 		device="linux-arm-gnueabihf-g++"
 		rm -rf "${GV_source_dir}/${GV_dir_name}/qtbase/mkspecs/${device}"
@@ -52,6 +54,8 @@ if [ $? == 1 ]; then
 			>> "${GV_source_dir}/${GV_dir_name}/qtbase/mkspecs/${device}/qmake.conf"
 		echo "QMAKE_CXXFLAGS_RELEASE = -O3 -march=armv7-a -mtune=cortex-a8 -mfloat-abi=hard" \
 			>> "${GV_source_dir}/${GV_dir_name}/qtbase/mkspecs/${device}/qmake.conf"
+		
+		LV_qt_dir="${UV_qt_dir}/Qt5.4.1-armhf"
 	
 	elif [ "${UV_board}" == "raspi" ]; then
 
@@ -59,6 +63,8 @@ if [ $? == 1 ]; then
 			>> "${GV_source_dir}/${GV_dir_name}/qtbase/mkspecs/${device}/qmake.conf"
 		echo "QMAKE_CXXFLAGS_RELEASE = -O3 -march=armv6j -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard" \
 			>> "${GV_source_dir}/${GV_dir_name}/qtbase/mkspecs/${device}/qmake.conf"
+		
+		LV_qt_dir="${UV_qt_dir}/Qt5.4.1-raspi"
 	fi
 	
 	
@@ -78,7 +84,7 @@ QMAKE_INCDIR    += ${UV_sysroot_dir}/include \\
 
 QMAKE_LIBDIR    += ${UV_sysroot_dir}/lib
 
-QMAKE_LIBS      += -lpthread -lrt -ldl -lresolv -lz -lxcb -lXau
+QMAKE_LIBS      += -lpthread -lrt -ldl -lresolv -lz -lxcb -lXau -lxcb-util
 
 load(qt_config)
 EOF
@@ -90,9 +96,7 @@ EOF
 		"-confirm-license"
 		"-release"
 		"-make libs"
-		"-prefix ${UV_qt_dir}"
-		"-headerdir ${UV_sysroot_dir}/include"
-		"-libdir ${UV_sysroot_dir}/lib"
+		"-prefix ${LV_qt_dir}"
 		"-no-cups"
 		"-no-largefile"
 		"-no-sql-ibase"
@@ -101,32 +105,23 @@ EOF
 		"-no-sql-odbc"
 		"-no-sse2"
 		"-no-ssse3"
-		"-qt-xcb"
 		"-no-compile-examples"
 		"-optimized-qmake"
 		"-no-nis"
+		"-force-pkg-config"
 	)
-
-	if [ $GV_build_os = "Darwin" ]; then
-
-		GV_args+=("-force-pkg-config")
-	else
-
-		GV_args+=(
-			"-platform qws/linux-x86-g++"
-			"-no-accessibility"
-			"-no-gtkstyle"
-			"-no-pch"
-		)
-	fi
-
+	
 	FU_build_configure
 	FU_build_make
 	FU_build_install
 	FU_build_finishinstall
+	
+	# link pkg config files
+	ln -s $LV_qt_dir/lib/pkgconfig/* $PKG_CONFIG_PATH/
+	
+	cd $GV_base_dir
 
 	export CFLAGS=$TMP_CFLAGS
-	export CFLAGS=$TMP_CPPFLAGS
 	export CXXFLAGS=$TMP_CXXFLAGS
 	export LDFLAGS=$TMP_LDFLAGS
 

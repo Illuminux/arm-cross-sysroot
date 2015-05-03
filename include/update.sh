@@ -41,10 +41,13 @@ if [ -z "$UV_qt_5" ]; then
 	echo "# QT install directory for host enviroment" >> "${GV_base_dir}/config.cfg"
 	echo "UV_qt_dir=\"\${UV_sysroot_dir}/Qt\"" >> "${GV_base_dir}/config.cfg"
 	echo "" >> "${GV_base_dir}/config.cfg"
-	echo "# QT Version - set to "true" to install Version 5.4.1 otherwize Version 4.8.6" >> "${GV_base_dir}/config.cfg"
+	echo "# QT Version - set to "true" to install." >> "${GV_base_dir}/config.cfg"
+	echo "# Note: It can be installed both versions. But Qt5 is experimentel and can corrupted Qt4 as well."
 	echo "# will be installed." >> "${GV_base_dir}/config.cfg"
+	echo "UV_qt_4=true" >> "${GV_base_dir}/config.cfg"
 	echo "UV_qt_5=false" >> "${GV_base_dir}/config.cfg"
 	
 	UV_qt_dir="/usr/local"
+	UV_qt_4=true
 	UV_qt_5=false
 fi
