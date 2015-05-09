@@ -113,7 +113,13 @@ EOF
 	
 	FU_build_configure
 	FU_build_make
-	FU_build_install
+
+	if [ $GV_build_os = "Darwin" ]; then
+		FU_build_install
+	else
+		FU_build_install_sudo
+	fi
+
 	FU_build_finishinstall
 	
 	# link pkg config files
