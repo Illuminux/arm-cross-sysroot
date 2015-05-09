@@ -196,6 +196,46 @@ FU_build_install() {
 
 
 ##
+## Run make install script
+##
+FU_build_install_sudo() {
+	
+	# catch make arguments 
+	if [ "${#}" -eq 0 ]; then 
+		local args="install"
+	else
+		local args=$@
+	fi
+	
+	# Go into source dir of the package 
+	do_cd "${GV_source_dir}/${GV_dir_name}"
+	
+	echo -n "Install ${GV_name}... "
+	
+	# Run make script in debug mode
+	if [ "$GV_debug" == true ]; then
+		echo
+		sudo make $args 2>&1 | tee $GV_log_file
+		FU_tools_is_error "install"
+		
+	# Run make script and write output to log file
+	else
+		sudo make $args >$GV_log_file 2>&1
+		FU_tools_is_error "install"
+		
+	fi
+	
+	# Write bild.log into package log
+	printf "\n\nInstall %s:\n\n" ${GV_name} >> "${GV_log_dir}/${GV_name}.log"
+	cat $GV_log_file >> "${GV_log_dir}/${GV_name}.log"
+	
+	# Go back to base dir
+	do_cd $GV_base_dir
+	
+}
+
+
+##
 ## Finish the installation
 ##
 FU_build_finishinstall() {
