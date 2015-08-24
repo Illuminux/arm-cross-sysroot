@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GV_url="http://directfb.org/downloads/Core/DirectFB-1.2/DirectFB-1.2.10.tar.gz"
-GV_sha1="3fa31289d730d348bdc46b21a83ce0679120b451"
+GV_url="http://sources.buildroot.net/DirectFB-1.4.1.tar.gz"
+GV_sha1="98f3c46789fa599367037654ee35b71f453b68b3"
 
 GV_depend=(
 	"zlib"
