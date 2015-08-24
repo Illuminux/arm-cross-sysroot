@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GV_url="http://softlayer-ams.dl.sourceforge.net/project/libvisual/libvisual/libvisual-0.4.0/libvisual-0.4.0.tar.gz"
+GV_url="http://netix.dl.sourceforge.net/project/libvisual/libvisual/libvisual-0.4.0/libvisual-0.4.0.tar.gz"
 GV_sha1="bd21d621f1d54134c26138e19eaae46c5aeaec00"
 
 GV_depend=()
