@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GV_url="http://www.mpfr.org/mpfr-current/mpfr-3.1.2.tar.bz2"
-GV_sha1="46d5a11a59a4e31f74f73dd70c5d57a59de2d0b4"
+GV_url="http://www.mpfr.org/mpfr-current/mpfr-3.1.3.tar.bz2"
+GV_sha1="3e46c5ce43701f2f36f9d01f407efe081700da80"
 
 GV_depend=()
 
