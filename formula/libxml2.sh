@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="ftp://xmlsoft.org/libxml2/libxml2-2.8.0.tar.gz"
-GV_sha1="a0c553bd51ba79ab6fff26dc700004c6a41f5250"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="ftp://xmlsoft.org/libxml2/libxml2-2.9.1.tar.gz"
+	GV_sha1="eb3e2146c6d68aea5c2a4422ed76fe196f933c21"
+else
+	GV_url="ftp://xmlsoft.org/libxml2/libxml2-2.8.0.tar.gz"
+	GV_sha1="a0c553bd51ba79ab6fff26dc700004c6a41f5250"
+fi
 
 GV_depend=()
 

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://sourceforge.net/projects/tslib.berlios/files/tslib-1.0.tar.bz2"
 GV_sha1="2008fcb9cca6a59fa268235cd335f5f6cbcda83d"
 

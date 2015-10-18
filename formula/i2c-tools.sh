@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://dl.lm-sensors.org/i2c-tools/releases/i2c-tools-3.1.1.tar.bz2"
-GV_sha1="05e4e3b34ebc921812e14527936c0fae65729204"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://dev.gateworks.com/sources/i2c-tools-3.1.1.tar.bz2"
+	GV_sha1="05e4e3b34ebc921812e14527936c0fae65729204"
+else
+	GV_url="http://dev.gateworks.com/sources/i2c-tools-3.1.0.tar.bz2"
+	GV_sha1="0756c9cffb7865d9815d44727de86973a28aba23"
+fi
 
 GV_depend=()
 

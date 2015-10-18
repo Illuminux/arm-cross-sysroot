@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="ftp://ftp.gnupg.org/GnuPG/libgpg-error//libgpg-error-1.10.tar.bz2"
-GV_sha1="95b324359627fbcb762487ab6091afbe59823b29"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="ftp://ftp.gnupg.org/GnuPG/libgpg-error//libgpg-error-1.17.tar.bz2"
+	GV_sha1="ba5858b2947e7272dd197c87bac9f32caf29b256"
+else
+	GV_url="ftp://ftp.gnupg.org/GnuPG/libgpg-error//libgpg-error-1.10.tar.bz2"
+	GV_sha1="95b324359627fbcb762487ab6091afbe59823b29"
+fi
 
 GV_depend=()
 

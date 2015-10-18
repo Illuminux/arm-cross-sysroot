@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.9.91.tar.bz2"
-GV_sha1="9f4dff0a6e50ade2b919f33795eae8438a285595"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.11.0.tar.bz2"
+	GV_sha1="969818b0326ac08241b11cbeaa4f203699f9b550"
+else
+	GV_url="http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.9.91.tar.bz2"
+	GV_sha1="9f4dff0a6e50ade2b919f33795eae8438a285595"
+fi
 
 GV_depend=(
 	"zlib"
@@ -15,6 +23,8 @@ FU_tools_installed "${LV_formula%;*}.pc"
 if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
+	
+	export LIBS="-lm -lz -lpng"
 
 	GV_args=(
 		"--host=${GV_host}"

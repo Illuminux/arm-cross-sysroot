@@ -1,14 +1,31 @@
 #!/bin/bash
 
-GV_url="https://github.com/flavio/qjson"
-GV_sha1=""
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="https://github.com/flavio/qjson/archive/0.8.1.tar.gz"
+	GV_sha1="4e93303ffd6a16326b144788466b77587f082d92"
+else
+	GV_url="https://github.com/flavio/qjson/archive/0.7.1.tar.gz"
+	GV_sha1="435adaf6924588e59fae9b9680b06b8af55d5ee6"
+fi
 
 GV_depend=(
 	"qt"
 )
 
 FU_tools_get_names_from_url
-GV_version="0.8.1"
+
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_dir_name="qjson-0.8.1"
+	GV_name=${GV_dir_name%-*}
+	GV_version="0.8.1"
+else
+	GV_dir_name="qjson-0.7.1"
+	GV_name=${GV_dir_name%-*}
+	GV_version="0.7.1"
+fi
 
 if [ -f "${PKG_CONFIG_PATH}/Qt5Core.pc" ]; then 
 	echo "Build ${GV_name}... build in Qt5"

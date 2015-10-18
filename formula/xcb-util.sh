@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://xcb.freedesktop.org/dist/xcb-util-0.3.8.tar.bz2"
 GV_sha1="71093ad81feb21758a2446cf3297bebaf03af228"
 

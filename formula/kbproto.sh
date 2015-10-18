@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://xorg.freedesktop.org/releases/individual/proto/kbproto-1.0.6.tar.bz2"
 GV_sha1="a2cc82357c22a1f4d6243017982c32703c95575c"
 

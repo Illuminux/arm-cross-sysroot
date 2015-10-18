@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.2.7.tar.bz2"
-GV_sha1="b6ed421edf577816f6e641e1846dc0bff337676c"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.3.4.tar.bz2"
+	GV_sha1="beb2cecc4ceb8fab0557a8c37e2d41e63cbaa5ed"
+else
+	GV_url="http://xorg.freedesktop.org/releases/individual/lib/xtrans-1.2.7.tar.bz2"
+	GV_sha1="b6ed421edf577816f6e641e1846dc0bff337676c"
+fi
 
 GV_depend=()
 

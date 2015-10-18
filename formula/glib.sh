@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://ftp.gnome.org/pub/gnome/sources/glib/2.40/glib-2.40.0.tar.xz"
-GV_sha1="44e1442ed4d1bf3fa89138965deb35afc1335a65"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://ftp.gnome.org/pub/gnome/sources/glib/2.42/glib-2.42.1.tar.xz"
+	GV_sha1="b5158fd434f01e84259155c04ff93026a090e586"	
+else
+	GV_url="http://ftp.gnome.org/pub/gnome/sources/glib/2.40/glib-2.40.0.tar.xz"
+	GV_sha1="44e1442ed4d1bf3fa89138965deb35afc1335a65"
+fi
 
 GV_depend=(
 	"zlib"

@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.2.tar.bz2"
-GV_sha1="4c44da8215d1fc56676fccc1af8dd6b422d9e676"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.4.tar.xz"
+	GV_sha1="b99724acdf3577982b3146b9430d765995ecf9e1"
+else
+	GV_url="http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.2.tar.bz2"
+	GV_sha1="4c44da8215d1fc56676fccc1af8dd6b422d9e676"
+fi
 
 GV_depend=()
 

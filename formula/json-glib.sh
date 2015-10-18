@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="ftp://ftp.gnome.org/pub/gnome/sources/json-glib//0.14/json-glib-0.14.2.tar.xz"
-GV_sha1="077c5a7bfabdaefba1f4472100e29add9aa910a4"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="ftp://ftp.gnome.org/pub/gnome/sources/json-glib//1.0/json-glib-1.0.0.tar.xz"
+	GV_sha1="ed48f3d276327ba4ce22fb42494d95141e37893f"
+else
+	GV_url="ftp://ftp.gnome.org/pub/gnome/sources/json-glib/0.14/json-glib-0.14.2.tar.xz"
+	GV_sha1="077c5a7bfabdaefba1f4472100e29add9aa910a4"
+fi
 
 GV_depend=()
 

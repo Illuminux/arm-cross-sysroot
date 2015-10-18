@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://www.mpfr.org/mpfr-3.1.2/mpfr-3.1.2.tar.bz2"
-GV_sha1="46d5a11a59a4e31f74f73dd70c5d57a59de2d0b4"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://www.mpfr.org/mpfr-3.1.2/mpfr-3.1.2.tar.bz2"
+	GV_sha1="46d5a11a59a4e31f74f73dd70c5d57a59de2d0b4"
+else
+	GV_url="http://www.mpfr.org/mpfr-3.1.0/mpfr-3.1.0.tar.bz2"
+	GV_sha1="9ba6dfe62dad298f0570daf182db31660f7f016c"
+fi
 
 GV_depend=()
 

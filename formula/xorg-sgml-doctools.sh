@@ -3,15 +3,18 @@
 # CAUTION:
 # If you change a link location do not change the version number!
 # The version is dependent on the distribution. New is not always better!
-GV_url="http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz"
-GV_sha1="3e042e5f2c7223bffdaac9646a533b8c758b65b5"
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://ftp.x.org/pub/individual/doc/xorg-sgml-doctools-1.11.tar.bz2"
+	GV_sha1="56acde359072d7ffc6627ffde5e2c698eb415ddc"
+else
+	GV_url="http://ftp.x.org/pub/individual/doc/xorg-sgml-doctools-1.10.tar.bz2"
+	GV_sha1="db6332b07de8d8e224f0766a567abdc4e3804d32"
+fi
 
 GV_depend=()
 
-
 FU_tools_get_names_from_url
-GV_version="5.9.20110404"
-FU_tools_installed "${LV_formula%;*}.pc"
+FU_tools_installed "xorg-sgml-doctools.pc"
 
 if [ $? == 1 ]; then
 	
@@ -23,27 +26,16 @@ if [ $? == 1 ]; then
 		"--program-prefix=${UV_target}-"
 		"--libdir=${UV_sysroot_dir}/lib"
 		"--includedir=${UV_sysroot_dir}/include"
-		"--enable-shared"
-		"--disable-static"
-		"--with-shared"
-		"--with-normal"
-		"--with-debug"
-		"--enable-pc-files"
-		"--enable-ext-mouse"
-		"--disable-big-core"
-		"--disable-big-strings"
-		"--disable-largefile"
-		"--without-manpages"
-		"--without-progs"
-		"--without-tests"
-		"ac_cv_path_PKG_CONFIG=${PKG_CONFIG_PATH}"
 	)
 	
 	FU_file_get_download
 	FU_file_extract_tar
-		
-	FU_build_configure	
+	
+	FU_build_configure
 	FU_build_make
 	FU_build_install
+	
+	mv ${GV_prefix}/share/pkgconfig/xorg-sgml-doctools.pc ${UV_sysroot_dir}/lib/pkgconfig/.
+	
 	FU_build_finishinstall
 fi

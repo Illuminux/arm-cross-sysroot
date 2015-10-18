@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://xcb.freedesktop.org/dist/libpthread-stubs-0.3.tar.bz2"
 GV_sha1="7fc486ad0ec54938f8b781cc374218f50eac8b99"
 

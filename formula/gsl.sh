@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="ftp://ftp.gnu.org/gnu/gsl/gsl-1.15.tar.gz"
-GV_sha1="d914f84b39a5274b0a589d9b83a66f44cd17ca8e"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="ftp://ftp.gnu.org/gnu/gsl/gsl-1.16.tar.gz"
+	GV_sha1="210af9366485f149140973700d90dc93a4b6213e"	
+else
+	GV_url="ftp://ftp.gnu.org/gnu/gsl/gsl-1.15.tar.gz"
+	GV_sha1="d914f84b39a5274b0a589d9b83a66f44cd17ca8e"
+fi
 
 GV_depend=()
 

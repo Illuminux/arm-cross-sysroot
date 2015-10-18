@@ -1,7 +1,18 @@
 #!/bin/bash
 
-GV_url="http://alsa.cybermirror.org/lib/alsa-lib-1.0.27.tar.bz2"
-GV_sha1="a110aa9230fc93c4bef776d255df2fac9ffd9e7a"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://alsa.cybermirror.org/lib/alsa-lib-1.0.27.tar.bz2"
+	GV_sha1="a110aa9230fc93c4bef776d255df2fac9ffd9e7a"
+else
+	GV_url="http://alsa.cybermirror.org/lib/alsa-lib-1.0.27.tar.bz2"
+	GV_sha1="a110aa9230fc93c4bef776d255df2fac9ffd9e7a"
+	# cannot be cross compiled 
+#	GV_url="http://alsa.cybermirror.org/lib/alsa-lib-1.0.25.tar.bz2"
+#	GV_sha1="868ec437e033291435b2d3e0978317aae0636212"
+fi
 
 GV_depend=()
 

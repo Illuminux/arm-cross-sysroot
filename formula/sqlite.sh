@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://sqlite.org/2014/sqlite-autoconf-3080700.tar.gz"
-GV_sha1="8b773b006db46f3ffcbabe065e927823d13bf5c0"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://sqlite.org/2014/sqlite-autoconf-3080700.tar.gz"
+	GV_sha1="8b773b006db46f3ffcbabe065e927823d13bf5c0"
+else
+	GV_url="http://sqlite.org/2014/sqlite-autoconf-3080700.tar.gz"
+	GV_sha1="8b773b006db46f3ffcbabe065e927823d13bf5c0"
+fi
 
 GV_depend=()
 

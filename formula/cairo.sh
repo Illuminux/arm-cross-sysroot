@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://cairographics.org/releases/cairo-1.12.2.tar.xz"
-GV_sha1="bc2ee50690575f16dab33af42a2e6cdc6451e3f9"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://cairographics.org/releases/cairo-1.14.0.tar.xz"
+	GV_sha1="53cf589b983412ea7f78feee2e1ba9cea6e3ebae"
+else
+	GV_url="http://cairographics.org/releases/cairo-1.12.2.tar.xz"
+	GV_sha1="bc2ee50690575f16dab33af42a2e6cdc6451e3f9"
+fi
 
 GV_depend=(
 	"glib"
@@ -64,10 +72,12 @@ if [ $? == 1 ]; then
 	FU_build_make
 	FU_build_install "install-strip"
 	
-	cd "${UV_sysroot_dir}/lib"
-	ln -s libcairo.so.2.11200.2 libcairo.so.2
-	ln -s libcairo.so.2.11200.2 libcairo.so
-	cd $GV_base_dir
+	if [ "${UV_dist}" == "wheezy" ]; then
+		cd "${UV_sysroot_dir}/lib"
+		ln -s libcairo.so.2.11200.2 libcairo.so.2
+		ln -s libcairo.so.2.11200.2 libcairo.so
+		cd $GV_base_dir
+	fi
 	
 	export CPPFLAGS=$TMP_CPPFLAGS
 	export CFLAGS=$TMP_CFLAGS

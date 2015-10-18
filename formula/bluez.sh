@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://www.kernel.org/pub/linux/bluetooth/bluez-5.18.tar.xz"
-GV_sha1="5d5121b7c4afba5b4b55c1e1db2ef5d77a362a43"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://www.kernel.org/pub/linux/bluetooth/bluez-5.23.tar.xz"
+	GV_sha1="0e378976175b08a19b1232f2af2e83cebee572bd"
+else
+	GV_url="http://www.kernel.org/pub/linux/bluetooth/bluez-4.99.tar.xz"
+	GV_sha1="3d2e240618b7cc4ab16aeafcae749bf42ac0d8d3"
+fi
 
 GV_depend=(
 	"glib"

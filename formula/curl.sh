@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://curl.haxx.se/download/curl-7.26.0.tar.bz2"
-GV_sha1="c2e62eaace2407d377bf544d1f808aea6dddf64c"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://curl.haxx.se/download/curl-7.38.0.tar.bz2"
+	GV_sha1="59c027807fdb33ebf248cb3cc006e7cbe2d655ea"
+else
+	GV_url="http://curl.haxx.se/download/curl-7.26.0.tar.bz2"
+	GV_sha1="c2e62eaace2407d377bf544d1f808aea6dddf64c"
+fi
 
 GV_depend=(
 	"zlib"

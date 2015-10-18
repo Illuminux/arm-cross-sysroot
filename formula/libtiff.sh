@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://download.osgeo.org/libtiff/tiff-4.0.2.tar.gz"
-GV_sha1="d84b7b33a6cfb3d15ca386c8c16b05047f8b5352"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://download.osgeo.org/libtiff/tiff-4.0.3.tar.gz"
+	GV_sha1="652e97b78f1444237a82cbcfe014310e776eb6f0"
+else
+	GV_url="http://download.osgeo.org/libtiff/tiff-4.0.2.tar.gz"
+	GV_sha1="d84b7b33a6cfb3d15ca386c8c16b05047f8b5352"
+fi
 
 GV_depend=()
 

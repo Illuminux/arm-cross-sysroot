@@ -1,7 +1,18 @@
 #!/bin/bash
 
-GV_url="http://libssh2.org/download/libssh2-1.4.2.tar.gz"
-GV_sha1="7fc084254dabe14a9bc90fa3d569faa7ee943e19"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+##
+## something is wrong cannot build jessie version
+##
+#if [ "${UV_dist}" == "jessie" ]; then
+#	GV_url="http://libssh2.org/download/libssh2-1.4.3.tar.gz"
+#	GV_sha1="c27ca83e1ffeeac03be98b6eef54448701e044b0"
+#else
+	GV_url="http://libssh2.org/download/libssh2-1.4.2.tar.gz"
+	GV_sha1="7fc084254dabe14a9bc90fa3d569faa7ee943e19"
+#fi
 
 GV_depend=()
 

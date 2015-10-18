@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.36.tar.bz2"
 GV_sha1="e675401b62a6bf2e5ea966e833afd005a585e978"
 

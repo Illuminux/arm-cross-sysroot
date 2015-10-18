@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz"
-GV_sha1="f5230890dc0be42fb5c58fbf793da253155de106"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="ftp://sourceware.org/pub/libffi//libffi-3.1.tar.gz"
+	GV_sha1="cb373ef2115ec7c57913b84ca72eee14b10ccdc3"
+else
+	GV_url="ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz"
+	GV_sha1="f5230890dc0be42fb5c58fbf793da253155de106"
+fi
 
 GV_depend=()
 
@@ -33,6 +41,8 @@ if [ $? == 1 ]; then
 		"${UV_sysroot_dir}/include/"
 	ln -s "${UV_sysroot_dir}/lib/libffi-${GV_version}/include/ffitarget.h" \
 		"${UV_sysroot_dir}/include/"
+	
+	$SED -i 's/(libdir)/{libdir}/g' "${UV_sysroot_dir}/lib/pkgconfig/libffi.pc"
 
 	FU_build_finishinstall
 fi

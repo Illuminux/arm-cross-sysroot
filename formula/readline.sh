@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="ftp.gnu.org:/pub/gnu/readline/readline-6.0.tar.gz"
-GV_sha1="1e511b091514ef631c539552316787c75ace5262"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="ftp.gnu.org:/pub/gnu/readline/readline-6.3.tar.gz"
+	GV_sha1="017b92dc7fd4e636a2b5c9265a77ccc05798c9e1"
+else
+	GV_url="ftp.gnu.org:/pub/gnu/readline/readline-6.2.tar.gz"
+	GV_sha1="a9761cd9c3da485eb354175fcc2fe35856bc43ac"
+fi
 
 GV_depend=()
 
@@ -25,7 +33,19 @@ if [ $? == 1 ]; then
 	
 	FU_file_get_download
 	FU_file_extract_tar
+	
+	if [ "${UV_dist}" == "jessie" ]; then	
 		
+		# Go into source dir of the package 
+		do_cd "${GV_source_dir}/${GV_dir_name}" 
+		
+		autoconf configure.ac > configure
+		chmod +x configure
+		
+		# Go back to base dir
+		do_cd $GV_base_dir
+	fi
+	
 	FU_build_configure	
 	FU_build_make
 	FU_build_install

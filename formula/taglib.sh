@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://ktown.kde.org/~wheeler/files/src/taglib-1.7.2.tar.gz"
-GV_sha1="e657384ccf3284db2daba32dccece74534286012"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://taglib.github.io/releases/taglib-1.9.1.tar.gz"
+	GV_sha1="4fa426c453297e62c1d1eff64a46e76ed8bebb45"
+else
+	GV_url="http://taglib.github.io/releases/taglib-1.7.2.tar.gz"
+	GV_sha1="e657384ccf3284db2daba32dccece74534286012"
+fi
 
 GV_depend=()
 

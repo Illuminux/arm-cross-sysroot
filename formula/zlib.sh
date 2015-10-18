@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://zlib.net/zlib-1.2.8.tar.gz"
 GV_sha1="a4d316c404ff54ca545ea71a27af7dbc29817088"
 

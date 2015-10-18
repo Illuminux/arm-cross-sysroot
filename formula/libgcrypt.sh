@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="ftp://ftp.gnupg.org/gcrypt//libgcrypt/libgcrypt-1.5.0.tar.bz2"
-GV_sha1="3e776d44375dc1a710560b98ae8437d5da6e32cf"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="ftp://ftp.gnupg.org/gcrypt//libgcrypt/libgcrypt-1.6.3.tar.bz2"
+	GV_sha1="9456e7b64db9df8360a1407a38c8c958da80bbf1"
+else
+	GV_url="ftp://ftp.gnupg.org/gcrypt//libgcrypt/libgcrypt-1.5.0.tar.bz2"
+	GV_sha1="3e776d44375dc1a710560b98ae8437d5da6e32cf"
+fi
 
 GV_depend=()
 

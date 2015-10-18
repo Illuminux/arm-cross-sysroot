@@ -3,15 +3,14 @@
 # CAUTION:
 # If you change a link location do not change the version number!
 # The version is dependent on the distribution. New is not always better!
-GV_url="http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz"
-GV_sha1="3e042e5f2c7223bffdaac9646a533b8c758b65b5"
+GV_url="http://netix.dl.sourceforge.net/project/libjpeg-turbo/1.3.1/libjpeg-turbo-1.3.1.tar.gz"
+GV_sha1="5fa19252e5ca992cfa40446a0210ceff55fbe468"
 
 GV_depend=()
 
-
 FU_tools_get_names_from_url
-GV_version="5.9.20110404"
-FU_tools_installed "${LV_formula%;*}.pc"
+#GV_version="8d1"
+FU_tools_installed "libjpeg.pc"
 
 if [ $? == 1 ]; then
 	
@@ -25,25 +24,24 @@ if [ $? == 1 ]; then
 		"--includedir=${UV_sysroot_dir}/include"
 		"--enable-shared"
 		"--disable-static"
-		"--with-shared"
-		"--with-normal"
-		"--with-debug"
-		"--enable-pc-files"
-		"--enable-ext-mouse"
-		"--disable-big-core"
-		"--disable-big-strings"
-		"--disable-largefile"
-		"--without-manpages"
-		"--without-progs"
-		"--without-tests"
-		"ac_cv_path_PKG_CONFIG=${PKG_CONFIG_PATH}"
+		"--with-jpeg7"
+		"--with-jpeg8"
 	)
 	
 	FU_file_get_download
 	FU_file_extract_tar
+
+#	GV_dir_name="jpeg-8d1"
+#	GV_name=${GV_dir_name%-*}
+#	GV_version=${GV_dir_name##$GV_name*-}
 		
-	FU_build_configure	
+	FU_build_configure
 	FU_build_make
-	FU_build_install
+	FU_build_install "install-strip"
+	
+	PKG_libs="-ljpeg"
+	
+	GV_name="libjpeg"
+	FU_build_pkg_file 
 	FU_build_finishinstall
 fi

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://tukaani.org/xz/xz-5.1.4beta.tar.gz"
 GV_sha1="e6562e8c704b49a0ded7333dfd0da876a5714cdf"
 

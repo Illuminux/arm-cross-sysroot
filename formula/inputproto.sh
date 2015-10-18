@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/proto/inputproto-2.2.tar.bz2"
-GV_sha1="500e0a6dac3523887c0b82753fe5e9d4bb982137"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://xorg.freedesktop.org/releases/individual/proto/inputproto-2.3.1.tar.bz2"
+	GV_sha1="126b6ad57b5432e154485f900920765eae8fda45"
+else
+	GV_url="http://xorg.freedesktop.org/releases/individual/proto/inputproto-2.2.tar.bz2"
+	GV_sha1="500e0a6dac3523887c0b82753fe5e9d4bb982137"
+fi
 
 GV_depend=()
 

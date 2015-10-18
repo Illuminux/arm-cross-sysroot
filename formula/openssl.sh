@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://www.openssl.org/source/openssl-1.0.1j.tar.gz"
-GV_sha1="cff86857507624f0ad42d922bb6f77c4f1c2b819"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://www.openssl.org/source/openssl-1.0.1k.tar.gz"
+	GV_sha1="19d818e202558c212a9583fcdaf876995a633ddf"
+else
+	GV_url="http://www.openssl.org/source/openssl-1.0.1e.tar.gz"
+	GV_sha1="3f1b1223c9e8189bfe4e186d86449775bd903460"
+fi
 
 GV_depend=()
 

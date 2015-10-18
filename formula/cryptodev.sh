@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://download.gna.org/cryptodev-linux/cryptodev-linux-1.6.tar.gz"
 GV_sha1="2b7610c76fba52ef92352c8e1877299bec316516"
 

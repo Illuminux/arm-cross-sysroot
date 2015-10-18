@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.3.9.tar.bz2"
-GV_sha1="74d9d0eeb13ec0e36b35f4b812e8073d1a09e51c"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.4.0.tar.bz2"
+	GV_sha1="ff02ee8ac22c53848af50c0a6a6b00feb002c1cb"
+else
+	GV_url="http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.3.9.tar.bz2"
+	GV_sha1="74d9d0eeb13ec0e36b35f4b812e8073d1a09e51c"
+fi
 
 GV_depend=()
 

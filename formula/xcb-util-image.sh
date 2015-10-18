@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://xcb.freedesktop.org/dist/xcb-util-image-0.3.9.tar.bz2"
-GV_sha1="afeba6230400fe8bec6076fd07bf20a8e412bbb5"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://xcb.freedesktop.org/dist/xcb-util-image-0.4.0.tar.bz2"
+	GV_sha1="c9c9361781911a47b28f74fc6ebe0abd1273fae4"
+else
+	GV_url="http://xcb.freedesktop.org/dist/xcb-util-image-0.3.9.tar.bz2"
+	GV_sha1="afeba6230400fe8bec6076fd07bf20a8e412bbb5"
+fi
 
 GV_depend=()
 

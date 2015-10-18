@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://code.entropywave.com/download/orc/orc-0.4.16.tar.gz"
-GV_sha1="b67131881e7834b0c820bfba468f668100fb2e91"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://gstreamer.freedesktop.org/src/orc/orc-0.4.22.tar.xz"
+	GV_sha1="c50cf2f2a9a7e4ab400fd79f706e831ace1936bc"
+else
+	GV_url="http://gstreamer.freedesktop.org/src/orc/orc-0.4.16.tar.gz"
+	GV_sha1="b67131881e7834b0c820bfba468f668100fb2e91"
+fi
 
 GV_depend=()
 

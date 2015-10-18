@@ -1,6 +1,9 @@
 #!/bin/bash
 
-GV_url="http://garr.dl.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+GV_url="http://netix.dl.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
 GV_sha1="03a0bfa85713adcc6b3383c12e2cc68a9cfbf4c4"
 
 GV_depend=()

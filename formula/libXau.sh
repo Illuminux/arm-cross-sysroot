@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.7.tar.bz2"
-GV_sha1="29c47207fd246425b906f525b2220235ce4cd0f6"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.8.tar.bz2"
+	GV_sha1="d9512d6869e022d4e9c9d33f6d6199eda4ad096b"
+else
+	GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.7.tar.bz2"
+	GV_sha1="29c47207fd246425b906f525b2220235ce4cd0f6"
+fi
 
 GV_depend=()
 

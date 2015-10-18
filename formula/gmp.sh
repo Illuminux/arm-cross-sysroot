@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="https://gmplib.org/download/gmp/gmp-5.0.5.tar.bz2"
-GV_sha1="12a662456033e21aed3e318aef4177f4000afe3b"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="https://gmplib.org/download/gmp/gmp-6.0.0.tar.bz2"
+	GV_sha1="c4976716a277b1d3b595171143f52f8c1a788284"
+else
+	GV_url="https://gmplib.org/download/gmp/gmp-5.0.5.tar.bz2"
+	GV_sha1="12a662456033e21aed3e318aef4177f4000afe3b"
+fi
 
 GV_depend=()
 

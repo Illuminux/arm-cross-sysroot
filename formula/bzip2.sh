@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz"
 GV_sha1="3f89f861209ce81a6bab1fd1998c0ef311712002"
 

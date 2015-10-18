@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.0.tar.gz"
-GV_sha1="d14ab33e92e29fa732cdff69214913832181e737"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.20.tar.gz"
+	GV_sha1="906fde49b70306dfcd4ecc6cad7b32cc85924ed5"
+else
+	GV_url="http://dbus.freedesktop.org/releases/dbus/dbus-1.8.0.tar.gz"
+	GV_sha1="d14ab33e92e29fa732cdff69214913832181e737"
+fi
 
 GV_depend=(
 	"expat"

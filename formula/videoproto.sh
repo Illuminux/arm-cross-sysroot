@@ -1,7 +1,16 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/proto/videoproto-2.3.2.tar.bz2"
-GV_sha1="aa60e3b93c6a78ad03f1c502b910e7c45faaedbc"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://xorg.freedesktop.org/releases/individual/proto/videoproto-2.3.2.tar.bz2"
+	GV_sha1="aa60e3b93c6a78ad03f1c502b910e7c45faaedbc"
+else
+	GV_url="http://xorg.freedesktop.org/releases/individual/proto/videoproto-2.3.1.tar.bz2"
+	GV_sha1="bb8b366687a7f345e3a8697bac516cb436cbf4b2"
+fi
+	
 
 GV_depend=()
 

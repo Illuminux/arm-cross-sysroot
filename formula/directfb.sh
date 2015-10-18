@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://sources.buildroot.net/DirectFB-1.4.1.tar.gz"
 GV_sha1="98f3c46789fa599367037654ee35b71f453b68b3"
 
@@ -45,6 +48,8 @@ if [ $? == 1 ]; then
 		"--with-inputdrivers=dynapro,elo-input,gunze,h3600_ts,joystick,keyboard,linuxinput,lirc,mutouch,penmount,ps2mouse,serialmouse,sonypijogdial,tslib,ucb1x00,wm97xx"
 		"--with-sysroot=${UV_sysroot_dir}"
 	)
+	
+	export LIBS="-lm -lz -lpng"
 	
 	FU_file_get_download
 	FU_file_extract_tar

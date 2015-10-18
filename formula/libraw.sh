@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://www.libraw.org/data/LibRaw-0.16.0.tar.gz"
-GV_sha1="492239aa209b1ddd1f030da4fc2978498c32a29b"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://www.libraw.org/data/LibRaw-0.16.0.tar.gz"
+	GV_sha1="492239aa209b1ddd1f030da4fc2978498c32a29b"
+else
+	GV_url="http://www.libraw.org/data/LibRaw-0.16.0.tar.gz"
+	GV_sha1="492239aa209b1ddd1f030da4fc2978498c32a29b"
+fi
 
 GV_depend=()
 

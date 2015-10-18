@@ -1,7 +1,15 @@
 #!/bin/bash
 
-GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXv-1.0.7.tar.bz2"
-GV_sha1="49c87e0ccb999966b7b1b4e72cb927f05e0835bd"
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
+if [ "${UV_dist}" == "jessie" ]; then
+	GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXv-1.0.10.tar.bz2"
+	GV_sha1="1e93df036bb2bb01e85b7c8886760affb33b8e88"
+else
+	GV_url="http://xorg.freedesktop.org/releases/individual/lib/libXv-1.0.7.tar.bz2"
+	GV_sha1="49c87e0ccb999966b7b1b4e72cb927f05e0835bd"
+fi
 
 GV_depend=()
 

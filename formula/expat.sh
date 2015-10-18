@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CAUTION:
+# If you change a link location do not change the version number!
+# The version is dependent on the distribution. New is not always better!
 GV_url="http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz"
 GV_sha1="b08197d146930a5543a7b99e871cba3da614f6f0"
 
