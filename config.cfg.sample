@@ -21,6 +21,11 @@ UV_target="arm-linux-gnueabihf"
 #
 UV_board="beaglebone"
 
+# Debian Distribution
+# wheezy: Old stable (7)
+# jessie: Stable (8)
+UV_dist="jessie"
+
 # 
 # QT-Setup
 #
