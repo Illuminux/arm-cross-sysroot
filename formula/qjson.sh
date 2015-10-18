@@ -38,9 +38,9 @@ if [ $? == 1 ]; then
 	
 	FU_tools_check_depend
 	
-	GV_dir_name=${GV_dir_name%.*}
-	GV_name=$GV_dir_name
-	GV_build_start=`date +%s`
+#	GV_dir_name=${GV_dir_name%.*}
+#	GV_name=$GV_dir_name
+ 	GV_build_start=`date +%s`
 	
 	if [ "${UV_board}" == "beaglebone" ]; then 
 		LV_qt_dir="${UV_qt_dir}/Qt4.8.6-armhf"
@@ -68,7 +68,11 @@ if [ $? == 1 ]; then
 		"${GV_source_dir}/${GV_dir_name}"
 	)
 	
-	FU_file_git_clone
+#	FU_file_git_clone
+
+
+	FU_file_get_download
+	FU_file_extract_tar
 	
 	# qjson has to be build in a seperate dir 
 	mkdir -p "${GV_source_dir}/${GV_dir_name}/build"
