@@ -174,7 +174,7 @@ FU_tools_print_usage() {
 	echo "    -b | --build      Start building the sysroot."
 	echo "    -a | --available  List all available formulas."
 	echo "    -l | --list       List all instaled formulas."
-	echo "    -l | --debug      Display configure and make output."
+	echo "    -d | --debug      Display configure and make output."
 	echo "    --conf-help       Display the configure help for the new formula."
 	echo "    -v | --version    Script Version"
 	echo "    -h | --help       Display this message"
