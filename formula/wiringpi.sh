@@ -5,7 +5,7 @@ if ! [ "${UV_board}" == "raspi" ]; then
 fi
 
 GV_url="git://git.drogon.net/wiringPi"
-GV_sha1=""
+GV_sha1="95a292824ff9188f013fc230f432acf1a8b1092f"
 
 GV_depend=()
 
