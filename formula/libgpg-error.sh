@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GV_url="ftp://ftp.gnupg.org/GnuPG/libgpg-error//libgpg-error-1.10.tar.bz2"
+GV_url="ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.10.tar.bz2"
 GV_sha1="95b324359627fbcb762487ab6091afbe59823b29"
 
 GV_depend=()

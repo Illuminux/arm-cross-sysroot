@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GV_url="http://garr.dl.sourceforge.net/project/opencvlibrary/opencv-unix/2.4.10/opencv-2.4.10.zip"
+GV_url="http://iweb.dl.sourceforge.net/project/opencvlibrary/opencv-unix/2.4.10/opencv-2.4.10.zip"
 GV_sha1="0b185f5e332d5feef91722a6ed68c36a6d33909e"
 
 GV_depend=(
