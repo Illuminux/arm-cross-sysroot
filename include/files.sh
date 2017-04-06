@@ -55,6 +55,11 @@ FU_file_git_clone(){
 	echo -n "Download ${GV_name}... "
 	if ! [ -d "${UV_download_dir}/${GV_dir_name}" ]; then
 		git clone $GV_url 2>&1
+		if ! [ -z $GV_sha1 ]; then
+			do_cd ${GV_dir_name}
+			echo "git reset --hard $GV_sha1"
+			git reset --hard $GV_sha1
+		fi
 		FU_tools_is_error "clone"
 	else
 		echo "alredy loaded"
