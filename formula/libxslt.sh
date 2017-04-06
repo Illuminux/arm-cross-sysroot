@@ -27,6 +27,11 @@ if [ $? == 1 ]; then
 	FU_file_get_download
 	FU_file_extract_tar
 		
+	echo -n "Patch ${GV_name}... "
+	patch "${GV_source_dir}/${GV_dir_name}/configure" \
+		< "${GV_base_dir}/patches/libxslt.patch" >$GV_log_file 2>&1
+	FU_tools_is_error "patch"
+
 	FU_build_configure
 	FU_build_make
 	FU_build_install "install-strip"

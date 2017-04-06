@@ -1,0 +1,7 @@
+--- ../src/libxslt-1.1.27/configure	2012-09-12 08:33:52.000000000 +0200
++++ ../src/libxslt-1.1.27/configure	2017-04-06 14:21:19.000000000 +0200
+@@ -16297,3 +16297,4 @@ if test -n "$ac_unrecognized_opts" && te
+ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
+ fi
+ 
++find . -exec sed -i -e 's/-licucore//g' \{\} \;
