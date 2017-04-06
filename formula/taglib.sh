@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GV_url="http://ktown.kde.org/~wheeler/files/src/taglib-1.7.2.tar.gz"
+GV_url="http://ftp.osuosl.org/pub/blfs/conglomeration/taglib/taglib-1.7.2.tar.gz"
 GV_sha1="e657384ccf3284db2daba32dccece74534286012"
 
 GV_depend=()

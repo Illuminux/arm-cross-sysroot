@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GV_url="http://alsa.cybermirror.org/lib/alsa-lib-1.0.27.tar.bz2"
+GV_url="ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.0.27.tar.bz2"
 GV_sha1="a110aa9230fc93c4bef776d255df2fac9ffd9e7a"
 
 GV_depend=()
